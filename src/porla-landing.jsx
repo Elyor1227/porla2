@@ -55,9 +55,10 @@ const features = [
 
 const steps = [
   { num: "01", title: "Ro'yxatdan o'ting", desc: "Email bilan 30 soniyada hisob yarating." },
-  { num: "02", title: "Profilingizni to'ldiring", desc: "Sog'liq ma'lumotlaringizni kiriting, biz uchun shaxsiylashtiramiz." },
-  { num: "03", title: "Kuzatib boring", desc: "Har kuni tsikl, kayfiyat va sog'liq ma'lumotlarini belgilang." },
-  { num: "04", title: "Video darslardan o’rganing", desc: "Qisqa video darslar orqali tanangizni tinglashni o’rganing " },
+  { num: "02", title: "Profilingizni to'ldiring", desc: "Sog’liq ma’lumotlaringizni kiriting, siz uchun shaxsiylashtiramiz." },
+  { num: "03", title: "Kuzatib boring", desc: "Har kuni sikl, kayfiyat va sog'liq ma'lumotlarini belgilang." },
+  { num: "04", title: "Video darslardan o’rganing", desc: "Qisqa video darslar orqali tanangizni tinglashni o’rganing." },
+  { num: "05", title: "Anonim Savol- Javoblar qo’shish", desc: "Tibbiy savollaringizni anonim yo’llang va doktordan javob oling." },
 ];
 
 const _testimonials = [
@@ -250,7 +251,7 @@ export default function PorlaLanding() {
 
             <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginBottom: 52 }}>
               <button className="btn-primary" onClick={() => navigate("/login")}>Bepul boshlash →</button>
-              <button className="btn-outline">Qanday ishlaydi</button>
+              <button onClick={() => document.getElementById("how").scrollIntoView({ behavior: "smooth" })} className="btn-outline">Qanday ishlaydi</button>
             </div>
 
             {/* Social proof */}
@@ -370,7 +371,7 @@ export default function PorlaLanding() {
               }}>
                 <span style={{ fontSize: 18 }}>📅</span>
                 <div>
-                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, color: "#9a8580" }}>Keyingi tsikl</div>
+                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, color: "#9a8580" }}>Keyingi sikl</div>
                   <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, fontWeight: 700, color: "#c2545a" }}>14 kun qoldi</div>
                 </div>
               </div>

@@ -37,14 +37,14 @@ export default function QnaWidget() {
   }
 
   return (
-    <div style={{ position: "fixed", bottom: 20, right: 20, zIndex: 1000, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
+    <div style={{ position: "fixed", bottom: 60, right: 20, zIndex: 1000, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
       {!open && (
         <button onClick={() => setOpen(true)}
           aria-label="Savol yuborish"
           style={{ width: 56, height: 56, borderRadius: 16, border: "none", cursor: "pointer",
                    background: "linear-gradient(135deg,#d64f6e,#e8728a)", color: "white", fontSize: 22,
                    boxShadow: "0 12px 30px rgba(214,79,110,.35)" }}>
-          ❓
+          <i class="fi fi-rs-comment-dots"></i>
         </button>
       )}
 
@@ -54,7 +54,7 @@ export default function QnaWidget() {
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <span style={{ width: 28, height: 28, borderRadius: 8, background: "#fde8ec", display: "flex", alignItems: "center", justifyContent: "center" }}>🌸</span>
-              <strong style={{ color: "#4a2535", fontSize: 14 }}>Savol yuborish (anonim)</strong>
+              <strong style={{ color: "#4a2535", fontSize: 14 }}>Tibbiy savollaringizni anonim yo’llang va doktordan javob oling </strong>
             </div>
             <button onClick={() => setOpen(false)} aria-label="Yopish"
               style={{ width: 28, height: 28, borderRadius: 8, background: "#fde8ec", color: "#d64f6e",
@@ -66,7 +66,7 @@ export default function QnaWidget() {
               style={{ width: "100%", minHeight: 88, resize: "vertical", borderRadius: 12,
                        border: `1.5px solid ${err && !form.question.trim() ? "#ef4444" : "rgba(214,79,110,.15)"}`,
                        padding: "10px 12px", outline: "none", fontSize: 13, background: "#fdf8f5" }} />
-            <input value={form.topic} onChange={set("topic")} placeholder="Mavzu (ixtiyoriy)"
+            {/* <input value={form.topic} onChange={set("topic")} placeholder="Mavzu (ixtiyoriy)"
               style={{ width: "100%", borderRadius: 12, border: "1.5px solid rgba(214,79,110,.15)", padding: "10px 12px",
                        outline: "none", fontSize: 13, background: "#fdf8f5" }} />
             <input value={form.askedName} onChange={set("askedName")} placeholder="Ism (ixtiyoriy)"
@@ -74,7 +74,7 @@ export default function QnaWidget() {
                        outline: "none", fontSize: 13, background: "#fdf8f5" }} />
             <input value={form.contact} onChange={set("contact")} placeholder="Aloqa (ixtiyoriy, masalan: email/telegram)"
               style={{ width: "100%", borderRadius: 12, border: "1.5px solid rgba(214,79,110,.15)", padding: "10px 12px",
-                       outline: "none", fontSize: 13, background: "#fdf8f5" }} />
+                       outline: "none", fontSize: 13, background: "#fdf8f5" }} /> */}
           </div>
 
           {err && <p style={{ color: "#b91c1c", fontSize: 12, margin: "8px 2px 0" }}>⚠ {err}</p>}
@@ -88,7 +88,7 @@ export default function QnaWidget() {
           </button>
 
           <p style={{ color: "#9a7585", fontSize: 11, marginTop: 8 }}>
-            Savolingiz moderator tomonidan ko'rib chiqiladi. Foydali bo'lsa, umumiy bo'limda e'lon qilinadi.
+            Savolingiz shifokor tomonidan anonim ko'rib chiqiladi.
           </p>
         </div>
       )}

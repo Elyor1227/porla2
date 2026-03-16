@@ -9,6 +9,7 @@ import api, { storage } from "./api";
 import AdminApp from "./porla-admin";
 import PorlaCalendar from "./PorlaCalendar (2)";
 import QnaWidget from "./QnaWidget";
+import DailyTip from "./DailyTip";
 
 /* ── DESIGN TOKENS ───────────────────────────────────── */
 const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');`;
@@ -21,6 +22,10 @@ const T = {
 };
 const serif = "'Playfair Display', Georgia, serif";
 const sans  = "'Plus Jakarta Sans', system-ui, sans-serif";
+
+/* ── CONFIG ──────────────────────────────────────────── */
+const TELEGRAM_PAYMENT_BOT = "https://t.me/porlapayment1_bot";
+const openPaymentBot = () => window.open(TELEGRAM_PAYMENT_BOT, "_blank");
 
 /* ── HOOKS ───────────────────────────────────────────── */
 function useWindowWidth() {
@@ -65,7 +70,7 @@ const Card = ({ children, style={}, onClick }) => {
 
 const Badge = ({ type }) => (
   <span style={{ fontFamily:sans, fontSize:10, fontWeight:800, padding:"3px 10px", borderRadius:20, background: type==="pro" ? "linear-gradient(135deg,#e9a825,#f5bc3a)" : "linear-gradient(135deg,#0ea87a,#34d399)", color:T.white, letterSpacing:"0.04em", flexShrink:0 }}>
-    {type==="pro" ? "✦ PRO" : "BEPUL"}
+    {type==="pro" ? "✦ Premium" : "BEPUL"}
   </span>
 );
 
@@ -93,8 +98,8 @@ const Input = ({ label, value, onChange, type="text", placeholder="", error="", 
 /* ── NAVIGATION ──────────────────────────────────────── */
 const NAV = [
   { key:"home",    label:"Bosh sahifa", emoji:"🏠" },
-  { key:"modules", label:"Kurslar",     emoji:"📚" },
-  { key:"tracker", label:"Sikl",        emoji:"📅" },
+  { key:"modules", label:"Darslar",     emoji:"📚" },
+  { key:"tracker", label:"Sikl kalendari",        emoji:"📅" },
   { key:"notifs",  label:"Xabarlar",    emoji:"🔔" },
   { key:"profile", label:"Profil",      emoji:"👤" },
 ];
@@ -128,7 +133,13 @@ function Sidebar({ tab, setTab, user, unread }) {
       </nav>
       <div style={{ padding:"12px 20px 24px", borderTop:`1px solid ${T.border}` }}>
         <p style={{ fontFamily:sans, fontSize:12, color:T.muted, margin:0, fontWeight:600 }}>{user?.name}</p>
-        <p style={{ fontFamily:sans, fontSize:11, color:T.muted, margin:"2px 0 0", opacity:.7 }}>{user?.isPro ? "✦ Pro" : "Bepul"}</p>
+        <p style={{ fontFamily:sans, fontSize:11, color:T.muted, margin:"2px 0 0", opacity:.7 }}>{user?.isPro ? "✦ Premium" : "Bepul"}</p>
+        {!user?.isPro && (
+          <button onClick={openPaymentBot}
+            style={{ width:"100%", marginTop:12, padding:"8px 12px", fontSize:12, fontFamily:sans, fontWeight:700, background:"linear-gradient(135deg,#e9a825,#f5bc3a)", color:"white", border:"none", borderRadius:10, cursor:"pointer" }}>
+            ✦ Premium xaridi
+          </button>
+        )}
       </div>
     </aside>
   );
@@ -296,7 +307,7 @@ function Home({ w, user, setTab }) {
       <div style={{ display:"grid", gridTemplateColumns: isLg ? "1fr 1fr 1fr" : isMd ? "1fr 1fr" : "1fr", gap:20, marginBottom:32 }}>
         <div style={{ gridColumn: isLg ? "span 2" : "span 1", background:"linear-gradient(135deg,#d64f6e 0%,#c0415f 40%,#a33358 100%)", borderRadius:24, padding:"28px", position:"relative", overflow:"hidden" }}>
           <div style={{ position:"absolute", width:220, height:220, borderRadius:"50%", background:"rgba(255,255,255,.07)", top:-60, right:-40 }}/>
-          <p style={{ fontFamily:sans, fontSize:12, color:"rgba(255,255,255,.75)", margin:"0 0 16px", fontWeight:600, textTransform:"uppercase", letterSpacing:"0.07em" }}>Joriy Tsikl</p>
+          <p style={{ fontFamily:sans, fontSize:12, color:"rgba(255,255,255,.75)", margin:"0 0 16px", fontWeight:600, textTransform:"uppercase", letterSpacing:"0.07em" }}>Joriy Sikl</p>
           <div style={{ display:"flex", alignItems:"flex-end", gap:40, flexWrap:"wrap" }}>
             <div>
               <p style={{ fontFamily:serif, fontSize:64, fontWeight:700, color:T.white, margin:0, lineHeight:1 }}>{today?.dayOfCycle || "—"}</p>
@@ -314,16 +325,13 @@ function Home({ w, user, setTab }) {
           </div>
         </div>
 
-        <div style={{ background:"linear-gradient(145deg,#fffbf0,#fef6e4)", borderRadius:24, padding:"24px", border:"1.5px solid rgba(233,168,37,.2)" }}>
-          <div style={{ width:44, height:44, borderRadius:14, background:"linear-gradient(135deg,#e9a825,#f5bc3a)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, marginBottom:14 }}>💡</div>
-          <p style={{ fontFamily:sans, fontSize:11, fontWeight:700, color:T.gold, textTransform:"uppercase", letterSpacing:"0.07em", margin:"0 0 8px" }}>Kunlik maslahat</p>
-          <p style={{ fontFamily:sans, fontSize:14, color:T.ink, lineHeight:1.6, margin:"0 0 16px" }}>Har kuni siklni kuzating — sog'liqni nazorat qiling</p>
-          <Btn variant="gold" size="sm" onClick={() => setTab("modules")}>Kurslar →</Btn>
+        <div style={{ display:"grid", gridTemplateRows: "auto auto", gap:12 }}>
+          <DailyTip onModulesClick={() => setTab("modules")} />
         </div>
       </div>
 
       <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:16 }}>
-        <p style={{ fontFamily:sans, fontSize:11, fontWeight:800, color:T.muted, textTransform:"uppercase", letterSpacing:"0.1em", margin:0 }}>So'nggi kurslar</p>
+        <p style={{ fontFamily:sans, fontSize:11, fontWeight:800, color:T.muted, textTransform:"uppercase", letterSpacing:"0.1em", margin:0 }}>So'nggi darslar</p>
         <button onClick={() => setTab("modules")} style={{ background:"none", border:"none", fontFamily:sans, fontSize:13, color:T.rose, fontWeight:700, cursor:"pointer" }}>Barchasi →</button>
       </div>
       {loading ? (
@@ -338,7 +346,7 @@ function Home({ w, user, setTab }) {
               <p style={{ fontFamily:sans, fontSize:14, fontWeight:700, color:T.dark, margin:"0 0 6px", lineHeight:1.4 }}>{c.title}</p>
               <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
                 <span style={{ fontFamily:sans, fontSize:12, color:T.muted }}>{c.lessonCount} dars</span>
-                <Badge type={c.isPro ? "pro" : "free"}/>
+                <Badge type={c.isPro ? "premium" : "free"}/>
               </div>
             </Card>
           ))}
@@ -390,32 +398,101 @@ function VideoPlayer({ url, title }) {
 }
 
 /* ── LESSON MODAL ─────────────────────────────────────── */
-function LessonModal({ lesson, courseTitle, onClose }) {
-  if (!lesson) return null;
+function LessonModal({ lesson, courseTitle, courseId, onClose, onNavigate }) {
+  const [lessonData, setLessonData] = useState(lesson);
+  const [loading, setLoading] = useState(false);
+  const [completing, setCompleting] = useState(false);
+
+  useEffect(() => {
+    if (courseId && lesson._id) {
+      setLoading(true);
+      api.courses.getLesson(courseId, lesson._id)
+        .then(d => setLessonData({ ...d.lesson, navigation: d.navigation }))
+        .catch(() => setLessonData(lesson))
+        .finally(() => setLoading(false));
+    }
+  }, [courseId, lesson._id]);
+
+  const handleCompleteLesson = async () => {
+    if (!courseId || !lessonData._id) return;
+    setCompleting(true);
+    try {
+      const result = await api.courses.completeLesson(courseId, lessonData._id);
+      if (result.nextLesson) {
+        onNavigate?.(result.nextLesson);
+      }
+    } catch (err) {
+      console.error("Darsni yakunlashda xato:", err.message);
+    } finally {
+      setCompleting(false);
+    }
+  };
+
+  const nav = lessonData.navigation;
+
+  if (!lessonData) return null;
   return (
     <div style={{ position:"fixed", inset:0, zIndex:500, background:"rgba(0,0,0,.7)", display:"flex", alignItems:"center", justifyContent:"center", padding:20 }} onClick={onClose}>
       <div onClick={e => e.stopPropagation()}
         style={{ background:T.white, borderRadius:24, width:"100%", maxWidth:700, maxHeight:"90vh", overflowY:"auto", boxShadow:"0 32px 80px rgba(0,0,0,.4)" }}>
         <div style={{ padding:"20px 24px", borderBottom:`1px solid ${T.border}`, display:"flex", alignItems:"center", justifyContent:"space-between", position:"sticky", top:0, background:T.white, zIndex:10, borderRadius:"24px 24px 0 0" }}>
-          <div>
+          <div style={{ flex:1 }}>
             <p style={{ fontFamily:sans, fontSize:11, fontWeight:700, color:T.muted, margin:"0 0 2px", textTransform:"uppercase", letterSpacing:"0.08em" }}>{courseTitle}</p>
-            <p style={{ fontFamily:serif, fontSize:18, fontWeight:700, color:T.dark, margin:0 }}>{lesson.title}</p>
+            <p style={{ fontFamily:serif, fontSize:18, fontWeight:700, color:T.dark, margin:0 }}>{lessonData.title}</p>
+            {nav && <p style={{ fontFamily:sans, fontSize:12, color:T.muted, margin:"4px 0 0" }}>Dars {nav.current}/{nav.total}</p>}
           </div>
-          <button onClick={onClose} style={{ width:36, height:36, borderRadius:10, background:T.roseLight, border:"none", cursor:"pointer", fontSize:18, color:T.rose, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center" }}>✕</button>
+          <button onClick={onClose} style={{ width:36, height:36, borderRadius:10, background:T.roseLight, border:"none", cursor:"pointer", fontSize:18, color:T.rose, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>✕</button>
         </div>
         <div style={{ padding:"24px" }}>
-          {lesson.isLocked ? (
+          {lessonData.isLocked ? (
             <div style={{ textAlign:"center", padding:"40px 20px" }}>
               <div style={{ fontSize:56, marginBottom:16 }}>🔒</div>
-              <p style={{ fontFamily:serif, fontSize:22, fontWeight:700, color:T.dark, margin:"0 0 8px" }}>Pro kontent</p>
-              <p style={{ fontFamily:sans, fontSize:14, color:T.muted, margin:"0 0 24px", lineHeight:1.6 }}>Bu dars faqat Pro obunachilarga ochiq. Pro ga o'ting va barcha darslarga kiring.</p>
-              <Btn variant="gold" size="lg">✦ Pro ga o'tish</Btn>
+              <p style={{ fontFamily:serif, fontSize:22, fontWeight:700, color:T.dark, margin:"0 0 8px" }}>Premium kontent</p>
+              <p style={{ fontFamily:sans, fontSize:14, color:T.muted, margin:"0 0 24px", lineHeight:1.6 }}>Bu dars faqat Premium obunachilarga ochiq. Premiumga o'ting va barcha darslarga kiring.</p>
+              <Btn variant="gold" size="lg" onClick={openPaymentBot}>✦ Premiumga o'tish</Btn>
             </div>
           ) : (
             <>
-              {lesson.videoUrl && <div style={{ marginBottom:24 }}><VideoPlayer url={lesson.videoUrl} title={lesson.title}/></div>}
-              {lesson.content && <div style={{ fontFamily:sans, fontSize:15, color:T.ink, lineHeight:1.8, whiteSpace:"pre-wrap" }}>{lesson.content}</div>}
-              {lesson.duration > 0 && <p style={{ fontFamily:sans, fontSize:12, color:T.muted, marginTop:16 }}>⏱ {lesson.duration} daqiqa</p>}
+              {lessonData.videoUrl && <div style={{ marginBottom:24 }}><VideoPlayer url={lessonData.videoUrl} title={lessonData.title}/></div>}
+              {lessonData.content && <div style={{ fontFamily:sans, fontSize:15, color:T.ink, lineHeight:1.8, whiteSpace:"pre-wrap" }}>{lessonData.content}</div>}
+              {lessonData.duration > 0 && <p style={{ fontFamily:sans, fontSize:12, color:T.muted, marginTop:16 }}>⏱ {lessonData.duration} daqiqa</p>}
+              
+              {!lessonData.isCompleted && (
+                <Btn 
+                  onClick={handleCompleteLesson} 
+                  disabled={completing}
+                  style={{ width:"100%", justifyContent:"center", marginTop:20 }}
+                >
+                  {completing ? "Saqlanmoqda..." : "✅ Darsni yakunlash"}
+                </Btn>
+              )}
+              {lessonData.isCompleted && (
+                <div style={{ marginTop:20, padding:"12px 16px", borderRadius:12, background:"#f0fdf4", border:"1.5px solid #86efac", fontFamily:sans, fontSize:13, color:"#166534", fontWeight:600, textAlign:"center" }}>
+                  ✓ Siz ushbu darsni yakunladingiz
+                </div>
+              )}
+
+              {nav && (
+                <div style={{ display:"flex", gap:12, marginTop:24 }}>
+                  {nav.prevLesson && (
+                    <Btn 
+                      variant="ghost" 
+                      onClick={() => onNavigate?.(nav.prevLesson)}
+                      style={{ flex:1, justifyContent:"center" }}
+                    >
+                      ‹ Oldingi dars
+                    </Btn>
+                  )}
+                  {nav.nextLesson && (
+                    <Btn 
+                      onClick={() => onNavigate?.(nav.nextLesson)}
+                      style={{ flex:1, justifyContent:"center" }}
+                    >
+                      Keyingi dars ›
+                    </Btn>
+                  )}
+                </div>
+              )}
             </>
           )}
         </div>
@@ -438,6 +515,10 @@ function CourseDetail({ course, userIsPro, onBack }) {
       .finally(() => setLoading(false));
   }, [course._id]);
 
+  const handleNavigateLesson = (lesson) => {
+    setActive(lesson);
+  };
+
   return (
     <div>
       <button onClick={onBack} style={{ display:"flex", alignItems:"center", gap:8, background:"none", border:"none", cursor:"pointer", fontFamily:sans, fontSize:14, fontWeight:700, color:T.rose, marginBottom:20, padding:0 }}>
@@ -451,7 +532,7 @@ function CourseDetail({ course, userIsPro, onBack }) {
             <p style={{ fontFamily:serif, fontSize:22, fontWeight:700, color:T.dark, margin:"0 0 4px" }}>{course.title}</p>
             <p style={{ fontFamily:sans, fontSize:13, color:T.muted, margin:"0 0 8px", lineHeight:1.5 }}>{course.description}</p>
             <div style={{ display:"flex", gap:10, alignItems:"center" }}>
-              <Badge type={course.isPro ? "pro" : "free"}/>
+              <Badge type={course.isPro ? "premium" : "free"}/>
               <span style={{ fontFamily:sans, fontSize:12, color:T.muted, fontWeight:600 }}>📖 {lessons.length} dars</span>
             </div>
           </div>
@@ -476,7 +557,7 @@ function CourseDetail({ course, userIsPro, onBack }) {
                   <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:4, gap:8 }}>
                     <p style={{ fontFamily:sans, fontSize:14, fontWeight:700, color: l.isLocked ? T.muted : T.dark, margin:0 }}>{l.title}</p>
                     {idx === 0 && <span style={{ fontFamily:sans, fontSize:10, fontWeight:700, color:T.green, background:"#f0fdf4", padding:"2px 8px", borderRadius:20 }}>BEPUL</span>}
-                    {l.isLocked && <span style={{ fontFamily:sans, fontSize:10, fontWeight:700, color:T.gold, background:"#fffbeb", padding:"2px 8px", borderRadius:20 }}>PRO</span>}
+                    {l.isLocked && <span style={{ fontFamily:sans, fontSize:10, fontWeight:700, color:T.gold, background:"#fffbeb", padding:"2px 8px", borderRadius:20 }}>PREMIUM</span>}
                   </div>
                   {l.duration > 0 && <p style={{ fontFamily:sans, fontSize:12, color:T.muted, margin:0 }}>⏱ {l.duration} daqiqa</p>}
                 </div>
@@ -486,14 +567,14 @@ function CourseDetail({ course, userIsPro, onBack }) {
           ))}
           {!userIsPro && lessons.length > 1 && (
             <div style={{ background:"linear-gradient(135deg,#fffbeb,#fef9ef)", border:"1.5px solid rgba(233,168,37,.3)", borderRadius:18, padding:"18px 20px", textAlign:"center", marginTop:8 }}>
-              <p style={{ fontFamily:sans, fontSize:14, fontWeight:700, color:"#92400e", margin:"0 0 4px" }}>✦ {lessons.length - 1} ta dars Pro uchun</p>
-              <p style={{ fontFamily:sans, fontSize:12, color:"#b45309", margin:"0 0 14px" }}>Pro obunaga o'ting va barcha darslarga kiring</p>
-              <Btn variant="gold" size="sm">Pro ga o'tish ✦</Btn>
+              <p style={{ fontFamily:sans, fontSize:14, fontWeight:700, color:"#92400e", margin:"0 0 4px" }}>✦ {lessons.length - 1} ta dars Premium uchun</p>
+              <p style={{ fontFamily:sans, fontSize:12, color:"#b45309", margin:"0 0 14px" }}>Premium obunaga o'ting va barcha darslarga kiring</p>
+              <Btn variant="gold" size="sm" onClick={openPaymentBot}>Premiumga o'tish ✦</Btn>
             </div>
           )}
         </div>
       )}
-      {active && <LessonModal lesson={active} courseTitle={course.title} onClose={() => setActive(null)}/>}
+      {active && <LessonModal lesson={active} courseTitle={course.title} courseId={course._id} onClose={() => setActive(null)} onNavigate={handleNavigateLesson}/>}
     </div>
   );
 }
@@ -526,16 +607,16 @@ function Modules({ w, user }) {
   return (
     <div style={{ padding: isLg ? "40px 48px" : "24px 20px", paddingBottom: isLg ? 40 : 90 }}>
       <div style={{ marginBottom:32 }}>
-        <h2 style={{ fontFamily:serif, fontSize: isLg ? 38 : 26, fontWeight:700, color:T.dark, margin:"0 0 8px" }}>Kurslar</h2>
+        <h2 style={{ fontFamily:serif, fontSize: isLg ? 38 : 26, fontWeight:700, color:T.dark, margin:"0 0 8px" }}>Darslar</h2>
         <p style={{ fontFamily:sans, fontSize:14, color:T.muted, margin:0 }}>Sog'liq haqida bilimingizni kengaytiring</p>
       </div>
       <Alert type="error" message={err}/>
 
       <div style={{ display:"grid", gridTemplateColumns: isMd ? "repeat(4,1fr)" : "repeat(2,1fr)", gap:16, marginBottom:36 }}>
         {[
-          { n: courses.length+"",                                   l:"Jami kurslar",  bg:"linear-gradient(135deg,#d64f6e,#e8728a)" },
-          { n: free.length+"",                                      l:"Bepul kurslar", bg:"linear-gradient(135deg,#0ea87a,#34d399)" },
-          { n: pro.length+"",                                       l:"Pro kurslar",   bg:"linear-gradient(135deg,#e9a825,#f5bc3a)" },
+          { n: courses.length+"",                                   l:"Jami darslar",  bg:"linear-gradient(135deg,#d64f6e,#e8728a)" },
+          { n: free.length+"",                                      l:"Bepul darslar", bg:"linear-gradient(135deg,#0ea87a,#34d399)" },
+          { n: pro.length+"",                                       l:"Premium darslar",   bg:"linear-gradient(135deg,#e9a825,#f5bc3a)" },
           { n: courses.reduce((s,c) => s + (c.lessonCount||0), 0)+"", l:"Jami darslar",  bg:"linear-gradient(135deg,#8657d6,#a78bfa)" },
         ].map((s, i) => (
           <div key={i} style={{ background:s.bg, borderRadius:20, padding:"20px", color:T.white, boxShadow:"0 8px 24px rgba(0,0,0,.1)" }}>
@@ -551,7 +632,7 @@ function Modules({ w, user }) {
         </div>
       ) : (
         <>
-          <p style={{ fontFamily:sans, fontSize:11, fontWeight:800, color:T.green, textTransform:"uppercase", letterSpacing:"0.1em", marginBottom:14 }}>✓ Bepul kurslar</p>
+          <p style={{ fontFamily:sans, fontSize:11, fontWeight:800, color:T.green, textTransform:"uppercase", letterSpacing:"0.1em", marginBottom:14 }}>✓ Bepul darslar</p>
           <div style={{ display:"grid", gridTemplateColumns: isLg ? "repeat(2,1fr)" : "1fr", gap:14, marginBottom:32 }}>
             {free.map((c, i) => (
               <Card key={i} onClick={() => setSelected(c)} style={{ padding:"20px 22px", cursor:"pointer" }}>
@@ -576,10 +657,10 @@ function Modules({ w, user }) {
           <div style={{ background:"linear-gradient(145deg,#1e1015,#2d1520)", borderRadius:24, padding:"24px" }}>
             <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:20, flexWrap:"wrap", gap:12 }}>
               <div>
-                <p style={{ fontFamily:serif, fontSize: isLg ? 24 : 20, fontWeight:700, color:T.white, margin:"0 0 4px" }}>✦ Pro Kurslar</p>
-                <p style={{ fontFamily:sans, fontSize:13, color:"rgba(255,255,255,.55)", margin:0 }}>Pro rejimga o'ting va barchasini oching</p>
+                <p style={{ fontFamily:serif, fontSize: isLg ? 24 : 20, fontWeight:700, color:T.white, margin:"0 0 4px" }}>✦ Premium Darslar</p>
+                <p style={{ fontFamily:sans, fontSize:13, color:"rgba(255,255,255,.55)", margin:0 }}>Premium rejimga o'ting va barchasini oching</p>
               </div>
-              <Btn variant="gold">Pro ga o'tish ✦</Btn>
+              <Btn variant="gold" onClick={openPaymentBot}>Premiumga o'tish ✦</Btn>
             </div>
             <div style={{ display:"grid", gridTemplateColumns: isLg ? "repeat(3,1fr)" : isMd ? "repeat(2,1fr)" : "1fr", gap:12 }}>
               {pro.map((c, i) => (
@@ -590,7 +671,7 @@ function Modules({ w, user }) {
                     <span style={{ fontSize:18 }}>{userIsPro ? "▶" : "🔒"}</span>
                   </div>
                   <p style={{ fontFamily:sans, fontSize:13, fontWeight:700, color:T.white, margin:"0 0 4px", lineHeight:1.3 }}>{c.title}</p>
-                  <p style={{ fontFamily:sans, fontSize:11, color:"rgba(255,255,255,.45)", margin:0 }}>{c.lessonCount} dars · Pro</p>
+                  <p style={{ fontFamily:sans, fontSize:11, color:"rgba(255,255,255,.45)", margin:0 }}>{c.lessonCount} dars · Premium</p>
                 </div>
               ))}
             </div>
@@ -619,7 +700,12 @@ function Notifications({ w, onRead }) {
 
   const load = useCallback(() => {
     api.notifications.getAll()
-      .then(d => { setNotifs(d.notifications || []); if (onRead) onRead(0); })
+      .then(d => {
+        // Backend may return notifications under different keys depending on implementation
+        const list = d.notifications || d.items || d.data || [];
+        setNotifs(list);
+        if (onRead) onRead(0);
+      })
       .catch(e => setErr(e.message))
       .finally(() => setLoading(false));
   }, [onRead]);
@@ -696,6 +782,10 @@ function Notifications({ w, onRead }) {
 function Profile({ w, user, onLogout }) {
   const isLg = w >= 1024, isMd = w >= 640;
   const [logoutLoading, setLogoutLoading] = useState(false);
+  const [passwordMode, setPasswordMode] = useState(false);
+  const [passwordForm, setPasswordForm] = useState({ current: "", new: "", confirm: "" });
+  const [passwordLoading, setPasswordLoading] = useState(false);
+  const [passwordMsg, setPasswordMsg] = useState({ type: "", text: "" });
 
   const handleLogout = async () => {
     setLogoutLoading(true);
@@ -703,10 +793,44 @@ function Profile({ w, user, onLogout }) {
     onLogout();
   };
 
+  const handlePasswordChange = async () => {
+    setPasswordMsg({ type: "", text: "" });
+    
+    if (!passwordForm.current || !passwordForm.new || !passwordForm.confirm) {
+      setPasswordMsg({ type: "error", text: "Barcha maydonlarni to'ldiring" });
+      return;
+    }
+    
+    if (passwordForm.new.length < 6) {
+      setPasswordMsg({ type: "error", text: "Yangi parol kamida 6 belgidan iborat bo'lishi kerak" });
+      return;
+    }
+    
+    if (passwordForm.new !== passwordForm.confirm) {
+      setPasswordMsg({ type: "error", text: "Parollar mos kelmadi" });
+      return;
+    }
+
+    setPasswordLoading(true);
+    try {
+      const result = await api.auth.changePassword(passwordForm.current, passwordForm.new);
+      setPasswordMsg({ type: "success", text: result.message || "Parol muvaffaqiyatli o'zgartirildi" });
+      setPasswordForm({ current: "", new: "", confirm: "" });
+      setTimeout(() => {
+        setPasswordMode(false);
+        setPasswordMsg({ type: "", text: "" });
+      }, 2000);
+    } catch (err) {
+      setPasswordMsg({ type: "error", text: err.message || "Parol o'zgartirishda xato" });
+    } finally {
+      setPasswordLoading(false);
+    }
+  };
+
   const menuItems = [
     { icon:"📚", label:"Bajarilgan darslar", sub:`${user?.completedLessons?.length || 0} ta dars tugallangan`, color:T.blue,   bg:"#eff6ff" },
     { icon:"📧", label:"Email",              sub: user?.email || "",                                           color:T.green,  bg:"#f0fdf4" },
-    { icon:"🔒", label:"Maxfiylik",          sub:"Ma'lumotlar himoyasi",                                       color:T.gold,   bg:"#fffbeb" },
+    { icon:"🔒", label:"Parol o'zgartirish",  sub:"Hisobi himoyasi",                                          color:T.gold,   bg:"#fffbeb", action: () => setPasswordMode(!passwordMode) },
     { icon:"❓", label:"Yordam markazi",     sub:"Savol va javoblar",                                          color:"#0891b2",bg:"#ecfeff" },
     { icon:"🚪", label:"Chiqish",            sub:"Hisobdan chiqish",                                           color:"#ef4444",bg:"#fef2f2", danger:true, action:handleLogout },
   ];
@@ -726,7 +850,7 @@ function Profile({ w, user, onLogout }) {
               <p style={{ fontFamily:serif, fontSize:26, fontWeight:700, color:T.white, margin:"0 0 4px" }}>{user?.name || "Foydalanuvchi"}</p>
               <p style={{ fontFamily:sans, fontSize:13, color:"rgba(255,255,255,.7)", margin:"0 0 16px" }}>{user?.email}</p>
               <span style={{ fontFamily:sans, fontSize:12, fontWeight:700, padding:"5px 14px", borderRadius:20, background: user?.isPro ? "linear-gradient(135deg,#e9a825,#f5bc3a)" : "rgba(255,255,255,.2)", color:"white" }}>
-                {user?.isPro ? "✦ Pro" : "Bepul"}
+                {user?.isPro ? "✦ Premium" : "Bepul"}
               </span>
             </div>
           </div>
@@ -735,10 +859,23 @@ function Profile({ w, user, onLogout }) {
               <div style={{ display:"flex", gap:14, alignItems:"center" }}>
                 <div style={{ width:48, height:48, borderRadius:14, background:"linear-gradient(135deg,#e9a825,#f5bc3a)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}>✦</div>
                 <div style={{ flex:1 }}>
-                  <p style={{ fontFamily:sans, fontSize:15, fontWeight:800, color:"#92400e", margin:"0 0 2px" }}>Pro ga o'ting</p>
-                  <p style={{ fontFamily:sans, fontSize:12, color:"#b45309", margin:0 }}>Barcha kurslarga cheksiz kirish</p>
+                  <p style={{ fontFamily:sans, fontSize:15, fontWeight:800, color:"#92400e", margin:"0 0 2px" }}>Premium ga o'ting</p>
+                  <p style={{ fontFamily:sans, fontSize:12, color:"#b45309", margin:0 }}>Barcha darslarga cheksiz kirish</p>
                 </div>
-                <Btn variant="gold" size="sm">Ulash</Btn>
+                <Btn variant="gold" size="sm" onClick={openPaymentBot}>Xaridi</Btn>
+              </div>
+            </div>
+          )}
+          {user?.isPro && (
+            <div style={{ background:"linear-gradient(135deg,#f0fdf4,#fbfcf8)", border:"1.5px solid rgba(16,185,129,.3)", borderRadius:20, padding:"18px 20px" }}>
+              <div style={{ display:"flex", gap:14 }}>
+                <div style={{ width:48, height:48, borderRadius:14, background:"rgba(16,185,129,.1)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}>🎁</div>
+                <div style={{ flex:1 }}>
+                  <p style={{ fontFamily:sans, fontSize:15, fontWeight:800, color:"#065f46", margin:"0 0 2px" }}>✦ Premium faol</p>
+                  <p style={{ fontFamily:sans, fontSize:12, color:"#047857", margin:0 }}>
+                    {`${user.proDaysLeft} kun qoldi`}
+                  </p>
+                </div>
               </div>
             </div>
           )}
@@ -763,6 +900,74 @@ function Profile({ w, user, onLogout }) {
               </Card>
             ))}
           </div>
+
+          {passwordMode && (
+            <div style={{ marginTop:20, padding:"20px", borderRadius:20, background:"#f8f9fa", border:"1.5px solid #e5e7eb" }}>
+              <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:16 }}>
+                <p style={{ fontFamily:sans, fontSize:14, fontWeight:700, color:T.dark, margin:0 }}>Parol o'zgartirish</p>
+                <button onClick={() => setPasswordMode(false)} style={{ background:"none", border:"none", color:T.muted, fontSize:18, cursor:"pointer", fontWeight:700 }}>×</button>
+              </div>
+
+              <div style={{ marginBottom:14 }}>
+                <label style={{ fontFamily:sans, fontSize:12, fontWeight:600, color:T.muted, display:"block", marginBottom:6 }}>Hozirgi parol</label>
+                <input 
+                  type="password" 
+                  placeholder="Joriy parolni kiriting"
+                  value={passwordForm.current}
+                  onChange={(e) => setPasswordForm({...passwordForm, current: e.target.value})}
+                  disabled={passwordLoading}
+                  style={{ width:"100%", padding:"12px 14px", fontFamily:sans, fontSize:14, color:T.dark, background:"#fdf8f5", border:`1.5px solid ${T.border}`, borderRadius:12, outline:"none", boxSizing:"border-box", transition:"border .2s" }}
+                />
+              </div>
+
+              <div style={{ marginBottom:14 }}>
+                <label style={{ fontFamily:sans, fontSize:12, fontWeight:600, color:T.muted, display:"block", marginBottom:6 }}>Yangi parol</label>
+                <input 
+                  type="password" 
+                  placeholder="Yangi parolni kiriting (min. 6 belgi)"
+                  value={passwordForm.new}
+                  onChange={(e) => setPasswordForm({...passwordForm, new: e.target.value})}
+                  disabled={passwordLoading}
+                  style={{ width:"100%", padding:"12px 14px", fontFamily:sans, fontSize:14, color:T.dark, background:"#fdf8f5", border:`1.5px solid ${T.border}`, borderRadius:12, outline:"none", boxSizing:"border-box", transition:"border .2s" }}
+                />
+              </div>
+
+              <div style={{ marginBottom:14 }}>
+                <label style={{ fontFamily:sans, fontSize:12, fontWeight:600, color:T.muted, display:"block", marginBottom:6 }}>Parolni tasdiqlang</label>
+                <input 
+                  type="password" 
+                  placeholder="Yangi parolni yana kiriting"
+                  value={passwordForm.confirm}
+                  onChange={(e) => setPasswordForm({...passwordForm, confirm: e.target.value})}
+                  disabled={passwordLoading}
+                  style={{ width:"100%", padding:"12px 14px", fontFamily:sans, fontSize:14, color:T.dark, background:"#fdf8f5", border:`1.5px solid ${T.border}`, borderRadius:12, outline:"none", boxSizing:"border-box", transition:"border .2s" }}
+                />
+              </div>
+
+              {passwordMsg.text && (
+                <div style={{ 
+                  padding:"10px 14px", 
+                  borderRadius:12, 
+                  marginBottom:14,
+                  background: passwordMsg.type === "error" ? "#fef2f2" : "#f0fdf4",
+                  border: `1.5px solid ${passwordMsg.type === "error" ? "#fca5a5" : "#86efac"}`,
+                  fontFamily:sans,
+                  fontSize:12,
+                  color: passwordMsg.type === "error" ? "#991b1b" : "#166534"
+                }}>
+                  {passwordMsg.text}
+                </div>
+              )}
+
+              <Btn 
+                onClick={handlePasswordChange} 
+                disabled={passwordLoading}
+                style={{ width:"100%", justifyContent:"center" }}
+              >
+                {passwordLoading ? "Saqlanmoqda..." : "Parolni o'zgartirish"}
+              </Btn>
+            </div>
+          )}
         </div>
       </div>
     </div>

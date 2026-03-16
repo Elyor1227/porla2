@@ -1080,7 +1080,7 @@ function Dashboard() {
 
   const cards = [
     { label:"Jami foydalanuvchi", value:stats.totalUsers, icon:"👥", color:T.purple, bg:"#f0ecff" },
-    { label:"Pro foydalanuvchi",  value:stats.proUsers,   icon:"✦",  color:T.gold,   bg:"#fffbeb" },
+    { label:"Premium foydalanuvchi",  value:stats.proUsers,   icon:"✦",  color:T.gold,   bg:"#fffbeb" },
     { label:"Bepul foydalanuvchi",value:stats.freeUsers,  icon:"👤", color:T.green,  bg:"#f0fdf4" },
     { label:"Bugun qo'shilgan",   value:stats.newUsersToday, icon:"🆕", color:T.rose, bg:"#fde8ec" },
     { label:"Jami kurslar",       value:stats.totalCourses,  icon:"📚", color:"#0891b2", bg:"#ecfeff" },
@@ -1126,7 +1126,7 @@ function Dashboard() {
         <Card style={{padding:"24px"}}>
           <h3 style={{fontFamily:sans,fontSize:14,fontWeight:800,color:T.ink,margin:"0 0 20px",textTransform:"uppercase",letterSpacing:"0.08em"}}>Xulosa</h3>
           {[
-            { label:"Pro ulushi",     value:`${stats.proPercentage}%`,   color:T.gold },
+            { label:"Premium ulushi",     value:`${stats.proPercentage}%`,   color:T.gold },
             { label:"Bu hafta",       value:`+${stats.newUsersThisWeek}`, color:T.purple },
             { label:"Bu oy",          value:`+${stats.newUsersThisMonth}`,color:T.green },
             { label:"Tsikl yozuvlar", value:stats.totalCycles,           color:T.rose },
@@ -1171,7 +1171,7 @@ function Users({ toast }) {
   const handlePro = async (isPro) => {
     try {
       await adminApi.setPro(proModal._id, isPro, months);
-      toast(isPro ? `Pro berildi (${months} oy)` : "Pro olib tashlandi", "success");
+      toast(isPro ? `Premium berildi (${months} oy)` : "Premium olib tashlandi", "success");
       setProModal(null); load();
     } catch(e) { toast(e.message, "error"); }
   };
@@ -1223,7 +1223,7 @@ function Users({ toast }) {
               <button key={f} onClick={()=>setFilter(f)} style={{
                 padding:"8px 16px",borderRadius:10,border:"none",cursor:"pointer",fontFamily:sans,fontSize:12,fontWeight:700,
                 background:filter===f?"#4c2fa0":"#f0ecff",color:filter===f?"white":T.purple,transition:"all .2s",
-              }}>{f==="all"?"Barchasi":f==="pro"?"✦ Pro":"Bepul"}</button>
+              }}>{f==="all"?"Barchasi":f==="pro"?"✦ Premium":"Bepul"}</button>
             ))}
           </div>
         </div>
@@ -1264,7 +1264,7 @@ function Users({ toast }) {
                       {u.isBlocked
                         ? <Badge label="Bloklangan" color={T.red}/>
                         : u.isPro
-                          ? <Badge label="✦ Pro" color={T.gold}/>
+                          ? <Badge label="✦ Premium" color={T.gold}/>
                           : <Badge label="Bepul" color={T.green}/>}
                     </td>
                     <td style={{padding:"14px 16px",fontFamily:sans,fontSize:12,color:T.muted}}>{ago(u.createdAt)}</td>
@@ -1275,7 +1275,7 @@ function Users({ toast }) {
                       <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
                         <Btn size="sm" variant={u.isPro?"danger":"gold"}
                           onClick={()=>{setProModal(u); setMonths(1);}}>
-                          {u.isPro?"Pro olish":"Pro berish"}
+                          {u.isPro?"Premium olish":"Premium berish"}
                         </Btn>
                         <Btn size="sm" variant="ghost" onClick={()=>setNotifModal(u)}>📣</Btn>
                         <Btn size="sm" variant={u.isBlocked?"success":"ghost"} onClick={()=>handleBlock(u)}>
@@ -1309,7 +1309,7 @@ function Users({ toast }) {
       </Card>
 
       {/* Pro modal */}
-      <Modal open={!!proModal} onClose={()=>setProModal(null)} title={`Pro boshqaruvi — ${proModal?.name}`}>
+      <Modal open={!!proModal} onClose={()=>setProModal(null)} title={`Premium boshqaruvi — ${proModal?.name}`}>
         <p style={{fontFamily:sans,fontSize:13,color:T.muted,marginBottom:20}}>
           Joriy holat: <strong>{proModal?.isPro ? "✦ Pro" : "Bepul"}</strong>
           {proModal?.proExpiresAt && ` · Tugash: ${fmt(proModal.proExpiresAt)}`}
@@ -1329,12 +1329,12 @@ function Users({ toast }) {
               </div>
             </div>
             <Btn variant="gold" style={{width:"100%",justifyContent:"center"}} onClick={()=>handlePro(true)}>
-              ✦ {months} oylik Pro berish
+              ✦ {months} oylik Premium berish
             </Btn>
           </>
         ) : (
           <Btn variant="danger" style={{width:"100%",justifyContent:"center"}} onClick={()=>handlePro(false)}>
-            Pro ni o'chirish
+            Premiumni o'chirish
           </Btn>
         )}
       </Modal>
@@ -1454,7 +1454,7 @@ function Courses({ toast }) {
                     <p style={{fontFamily:sans,fontSize:14,fontWeight:700,color:T.dark,margin:"0 0 4px",lineHeight:1.3}}>{c.title}</p>
                     <div style={{display:"flex",gap:6,alignItems:"center"}}>
                       <Badge label={`${c.lessonCount} dars`} color={T.purple}/>
-                      {c.isPro && <Badge label="PRO" color={T.gold}/>}
+                      {c.isPro && <Badge label="PREMIUM" color={T.gold}/>}
                       {!c.isActive && <Badge label="Faol emas" color={T.red}/>}
                     </div>
                   </div>
@@ -1497,7 +1497,7 @@ function Courses({ toast }) {
                         <p style={{fontFamily:sans,fontSize:13,fontWeight:700,color:T.dark,margin:0}}>{l.title}</p>
                       </div>
                       <div style={{display:"flex",gap:6}}>
-                        {l.isPro && <Badge label="PRO" color={T.gold}/>}
+                        {l.isPro && <Badge label="PREMIUM" color={T.gold}/>}
                         <Btn size="sm" variant="ghost" onClick={()=>openEditLesson(l)}>✏️</Btn>
                         <Btn size="sm" variant="danger" onClick={()=>deleteLesson(l)}>🗑</Btn>
                       </div>
@@ -1544,7 +1544,7 @@ function Courses({ toast }) {
           <label style={{fontFamily:sans,fontSize:13,fontWeight:700,color:T.ink,display:"flex",alignItems:"center",gap:8,cursor:"pointer"}}>
             <input type="checkbox" checked={form.isPro} onChange={e=>setForm(f=>({...f,isPro:e.target.checked}))}
               style={{width:16,height:16,accentColor:T.gold}}/>
-            ✦ Pro kurs
+            ✦ Premium kurs
           </label>
           <label style={{fontFamily:sans,fontSize:13,fontWeight:700,color:T.ink,display:"flex",alignItems:"center",gap:8,cursor:"pointer"}}>
             <input type="checkbox" checked={form.isActive!==false} onChange={e=>setForm(f=>({...f,isActive:e.target.checked}))}
@@ -1586,7 +1586,7 @@ function Courses({ toast }) {
         <label style={{fontFamily:sans,fontSize:13,fontWeight:700,color:T.ink,display:"flex",alignItems:"center",gap:8,cursor:"pointer",marginBottom:20}}>
           <input type="checkbox" checked={lForm.isPro} onChange={e=>setLForm(f=>({...f,isPro:e.target.checked}))}
             style={{width:16,height:16,accentColor:T.gold}}/>
-          ✦ Pro dars
+          ✦ Premium dars
         </label>
         <Btn onClick={saveLesson} style={{width:"100%",justifyContent:"center"}}>
           {lessonModal==="new"?"＋ Dars qo'shish":"✓ Saqlash"}
@@ -1611,7 +1611,7 @@ function QnaAdmin({ toast }) {
   const load = useCallback(() => {
     setLoading(true);
     adminApi.qna.list({ page, limit:15, status: status==="all"?undefined:status, search, published: published==="all"?undefined:published })
-      .then(d => setQuestions(d.qna || d.questions || []))
+      .then(d => setQuestions(d.items || d.qna || d.questions || []))
       .catch(e => toast(e.message, "error"))
       .finally(() => setLoading(false));
   }, [page, status, published, search, toast]);
@@ -1633,6 +1633,18 @@ function QnaAdmin({ toast }) {
   const handlePublish = async (q, pub) => {
     try {
       await adminApi.qna.publish(q._id, pub);
+      // If publishing, also create a broadcast so it appears in users' Notifications
+      if (pub) {
+        try {
+          const title = q.question.length > 60 ? q.question.substring(0,60) + "..." : q.question;
+          const message = q.answer || "Javob mavjud";
+          // type 'info' is a safe default; onlyPro=false makes it visible to all users
+          await adminApi.broadcast({ title, message, type: "info", onlyPro: false });
+        } catch (bbErr) {
+          // don't fail the whole action if broadcasting fails; just log
+          console.warn("Broadcast yaratishda xato:", bbErr.message || bbErr);
+        }
+      }
       toast(pub ? "E'lon qilindi" : "E'lon bekor qilindi", "success");
       load();
     } catch(e) { toast(e.message, "error"); }
@@ -1741,6 +1753,126 @@ function QnaAdmin({ toast }) {
   );
 }
 
+/* ── TIPS MANAGEMENT ── */
+function TipsAdmin({ toast }) {
+  const [tips, setTips] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [modal, setModal] = useState(null);
+  const [form, setForm] = useState({ content:"", category:"sog'liq", emoji:"💡", isActive:true, publishDate:"" });
+
+  const load = useCallback(() => {
+    setLoading(true);
+    adminApi.tips.list({ limit:50 })
+      .then(d => setTips(d.tips || []))
+      .catch(e => toast(e.message, "error"))
+      .finally(() => setLoading(false));
+  }, [toast]);
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { load(); }, [load]);
+
+  const handleSave = async () => {
+    if (!form.content.trim()) { toast("Maslahat matni kerak", "error"); return; }
+    try {
+      if (modal?._id) await adminApi.tips.update(modal._id, form);
+      else await adminApi.tips.create(form);
+      toast(modal ? "Maslahat o'zgartirildi" : "Maslahat qo'shildi", "success");
+      setModal(null);
+      setForm({ content:"", category:"sog'liq", emoji:"💡", isActive:true, publishDate:"" });
+      load();
+    } catch(e) { toast(e.message, "error"); }
+  };
+
+  const handleDelete = async (t) => {
+    if (!confirm(`"${t.content.substring(0,40)}..." o'chirilsinmi?`)) return;
+    try {
+      await adminApi.tips.remove(t._id);
+      toast("O'chirildi", "success");
+      load();
+    } catch(e) { toast(e.message, "error"); }
+  };
+
+  const categories = ["sog'liq", "ovqatlanish", "jismoniy", "ruhiy", "sikl", "umumiy"];
+  const emojis = ["💧", "🥗", "🚶", "🧘", "📅", "🌟"];
+
+  return (
+    <div>
+      <div style={{marginBottom:28}}>
+        <h2 style={{fontFamily:serif,fontSize:28,fontWeight:700,color:T.dark,margin:"0 0 4px"}}>Kunlik maslahatlar</h2>
+        <p style={{fontFamily:sans,fontSize:13,color:T.muted,margin:0}}>Foydalanuvchilarga ko'rsatiladigan maslahatlarni boshqaring</p>
+      </div>
+
+      <Card style={{padding:"20px",marginBottom:20}}>
+        <Btn onClick={()=>{ setModal("new"); setForm({ content:"", category:"sog'liq", emoji:"💡", isActive:true, publishDate:"" }); }} size="lg" style={{width:"100%",justifyContent:"center"}}>
+          ＋ Yangi maslahat
+        </Btn>
+      </Card>
+
+      {loading ? (
+        <Spinner />
+      ) : tips.length === 0 ? (
+        <Card style={{padding:"48px 24px",textAlign:"center"}}>
+          <div style={{fontSize:40,marginBottom:16}}>💡</div>
+          <p style={{fontFamily:sans,fontSize:14,fontWeight:700,color:T.dark,margin:0}}>Maslahat yo'q</p>
+        </Card>
+      ) : (
+        <div style={{display:"flex",flexDirection:"column",gap:12}}>
+          {tips.map(t => (
+            <Card key={t._id} style={{padding:"16px 20px"}}>
+              <div style={{display:"flex",gap:14,alignItems:"flex-start"}}>
+                <div style={{fontSize:24}}>{t.emoji || "💡"}</div>
+                <div style={{flex:1}}>
+                  <p style={{fontFamily:sans,fontSize:14,fontWeight:700,color:T.dark,margin:"0 0 4px"}}>{t.content}</p>
+                  <div style={{display:"flex",gap:8,alignItems:"center",flexWrap:"wrap"}}>
+                    <span style={{fontFamily:sans,fontSize:11,color:T.muted}}>📁 {t.category}</span>
+                    {!t.isActive && <span style={{fontFamily:sans,fontSize:11,color:T.muted}}>🔕 O'chiq</span>}
+                  </div>
+                </div>
+                <div style={{display:"flex",gap:6,flexDirection:"column",flexShrink:0}}>
+                  <Btn size="sm" variant="ghost" onClick={()=>{ setModal(t); setForm({ content:t.content, category:t.category, emoji:t.emoji, isActive:t.isActive, publishDate:t.publishDate||"" }); }}>Tahrir</Btn>
+                  <Btn size="sm" variant="danger" onClick={()=>handleDelete(t)}>O'chirish</Btn>
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
+      )}
+
+      {modal && (
+        <Modal open={true} onClose={()=>setModal(null)} title={modal==="new"?"Yangi maslahat":"Maslahatni tahrirlash"}>
+          <Textarea label="Maslahat matni" value={form.content} onChange={e=>setForm(f=>({...f,content:e.target.value}))} rows={3} placeholder="Maslahat yozish..."/>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:16}}>
+            <div>
+              <label style={{fontFamily:sans,fontSize:12,fontWeight:700,color:T.ink,display:"block",marginBottom:6}}>Kategoriya</label>
+              <select value={form.category} onChange={e=>setForm(f=>({...f,category:e.target.value}))}
+                style={{width:"100%",padding:"9px 12px",fontFamily:sans,fontSize:13,color:T.dark,background:"#f9f7ff",border:`1px solid ${T.border}`,borderRadius:8,outline:"none",cursor:"pointer"}}>
+                {categories.map(c=><option key={c} value={c}>{c}</option>)}
+              </select>
+            </div>
+            <div>
+              <label style={{fontFamily:sans,fontSize:12,fontWeight:700,color:T.ink,display:"block",marginBottom:6}}>Emoji</label>
+              <select value={form.emoji} onChange={e=>setForm(f=>({...f,emoji:e.target.value}))}
+                style={{width:"100%",padding:"9px 12px",fontFamily:sans,fontSize:13,color:T.dark,background:"#f9f7ff",border:`1px solid ${T.border}`,borderRadius:8,outline:"none",cursor:"pointer"}}>
+                {emojis.map(em=><option key={em} value={em}>{em}</option>)}
+              </select>
+            </div>
+          </div>
+          <Input label="Chiqarilish sanasi (ixtiyoriy)" type="date" value={form.publishDate} onChange={e=>setForm(f=>({...f,publishDate:e.target.value}))} placeholder="Sana"/>
+          <label style={{fontFamily:sans,fontSize:13,fontWeight:700,color:T.ink,display:"flex",alignItems:"center",gap:8,cursor:"pointer",marginBottom:20}}>
+            <input type="checkbox" checked={form.isActive} onChange={e=>setForm(f=>({...f,isActive:e.target.checked}))}
+              style={{width:16,height:16,accentColor:T.purple}}/>
+            Faol (ko'rsatilish)
+          </label>
+          <div style={{display:"flex",gap:10}}>
+            <Btn onClick={handleSave} style={{flex:1}}>Saqlash</Btn>
+            <Btn variant="ghost" onClick={()=>setModal(null)} style={{flex:1}}>Bekor</Btn>
+          </div>
+        </Modal>
+      )}
+    </div>
+  );
+}
+
 function Broadcast({ toast }) {
   const [form, setForm] = useState({ title:"", message:"", type:"info", onlyPro:false });
   const [loading, setLoading] = useState(false);
@@ -1761,7 +1893,7 @@ function Broadcast({ toast }) {
     <div>
       <div style={{marginBottom:32}}>
         <h2 style={{fontFamily:serif,fontSize:28,fontWeight:700,color:T.dark,margin:"0 0 6px"}}>Xabar yuborish</h2>
-        <p style={{fontFamily:sans,fontSize:14,color:T.muted,margin:0}}>Barcha yoki Pro foydalanuvchilarga bildirishnoma</p>
+        <p style={{fontFamily:sans,fontSize:14,color:T.muted,margin:0}}>Barcha yoki Premium foydalanuvchilarga bildirishnoma</p>
       </div>
       <div style={{display:"grid",gridTemplateColumns:"1fr 320px",gap:24}}>
         <Card style={{padding:"28px"}}>
@@ -1783,7 +1915,7 @@ function Broadcast({ toast }) {
             <label style={{fontFamily:sans,fontSize:13,fontWeight:700,color:T.ink,display:"flex",alignItems:"center",gap:8,cursor:"pointer"}}>
               <input type="checkbox" checked={form.onlyPro} onChange={e=>setForm(f=>({...f,onlyPro:e.target.checked}))}
                 style={{width:16,height:16,accentColor:T.gold}}/>
-              Faqat ✦ Pro foydalanuvchilarga
+              Faqat ✦ Premium foydalanuvchilarga
             </label>
             <Btn onClick={send} loading={loading} size="lg">
               📣 Yuborish
@@ -1806,7 +1938,7 @@ function Broadcast({ toast }) {
 
           <Card style={{padding:"20px",background:"linear-gradient(135deg,#1e1030,#2d1f4a)"}}>
             <p style={{fontFamily:sans,fontSize:12,fontWeight:800,color:"rgba(255,255,255,.6)",textTransform:"uppercase",letterSpacing:"0.08em",margin:"0 0 12px"}}>Eslatmalar</p>
-            {["Yuborishdan oldin matnni tekshiring","Pro belgisi faqat Pro uchun ishlaydi","Xabarlar bevosita ilovaga keladi"].map((t,i)=>(
+            {["Yuborishdan oldin matnni tekshiring","Premium belgisi faqat Premium uchun ishlaydi","Xabarlar bevosita ilovaga keladi"].map((t,i)=>(
               <p key={i} style={{fontFamily:sans,fontSize:12,color:"rgba(255,255,255,.7)",margin:"0 0 8px",display:"flex",gap:6}}>
                 <span style={{color:"#7c5cd6",flexShrink:0}}>›</span>{t}
               </p>
@@ -1826,6 +1958,7 @@ const ADMIN_MENU = [
   { key:"users",     label:"Foydalanuvchilar", emoji:"👥" },
   { key:"courses",   label:"Kurslar",       emoji:"📚" },
   { key:"qna",       label:"Savol-javoblar",emoji:"❓" },
+  { key:"tips",      label:"Maslahatlar",   emoji:"💡" },
   { key:"broadcast", label:"Xabar yuborish",emoji:"📣" },
 ];
 
@@ -1887,6 +2020,7 @@ export default function AdminApp() {
     users:     <Users toast={showToast} />,
     courses:   <Courses toast={showToast} />,
     qna:       <QnaAdmin toast={showToast} />,
+    tips:      <TipsAdmin toast={showToast} />,
     broadcast: <Broadcast toast={showToast} />,
   };
 
