@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import QnaWidget from "./QnaWidget";
 
 const useInView = (threshold = 0.1) => {
   const ref = useRef(null);
@@ -8,7 +9,7 @@ const useInView = (threshold = 0.1) => {
     const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setInView(true); }, { threshold });
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
-  }, []);
+  }, [threshold]);
   return [ref, inView];
 };
 
@@ -59,7 +60,7 @@ const steps = [
   { num: "04", title: "Video darslardan o’rganing", desc: "Qisqa video darslar orqali tanangizni tinglashni o’rganing " },
 ];
 
-const testimonials = [
+const _testimonials = [
   {
     name: "Malika T.",
     city: "Toshkent",
@@ -86,7 +87,7 @@ const testimonials = [
   },
 ];
 
-const stats = [
+const _stats = [
   { value: "50,000+", label: "Faol foydalanuvchi" },
   { value: "200+", label: "Mutaxassis shifokor" },
   { value: "4.9★", label: "App Store reytingi" },
@@ -97,7 +98,7 @@ export default function PorlaLanding() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
-  const [count, setCount] = useState({ users: 0, docs: 0 });
+  const [_count, _setCount] = useState({ users: 0, docs: 0 });
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -173,6 +174,7 @@ export default function PorlaLanding() {
           <a href="#features" className="nav-link">Imkoniyatlar</a>
           <a href="#how" className="nav-link">Qanday ishlaydi</a>
           <a href="#testimonials" className="nav-link">Fikrlar</a>
+          <a href="/qna" className="nav-link">Savol-javoblar</a>
           <button className="btn-primary" onClick={() => navigate("/login")} style={{ padding: "10px 24px", fontSize: 14 }}>Boshlash</button>
         </div>
         <button className="mobile-menu" onClick={() => setMenuOpen(!menuOpen)}
@@ -194,6 +196,7 @@ export default function PorlaLanding() {
           <a href="#features" className="nav-link" onClick={() => setMenuOpen(false)}>Imkoniyatlar</a>
           <a href="#how" className="nav-link" onClick={() => setMenuOpen(false)}>Qanday ishlaydi</a>
           <a href="#testimonials" className="nav-link" onClick={() => setMenuOpen(false)}>Fikrlar</a>
+          <a href="/qna" className="nav-link" onClick={() => setMenuOpen(false)}>Savol-javoblar</a>
           <button className="btn-primary" onClick={() => navigate("/login")} style={{ width: "fit-content" }}>Boshlash</button>
         </div>
       )}
@@ -393,7 +396,7 @@ export default function PorlaLanding() {
       {/* STATS BAND */}
       {/* <section style={{ background: "linear-gradient(135deg, #3d2b26 0%, #5a3e35 100%)", padding: "48px 5%" }}>
         <div className="stats-row" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 32, maxWidth: 1000, margin: "0 auto", textAlign: "center" }}>
-          {stats.map((s, i) => (
+          {_stats.map((s, i) => (
             <AnimatedSection key={i} delay={i * 0.1}>
               <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 700, color: "#e8728a", lineHeight: 1 }}>{s.value}</div>
               <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: "rgba(255,255,255,0.65)", marginTop: 6, fontWeight: 300 }}>{s.label}</div>
@@ -484,7 +487,7 @@ export default function PorlaLanding() {
           </AnimatedSection>
 
           <div className="testimonials-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
-            {testimonials.map((t, i) => (
+            {_testimonials.map((t, i) => (
               <AnimatedSection key={i} delay={i * 0.15}>
                 <div className="testimonial-card">
                   <div style={{ display: "flex", gap: 2, marginBottom: 18 }}>
@@ -576,6 +579,7 @@ export default function PorlaLanding() {
         </div>
         <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "rgba(255,255,255,0.25)", fontWeight: 300 }}>© 2025 Porla. Barcha huquqlar himoyalangan.</p>
       </footer>
+      <QnaWidget />
     </div>
   );
 }

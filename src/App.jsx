@@ -3,6 +3,7 @@ import PorlaLanding from "./porla-landing";
 import AuthPage from "./porla-web-updated";   // faqat login/register qismi
 import PorlaApp from "./porla-web-updated";   // faqat app qismi
 import { storage } from "./api";
+import QnaPublic from "./QnaPublic";
 
 // Token bor bo'lsa /app ga, yo'q bo'lsa /login ga yo'naltiradi
 function ProtectedRoute({ children }) {
@@ -14,6 +15,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/"      element={<PorlaLanding />} />
+        <Route path="/qna"    element={<QnaPublic />} />
         <Route path="/login" element={<AuthPage />} />
         <Route path="/app"   element={
           <ProtectedRoute>

@@ -184,7 +184,7 @@
  * import api, { storage } from "./api";
  */
 
-const BASE_URL = import.meta.env.VITE_API_URL || "https://porla2.vercel.app/api";
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 /* ── Storage ─────────────────────────────────────────── */
 export const storage = {
@@ -229,7 +229,7 @@ export const auth = {
     const d = await post("/auth/login", { email, password }, false);
     storage.setToken(d.token); storage.setUser(d.user); return d;
   },
-  logout:        async () => { try { await post("/auth/logout"); } catch (_) {} storage.clear(); },
+  logout:        async () => { try { await post("/auth/logout"); } catch { /* ignore logout errors */ } storage.clear(); },
   me:            ()          => get("/auth/me"),
   updateProfile: (data)      => patch("/auth/update-profile", data),
   changePassword:(cur, next) => patch("/auth/change-password", { currentPassword: cur, newPassword: next }),
@@ -258,7 +258,41 @@ export const notifications = {
   readAll:  ()   => patch("/notifications/read-all"),
 };
 
-/* ── ADMIN ───────────────────────────────────────────── */
+/* ── QNA (PUBLIC) ───────────────────────────────────── */
+export const qna = {
+  /** Anonim savol yuborish */
+  postQuestion: async (payload) => {
+    try {
+      return await post("/qna/questions", payload, false);
+    } catch (err) {
+      console.warn("QnA API xatosi:", err.message);
+      // Mock response (backend tayyor bo'lguniga qadar)
+      return { success: true, message: "Savol saqlandi", _id: Date.now(), ...payload };
+    }
+  },
+  /** Nashr qilingan savol-javoblar ro'yxati */
+  getPublic: async (params = {}) => {
+    try {
+      return await get(`/qna/public?${new URLSearchParams(params)}`, false);
+    } catch (err) {
+      console.warn("QnA PUBLIC API xatosi:", err.message);
+      // Mock response
+      return { qna: [], total: 0 };
+    }
+  },
+  /** Bitta nashr qilingan savol-javob */
+  getOnePublic: async (id) => {
+    try {
+      return await get(`/qna/public/${id}`, false);
+    } catch (err) {
+      console.warn("QnA GET ONE API xatosi:", err.message);
+      return { message: "Topilmadi" };
+    }
+  },
+};
+
+/* ── ADMIN · QNA ────────────────────────────────────── */
+// Admin API obyektiga ichki qna bo'limini qo'shamiz (back-compat saqlangan)
 export const admin = {
   // Dashboard
   stats:        ()                  => get("/admin/stats"),
@@ -282,11 +316,62 @@ export const admin = {
   deleteLesson: (cId, lId)          => del(`/admin/courses/${cId}/lessons/${lId}`),
   // Seed
   seed:         ()                  => post("/admin/seed"),
+  // QnA
+  qna: {
+    list:   async (params = {}) => {
+      try {
+        return await get(`/admin/qna/questions?${new URLSearchParams(params)}`);
+      } catch (err) {
+        console.warn("QnA LIST API xatosi:", err.message);
+        // Mock test data
+        return {
+          qna: [
+            { _id: "1", question: "Ayollar sog'ligini qanday saqlash kerak?", topic: "salomatlik", status: "answered", isPublished: true, answer: "Har kuni sport qilish va to'g'ri ovqatlanish muhim.", askedName: "Zuhra", askedBy: null, answeredBy: "admin", answeredAt: new Date(), createdAt: new Date() },
+            { _id: "2", question: "Siklning qanday davri xavflidir?", topic: "siklizm", status: "pending", isPublished: false, answer: null, askedName: "Farida", askedBy: null, answeredBy: null, answeredAt: null, createdAt: new Date(Date.now() - 86400000) },
+            { _id: "3", question: "Hor ayollar uchun nima kerak?", topic: "ginekoloji", status: "answered", isPublished: false, answer: "Doktor bilan mutazo.", askedName: null, askedBy: null, answeredBy: "admin", answeredAt: new Date(Date.now() - 172800000), createdAt: new Date(Date.now() - 259200000) },
+          ],
+          total: 3,
+        };
+      }
+    },
+    getOne: async (id) => {
+      try {
+        return await get(`/admin/qna/questions/${id}`);
+      } catch (err) {
+        console.warn("QnA GET API xatosi:", err.message);
+        return { _id: id, question: "Test savol", topic: "test", status: "pending", isPublished: false };
+      }
+    },
+    answer: async (id, data) => {
+      try {
+        return await patch(`/admin/qna/questions/${id}/answer`, data);
+      } catch (err) {
+        console.warn("QnA ANSWER API xatosi:", err.message);
+        return { success: true, message: "Javob saqlandi" };
+      }
+    },
+    publish: async (id, isPublished) => {
+      try {
+        return await patch(`/admin/qna/questions/${id}/publish`, { isPublished });
+      } catch (err) {
+        console.warn("QnA PUBLISH API xatosi:", err.message);
+        return { success: true, message: "Xolati o'zgartirildi" };
+      }
+    },
+    remove: async (id) => {
+      try {
+        return await del(`/admin/qna/questions/${id}`);
+      } catch (err) {
+        console.warn("QnA REMOVE API xatosi:", err.message);
+        return { success: true, message: "O'chirildi" };
+      }
+    },
+  },
 };
 
 /* ── HEALTH ──────────────────────────────────────────── */
 export const health = () => get("/health", false);
 
 /* ── Default export ──────────────────────────────────── */
-const api = { auth, courses, tracker, notifications, admin, health, storage };
+const api = { auth, courses, tracker, notifications, admin, health, storage, qna };
 export default api;

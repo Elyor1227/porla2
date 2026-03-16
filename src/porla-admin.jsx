@@ -1150,7 +1150,7 @@ function Users({ toast }) {
   const [search, setSearch]   = useState("");
   const [filter, setFilter]   = useState("all");
   const [page, setPage]       = useState(1);
-  const [selected, setSelected] = useState(null); // user detail modal
+  const [_selected, _setSelected] = useState(null); // user detail modal (unused)
   const [proModal, setProModal] = useState(null);
   const [months, setMonths]   = useState(1);
   const [notifModal, setNotifModal] = useState(null);
@@ -1163,7 +1163,9 @@ function Users({ toast }) {
       .finally(() => setLoading(false));
   }, [search, filter, page]);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { load(); }, [load]);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setPage(1); }, [search, filter]);
 
   const handlePro = async (isPro) => {
@@ -1241,7 +1243,7 @@ function Users({ toast }) {
                 </tr>
               </thead>
               <tbody>
-                {users.map((u,i)=>(
+                {users.map((u)=>(
                   <tr key={u._id} style={{borderBottom:`1px solid ${T.border}`,transition:"background .15s"}}
                     onMouseEnter={e=>e.currentTarget.style.background="#faf8ff"}
                     onMouseLeave={e=>e.currentTarget.style.background="transparent"}>
@@ -1374,6 +1376,7 @@ function Courses({ toast }) {
     setLoading(true);
     adminApi.courses().then(d=>setCourses(d.courses)).finally(()=>setLoading(false));
   };
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(()=>load(),[]);
 
   const loadLessons = (course) => {
@@ -1594,6 +1597,150 @@ function Courses({ toast }) {
 }
 
 /* ── BROADCAST ── */
+/* ── QNA MANAGEMENT ── */
+function QnaAdmin({ toast }) {
+  const [questions, setQuestions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [status, setStatus] = useState("all"); // all, pending, answered
+  const [published, setPublished] = useState("all"); // all, published, unpublished
+  const [search, setSearch] = useState("");
+  const [modal, setModal] = useState(null);
+  const [answerForm, setAnswerForm] = useState({ answer:"", isPublished:false });
+
+  const load = useCallback(() => {
+    setLoading(true);
+    adminApi.qna.list({ page, limit:15, status: status==="all"?undefined:status, search, published: published==="all"?undefined:published })
+      .then(d => setQuestions(d.qna || d.questions || []))
+      .catch(e => toast(e.message, "error"))
+      .finally(() => setLoading(false));
+  }, [page, status, published, search, toast]);
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { load(); }, [load]);
+
+  const handleAnswer = async () => {
+    if (!answerForm.answer.trim()) { toast("Javob yozilmadi", "error"); return; }
+    try {
+      await adminApi.qna.answer(modal._id, { answer: answerForm.answer.trim(), isPublished: answerForm.isPublished });
+      toast("Javob berildi", "success");
+      setModal(null);
+      setAnswerForm({ answer:"", isPublished:false });
+      load();
+    } catch(e) { toast(e.message, "error"); }
+  };
+
+  const handlePublish = async (q, pub) => {
+    try {
+      await adminApi.qna.publish(q._id, pub);
+      toast(pub ? "E'lon qilindi" : "E'lon bekor qilindi", "success");
+      load();
+    } catch(e) { toast(e.message, "error"); }
+  };
+
+  const handleDelete = async (q) => {
+    if (!confirm(`"${q.question.substring(0,40)}..." o'chirilsinmi?`)) return;
+    try {
+      await adminApi.qna.remove(q._id);
+      toast("O'chirildi", "success");
+      load();
+    } catch(e) { toast(e.message, "error"); }
+  };
+
+  return (
+    <div>
+      <div style={{marginBottom:28}}>
+        <h2 style={{fontFamily:serif,fontSize:28,fontWeight:700,color:T.dark,margin:"0 0 4px"}}>Savol-javoblar</h2>
+        <p style={{fontFamily:sans,fontSize:13,color:T.muted,margin:0}}>Anonim savollarni ko'rish va javob berish</p>
+      </div>
+
+      {/* Filters */}
+      <Card style={{padding:"16px 20px",marginBottom:20}}>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(180px,1fr))",gap:12}}>
+          <input value={search} onChange={e=>{ setSearch(e.target.value); setPage(1); }} placeholder="🔍 Qidirish..."
+            style={{padding:"9px 14px",fontFamily:sans,fontSize:13,color:T.dark,background:"#f9f7ff",border:`1.5px solid ${T.border}`,borderRadius:10,outline:"none"}} />
+          <select value={status} onChange={e=>{ setStatus(e.target.value); setPage(1); }}
+            style={{padding:"9px 14px",fontFamily:sans,fontSize:13,color:T.dark,background:"#f9f7ff",border:`1.5px solid ${T.border}`,borderRadius:10,outline:"none",cursor:"pointer"}}>
+            <option value="all">Barcha savollar</option>
+            <option value="pending">Javob kutilmoqda</option>
+            <option value="answered">Javoblangan</option>
+          </select>
+          <select value={published} onChange={e=>{ setPublished(e.target.value); setPage(1); }}
+            style={{padding:"9px 14px",fontFamily:sans,fontSize:13,color:T.dark,background:"#f9f7ff",border:`1.5px solid ${T.border}`,borderRadius:10,outline:"none",cursor:"pointer"}}>
+            <option value="all">Barcha e'lonlar</option>
+            <option value="published">Faqat e'lon qilingan</option>
+            <option value="unpublished">Faqat e'lon qilinmagan</option>
+          </select>
+        </div>
+      </Card>
+
+      {loading ? (
+        <Spinner />
+      ) : questions.length === 0 ? (
+        <Card style={{padding:"48px 24px",textAlign:"center"}}>
+          <div style={{fontSize:40,marginBottom:16}}>❓</div>
+          <p style={{fontFamily:sans,fontSize:14,fontWeight:700,color:T.dark,margin:0}}>Savol topilmadi</p>
+        </Card>
+      ) : (
+        <div style={{display:"flex",flexDirection:"column",gap:12}}>
+          {questions.map(q => (
+            <Card key={q._id} style={{padding:"16px 20px"}}>
+              <div style={{display:"flex",gap:14,alignItems:"flex-start"}}>
+                <div style={{width:44,height:44,borderRadius:12,background:q.status==="pending"?"#fef3c7":"#f0fdf4",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,flexShrink:0}}>
+                  {q.status==="pending"?"⏳":"✓"}
+                </div>
+                <div style={{flex:1}}>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:6,gap:8,flexWrap:"wrap"}}>
+                    <p style={{fontFamily:sans,fontSize:14,fontWeight:700,color:T.dark,margin:0}}>{q.question}</p>
+                    <div style={{display:"flex",gap:4,flexWrap:"wrap"}}>
+                      {q.topic && <Badge label={`# ${q.topic}`} color="#7c3aed"/>}
+                      {q.isPublished && <Badge label="E'lon" color={T.green}/>}
+                      {q.status==="answered" && <Badge label="Javoblangan" color={T.blue}/>}
+                    </div>
+                  </div>
+                  {q.askedName && <p style={{fontFamily:sans,fontSize:12,color:T.muted,margin:"0 0 6px"}}>👤 {q.askedName}</p>}
+                  {q.answer && <p style={{fontFamily:sans,fontSize:13,color:T.ink,margin:"0 0 6px",lineHeight:1.5,background:"#f9f7ff",padding:"10px 12px",borderRadius:8}}>{q.answer}</p>}
+                  <p style={{fontFamily:sans,fontSize:11,color:T.muted,margin:0}}>{new Date(q.createdAt).toLocaleDateString("uz-UZ",{year:"numeric",month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"})}</p>
+                </div>
+                <div style={{display:"flex",gap:6,flexDirection:"column",flexShrink:0}}>
+                  <Btn size="sm" variant={q.status==="pending"?"primary":"success"} onClick={()=>{ setModal(q); setAnswerForm({ answer: q.answer||"", isPublished: q.isPublished||false }); }}>
+                    {q.status==="pending"?"Javob":"Edit"}
+                  </Btn>
+                  <Btn size="sm" variant={q.isPublished?"ghost":"primary"} onClick={()=>handlePublish(q, !q.isPublished)}>
+                    {q.isPublished?"Bekor":"E'lon"}
+                  </Btn>
+                  <Btn size="sm" variant="danger" onClick={()=>handleDelete(q)}>O'chirish</Btn>
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
+      )}
+
+      {/* Answer Modal */}
+      {modal && (
+        <Modal open={true} onClose={()=>setModal(null)} title="Javob berish">
+          <div style={{marginBottom:16}}>
+            <p style={{fontFamily:sans,fontSize:12,fontWeight:700,color:T.muted,textTransform:"uppercase",letterSpacing:"0.05em",margin:"0 0 6px"}}>Savol</p>
+            <p style={{fontFamily:sans,fontSize:14,color:T.dark,margin:0,lineHeight:1.6}}>{modal.question}</p>
+            {modal.askedName && <p style={{fontFamily:sans,fontSize:12,color:T.muted,margin:"8px 0 0"}}>👤 {modal.askedName}</p>}
+          </div>
+          <Textarea label="Javob" value={answerForm.answer} onChange={e=>setAnswerForm(f=>({...f,answer:e.target.value}))} placeholder="Javobingizni kiriting..."/>
+          <label style={{fontFamily:sans,fontSize:13,fontWeight:700,color:T.ink,display:"flex",alignItems:"center",gap:8,cursor:"pointer",marginBottom:20}}>
+            <input type="checkbox" checked={answerForm.isPublished} onChange={e=>setAnswerForm(f=>({...f,isPublished:e.target.checked}))}
+              style={{width:16,height:16,accentColor:T.purple}}/>
+            Darhol e'lon qiling
+          </label>
+          <div style={{display:"flex",gap:10}}>
+            <Btn onClick={handleAnswer} style={{flex:1}}>Saqlash</Btn>
+            <Btn variant="ghost" onClick={()=>setModal(null)} style={{flex:1}}>Bekor</Btn>
+          </div>
+        </Modal>
+      )}
+    </div>
+  );
+}
+
 function Broadcast({ toast }) {
   const [form, setForm] = useState({ title:"", message:"", type:"info", onlyPro:false });
   const [loading, setLoading] = useState(false);
@@ -1678,29 +1825,12 @@ const ADMIN_MENU = [
   { key:"dashboard", label:"Dashboard",     emoji:"📊" },
   { key:"users",     label:"Foydalanuvchilar", emoji:"👥" },
   { key:"courses",   label:"Kurslar",       emoji:"📚" },
+  { key:"qna",       label:"Savol-javoblar",emoji:"❓" },
   { key:"broadcast", label:"Xabar yuborish",emoji:"📣" },
 ];
 
-export default function AdminApp() {
-  const [tab, setTab]       = useState("dashboard");
-  const [toast, setToast_]  = useState({ msg:"", type:"success" });
-  const [sideOpen, setSide] = useState(false);
-  const w = useW();
-  const isLg = w >= 1024;
-
-  const showToast = useCallback((msg, type="success") => {
-    setToast_({ msg, type });
-    setTimeout(() => setToast_({ msg:"", type:"success" }), 3500);
-  }, []);
-
-  const screens = {
-    dashboard: <Dashboard />,
-    users:     <Users toast={showToast} />,
-    courses:   <Courses toast={showToast} />,
-    broadcast: <Broadcast toast={showToast} />,
-  };
-
-  const SideContent = () => (
+function SidebarContent({ tab, setTab, setSide }) {
+  return (
     <>
       <div style={{padding:"28px 20px 20px",borderBottom:`1px solid rgba(255,255,255,.08)`}}>
         <div style={{display:"flex",alignItems:"center",gap:10}}>
@@ -1738,6 +1868,27 @@ export default function AdminApp() {
       </div>
     </>
   );
+}
+
+export default function AdminApp() {
+  const [tab, setTab]       = useState("dashboard");
+  const [toast, setToast_]  = useState({ msg:"", type:"success" });
+  const [sideOpen, setSide] = useState(false);
+  const w = useW();
+  const isLg = w >= 1024;
+
+  const showToast = useCallback((msg, type="success") => {
+    setToast_({ msg, type });
+    setTimeout(() => setToast_({ msg:"", type:"success" }), 3500);
+  }, []);
+
+  const screens = {
+    dashboard: <Dashboard />,
+    users:     <Users toast={showToast} />,
+    courses:   <Courses toast={showToast} />,
+    qna:       <QnaAdmin toast={showToast} />,
+    broadcast: <Broadcast toast={showToast} />,
+  };
 
   return (
     <div style={{display:"flex",minHeight:"100vh",background:T.bg,fontFamily:sans}}>
@@ -1754,7 +1905,7 @@ export default function AdminApp() {
       {/* Sidebar — desktop */}
       {isLg && (
         <aside style={{width:220,flexShrink:0,background:T.sidebar,display:"flex",flexDirection:"column",position:"sticky",top:0,height:"100vh"}}>
-          <SideContent/>
+          <SidebarContent tab={tab} setTab={setTab} setSide={setSide} />
         </aside>
       )}
 
@@ -1764,7 +1915,7 @@ export default function AdminApp() {
           <div style={{position:"absolute",inset:0,background:"rgba(26,16,48,.6)",backdropFilter:"blur(3px)"}}/>
           <aside style={{position:"absolute",left:0,top:0,bottom:0,width:220,background:T.sidebar,display:"flex",flexDirection:"column",zIndex:1}}
             onClick={e=>e.stopPropagation()}>
-            <SideContent/>
+            <SidebarContent tab={tab} setTab={setTab} setSide={setSide} />
           </aside>
         </div>
       )}
