@@ -1,3 +1,4 @@
+import React from 'react'
 import { useEffect, useState, useMemo } from "react";
 import api from "./api";
 
@@ -22,7 +23,9 @@ export default function QnaPublic() {
       try {
         const d = await api.qna.getPublic({ page, limit, search, topic });
         if (!mounted) return;
-        setItems(d.items || d.qna || d.data || []);
+  // Faqat isPublished: true bo'lgan savol-javoblarni hammaga ko'rsatish
+  const all = d.items || d.qna || d.data || [];
+  setItems(all.filter(q => q.isPublished));
         setTotal(d.total || d.count || 0);
       } catch (e) {
         if (mounted) setErr(e.message || "Xatolik");

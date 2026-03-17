@@ -1,3 +1,4 @@
+import React from 'react'
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import QnaWidget from "./QnaWidget";
@@ -357,6 +358,19 @@ export default function PorlaLanding() {
                       </div>
                       <div style={{ width: 24, height: 24, borderRadius: "50%", background: "linear-gradient(135deg, #c2545a, #e8728a)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "white" }}>→</div>
                     </div>
+                    <div style={{ background: "white", borderRadius: 16, margin: "12px 0", padding: "12px 14px", boxShadow: "0 2px 10px rgba(0,0,0,0.05)", display: "flex", alignItems: "center", gap: 10 }}>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 600, color: "#3d2b26" }}>Bugungi tibbiy fakt</div>
+                        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 9, color: "#9a8580" }}>emir organizm bo‘ylab kislorod tashishda muhim rol o‘ynaydi. </div>
+                      </div>
+                      <div style={{ width: 24, height: 24, borderRadius: "50%", background: "linear-gradient(135deg, #c2545a, #e8728a)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "white" }}><i class="fi fi-rr-lightbulb-on"></i></div>
+                    </div>
+                    <div style={{ background: "white", borderRadius: 16, margin: "12px 0", padding: "12px 14px", boxShadow: "0 2px 10px rgba(0,0,0,0.05)", display: "flex", alignItems: "center", gap: 10 }}>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 600, color: "#3d2b26" }}>Anonim savol yo’llash </div>
+                      </div>
+                      <div style={{ width: 24, height: 24, borderRadius: "50%", background: "linear-gradient(135deg, #c2545a, #e8728a)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "white" }}><i class="fi fi-rr-comment-dots"></i></div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -377,7 +391,7 @@ export default function PorlaLanding() {
               </div>
 
               <div style={{
-                position: "absolute", bottom: 60, right: -55,
+                position: "absolute", bottom: 30, right: -55,
                 background: "white", borderRadius: 16, padding: "10px 14px",
                 boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
                 display: "flex", alignItems: "center", gap: 8,

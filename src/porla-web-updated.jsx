@@ -4,6 +4,7 @@
  * import AdminApp from "./porla-admin";
  * import PorlaCalendar from "./PorlaCalendar__2_";
  */
+import React from 'react'
 import { useState, useEffect, useCallback } from "react";
 import api, { storage } from "./api";
 import AdminApp from "./porla-admin";
@@ -698,12 +699,25 @@ function Notifications({ w, onRead }) {
   const [loading, setLoading] = useState(true);
   const [err, setErr]         = useState("");
 
+  // Anonymous QnA javoblarni ham notification sifatida ko'rsatish
   const load = useCallback(() => {
-    api.notifications.getAll()
-      .then(d => {
-        // Backend may return notifications under different keys depending on implementation
-        const list = d.notifications || d.items || d.data || [];
-        setNotifs(list);
+    Promise.all([
+      api.notifications.getAll(),
+      api.auth.me().then(res => res.user?.email ? api.qnaAnon.answers(res.user.email) : { answers: [] })
+    ])
+      .then(([notifData, qnaData]) => {
+        const notifList = notifData.notifications || notifData.items || notifData.data || [];
+        // isPublished true bo'lganlar hamma uchun, false bo'lganlar faqat o'ziga ko'rinadi
+        const allQna = qnaData.answers || qnaData.qna || qnaData.items || [];
+        const qnaNotifs = allQna.map(a => ({
+          _id: a._id || (a.question + a.answer),
+          type: "info",
+          title: "Savolingizga javob",
+          message: `Savol: ${a.question || ''}\nJavob: ${a.answer || ''}`,
+          createdAt: a.answeredAt || a.createdAt || Date.now(),
+          isRead: false
+        }));
+        setNotifs([...notifList, ...qnaNotifs]);
         if (onRead) onRead(0);
       })
       .catch(e => setErr(e.message))

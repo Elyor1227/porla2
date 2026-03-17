@@ -15,9 +15,6 @@
 // const TOKEN_KEY = "porla_token";
 // const USER_KEY  = "porla_user";
 
-// export const storage = {
-//   getToken:   ()      => localStorage.getItem(TOKEN_KEY),
-//   setToken:   (t)     => localStorage.setItem(TOKEN_KEY, t),
 //   removeToken:()      => localStorage.removeItem(TOKEN_KEY),
 //   getUser:    ()      => { try { return JSON.parse(localStorage.getItem(USER_KEY)); } catch { return null; } },
 //   setUser:    (u)     => localStorage.setItem(USER_KEY, JSON.stringify(u)),
@@ -25,12 +22,6 @@
 //   clear:      ()      => { localStorage.removeItem(TOKEN_KEY); localStorage.removeItem(USER_KEY); },
 // };
 
-// // ─── HTTP helper ─────────────────────────────────────────
-// async function request(method, endpoint, body = null, requireAuth = true) {
-//   const headers = { "Content-Type": "application/json" };
-
-//   if (requireAuth) {
-//     const token = storage.getToken();
 //     if (!token) throw new Error("TOKEN_MISSING");
 //     headers["Authorization"] = `Bearer ${token}`;
 //   }
@@ -41,9 +32,7 @@
 //   const res = await fetch(`${BASE_URL}${endpoint}`, config);
 //   const data = await res.json();
 
-//   // Token muddati tugagan — sahifani yangilash
-//   if (res.status === 401 && data.message?.includes("muddati")) {
-//     storage.clear();
+//   // Token muddati tugagan — sahifani yangilash&& data.message?.includes("muddati")) {  ear();
 //     window.location.reload();
 //     throw new Error(data.message);
 //   }
@@ -393,6 +382,7 @@ export const admin = {
   blockUser:    (id, isBlocked)     => patch(`/admin/users/${id}/block`, { isBlocked }),
   deleteUser:   (id)                => del(`/admin/users/${id}`),
   notifyUser:   (id, data)          => post(`/admin/users/${id}/notify`, data),
+  notifyAll:    (data)              => post("/qna/admin/notify-all", data),
   broadcast:    (data)              => post("/admin/broadcast", data),
   // Courses
   courses:      ()                  => get("/admin/courses"),
@@ -410,7 +400,7 @@ export const admin = {
   qna: {
     list:   async (params = {}) => {
       try {
-        return await get(`/admin/qna/questions?${new URLSearchParams(params)}`);
+        return await get(`/qna/admin/questions?${new URLSearchParams(params)}`);
       } catch (err) {
         console.warn("QnA LIST API xatosi:", err.message);
         // Mock test data
@@ -426,7 +416,7 @@ export const admin = {
     },
     getOne: async (id) => {
       try {
-        return await get(`/admin/qna/questions/${id}`);
+        return await get(`/qna/admin/questions/${id}`);
       } catch (err) {
         console.warn("QnA GET API xatosi:", err.message);
         return { _id: id, question: "Test savol", topic: "test", status: "pending", isPublished: false };
@@ -434,7 +424,7 @@ export const admin = {
     },
     answer: async (id, data) => {
       try {
-        return await patch(`/admin/qna/questions/${id}/answer`, data);
+        return await patch(`/qna/admin/questions/${id}/answer`, data);
       } catch (err) {
         console.warn("QnA ANSWER API xatosi:", err.message);
         return { success: true, message: "Javob saqlandi" };
@@ -442,7 +432,7 @@ export const admin = {
     },
     publish: async (id, isPublished) => {
       try {
-        return await patch(`/admin/qna/questions/${id}/publish`, { isPublished });
+        return await patch(`/qna/admin/questions/${id}/publish`, { isPublished });
       } catch (err) {
         console.warn("QnA PUBLISH API xatosi:", err.message);
         return { success: true, message: "Xolati o'zgartirildi" };
@@ -450,7 +440,7 @@ export const admin = {
     },
     remove: async (id) => {
       try {
-        return await del(`/admin/qna/questions/${id}`);
+        return await del(`/qna/admin/questions/${id}`);
       } catch (err) {
         console.warn("QnA REMOVE API xatosi:", err.message);
         return { success: true, message: "O'chirildi" };
@@ -485,5 +475,33 @@ export const admin = {
 export const health = () => get("/health", false);
 
 /* ── Default export ──────────────────────────────────── */
-const api = { auth, courses, tracker, notifications, admin, health, storage, qna, tips };
+const qnaAnon = {
+  // checkAnswers: async (contact) => {
+  //   const res = await fetch(`/api/qna/anon/check?contact=${encodeURIComponent(contact)}`);
+  //   return await res.json();
+  // },
+  // Yangi endpoint: contact orqali barcha javoblarni olish
+  answers: async (contact) => {
+    const res = await fetch(`${BASE_URL}/qna/anon/answers?contact=${encodeURIComponent(contact)}`);
+    return await res.json();
+  },
+};
+const api = { auth, courses, tracker, notifications, admin, health, storage, qna, tips, qnaAnon };
 export default api;
+
+// After successfully answering a question:
+// await api.admin.qna.answer(questionId, { answer, isPublished: false });
+// Notify the user privately if not published
+async function answerAndNotify(questionId, answer, askedBy) {
+  await api.admin.qna.answer(questionId, { answer, isPublished: false });
+  if (askedBy === null) {
+    await api.admin.notifyUser(askedBy, {
+      type: "qna_answer",
+      questionId,
+      answer,
+      message: "Sizning savolingizga javob berildi!",
+    });
+  }
+}
+// Usage:
+// answerAndNotify(q._id, javobMatni, q.askedBy);

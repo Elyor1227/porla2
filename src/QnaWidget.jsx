@@ -1,3 +1,5 @@
+
+import React from 'react'
 import { useState, useEffect } from "react";
 import api from "./api";
 
@@ -7,10 +9,37 @@ export default function QnaWidget() {
   const [ok, setOk] = useState("");
   const [err, setErr] = useState("");
   const [form, setForm] = useState({ question: "", topic: "", askedName: "", contact: "" });
+  const [answers, setAnswers] = useState([]);
+  const [loadingAnswers, setLoadingAnswers] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    if (!open) { setErr(""); setOk(""); }
+    if (!open) { setErr(""); setOk(""); setAnswers([]); }
   }, [open]);
+
+  // Foydalanuvchi ma'lumotini olish (agar login bo'lgan bo'lsa)
+  useEffect(() => {
+    api.auth.me().then(res => {
+      if (res && res.user && res.user.email) setUser(res.user);
+      else setUser(null);
+    }).catch(() => setUser(null));
+  }, []);
+
+  // Tizimga kirgan foydalanuvchi uchun faqat isPublished: false javoblarni olish (faqat o'ziga ko'rsatiladi)
+  useEffect(() => {
+    if (user && user.email) {
+      setLoadingAnswers(true);
+      api.qnaAnon.answers(user.email)
+        .then(res => {
+          const all = res.answers || res.qna || res.items || [];
+          setAnswers(all.filter(a => a.isPublished === false));
+        })
+        .catch(() => setAnswers([]))
+        .finally(() => setLoadingAnswers(false));
+    } else {
+      setAnswers([]);
+    }
+  }, [user]);
 
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
 
@@ -23,7 +52,8 @@ export default function QnaWidget() {
         question: form.question.trim(),
         topic: form.topic?.trim() || undefined,
         askedName: form.askedName?.trim() || undefined,
-        contact: form.contact?.trim() || undefined,
+        contact: user && user.email ? user.email : undefined,
+        askedBy: user && user._id ? user._id : undefined,
       });
       setOk("Savolingiz yuborildi! Rahmat ✨");
       setForm({ question: "", topic: "", askedName: "", contact: "" });
@@ -44,7 +74,7 @@ export default function QnaWidget() {
           style={{ width: 56, height: 56, borderRadius: 16, border: "none", cursor: "pointer",
                    background: "linear-gradient(135deg,#d64f6e,#e8728a)", color: "white", fontSize: 22,
                    boxShadow: "0 12px 30px rgba(214,79,110,.35)" }}>
-          <i class="fi fi-rs-comment-dots"></i>
+          <i className="fi fi-rs-comment-dots"></i>
         </button>
       )}
 
@@ -90,6 +120,8 @@ export default function QnaWidget() {
           <p style={{ color: "#9a7585", fontSize: 11, marginTop: 8 }}>
             Savolingiz shifokor tomonidan anonim ko'rib chiqiladi.
           </p>
+
+          // Javoblar endi faqat notification/messages bo'limida ko'rinadi
         </div>
       )}
     </div>
