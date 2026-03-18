@@ -594,7 +594,7 @@ export default function PorlaLanding() {
         </div>
         <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "rgba(255,255,255,0.25)", fontWeight: 300 }}>© 2025 Porla. Barcha huquqlar himoyalangan.</p>
       </footer>
-      <QnaWidget />
+      {/* <QnaWidget /> */}
     </div>
   );
 }

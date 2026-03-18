@@ -382,7 +382,7 @@ export const admin = {
   blockUser:    (id, isBlocked)     => patch(`/admin/users/${id}/block`, { isBlocked }),
   deleteUser:   (id)                => del(`/admin/users/${id}`),
   notifyUser:   (id, data)          => post(`/admin/users/${id}/notify`, data),
-  notifyAll:    (data)              => post("/qna/admin/notify-all", data),
+  // notifyAll:    (data)              => post("/qna/admin/notify-all", data),
   broadcast:    (data)              => post("/admin/broadcast", data),
   // Courses
   courses:      ()                  => get("/admin/courses"),
@@ -451,7 +451,7 @@ export const admin = {
   tips: {
     list: async (params = {}) => {
       try {
-        return await get(`/admin/tips?${new URLSearchParams(params)}`);
+        return await get(`/tips`);
       } catch (err) {
         console.warn("ADMIN TIPS LIST API xatosi:", err.message);
         return { tips: [
@@ -460,13 +460,13 @@ export const admin = {
       }
     },
     create: async (data) => {
-      try { return await post(`/admin/tips`, data); } catch (err) { console.warn("ADMIN TIPS CREATE xato:", err.message); return { success:true, tip: { _id: Date.now().toString(), ...data } }; }
+      try { return await post(`/tips/admin/tips`, data); } catch (err) { console.warn("ADMIN TIPS CREATE xato:", err.message); return { success:true, tip: { _id: Date.now().toString(), ...data } }; }
     },
     update: async (id, data) => {
-      try { return await patch(`/admin/tips/${id}`, data); } catch (err) { console.warn("ADMIN TIPS UPDATE xato:", err.message); return { success:true, tip: { _id:id, ...data } }; }
-    },
+      try { return await patch(`/tips/admin/tips/${id}`, data); } catch (err) { console.warn("ADMIN TIPS UPDATE xato:", err.message); return { success:true, tip: { _id:id, ...data } }; }
+    },  
     remove: async (id) => {
-      try { return await del(`/admin/tips/${id}`); } catch (err) { console.warn("ADMIN TIPS DELETE xato:", err.message); return { success:true }; }
+      try { return await del(`/tips/admin/tips/${id}`); } catch (err) { console.warn("ADMIN TIPS DELETE xato:", err.message); return { success:true }; }
     }
   },
 };
@@ -492,16 +492,16 @@ export default api;
 // After successfully answering a question:
 // await api.admin.qna.answer(questionId, { answer, isPublished: false });
 // Notify the user privately if not published
-async function answerAndNotify(questionId, answer, askedBy) {
-  await api.admin.qna.answer(questionId, { answer, isPublished: false });
-  if (askedBy === null) {
-    await api.admin.notifyUser(askedBy, {
-      type: "qna_answer",
-      questionId,
-      answer,
-      message: "Sizning savolingizga javob berildi!",
-    });
-  }
-}
+// async function answerAndNotify(questionId, answer, askedBy) {
+//   await api.admin.qna.answer(questionId, { answer, isPublished: false });
+//   if (askedBy === null) {
+//     await api.admin.notifyUser(askedBy, {
+//       type: "qna_answer",
+//       questionId,
+//       answer,
+//       message: "Sizning savolingizga javob berildi!",
+//     });
+//   }
+// }
 // Usage:
 // answerAndNotify(q._id, javobMatni, q.askedBy);

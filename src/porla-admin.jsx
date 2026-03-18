@@ -727,11 +727,11 @@ function QnaAdmin({ toast }) {
       if (pub) {
         // QnA answer may have changed, so fetch latest
         const updated = await adminApi.qna.getOne(q._id);
-        await adminApi.notifyAll({
-          type: "info",
-          title: "Yangi savol-javob e'lon qilindi",
-          message: `Savol: ${updated.question}\nJavob: ${updated.answer}`,
-        });
+        // await adminApi.notifyAll({
+        //   type: "info",
+        //   title: "Yangi savol-javob e'lon qilindi",
+        //   message: `Savol: ${updated.question}\nJavob: ${updated.answer}`,
+        // });
       }
       toast(pub ? "E'lon qilindi" : "E'lon bekor qilindi", "success");
       load();

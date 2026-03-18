@@ -138,7 +138,7 @@ function Sidebar({ tab, setTab, user, unread }) {
         {!user?.isPro && (
           <button onClick={openPaymentBot}
             style={{ width:"100%", marginTop:12, padding:"8px 12px", fontSize:12, fontFamily:sans, fontWeight:700, background:"linear-gradient(135deg,#e9a825,#f5bc3a)", color:"white", border:"none", borderRadius:10, cursor:"pointer" }}>
-            ✦ Premium xaridi
+            <img width={24} src="/8516604.png" alt="" /> Premium xaridi
           </button>
         )}
       </div>
@@ -399,20 +399,59 @@ function VideoPlayer({ url, title }) {
 }
 
 /* ── LESSON MODAL ─────────────────────────────────────── */
-function LessonModal({ lesson, courseTitle, courseId, onClose, onNavigate }) {
+function LessonModal({ userIsPro, lesson, courseTitle, courseId, onClose, onNavigate }) {
   const [lessonData, setLessonData] = useState(lesson);
   const [loading, setLoading] = useState(false);
   const [completing, setCompleting] = useState(false);
 
   useEffect(() => {
-    if (courseId && lesson._id) {
-      setLoading(true);
-      api.courses.getLesson(courseId, lesson._id)
-        .then(d => setLessonData({ ...d.lesson, navigation: d.navigation }))
-        .catch(() => setLessonData(lesson))
-        .finally(() => setLoading(false));
-    }
-  }, [courseId, lesson._id]);
+    // if (courseId && lesson._id) {
+    //   setLoading(true);
+    //   api.courses.getLesson(courseId, lesson._id)
+    //     .then(d => setLessonData({ ...d.lesson, navigation: d.navigation }))
+    //     .catch(() => setLessonData(lesson))
+    //     .finally(() => setLoading(false));
+    // }
+   if (lesson.isLocked) {
+    setLessonData(lesson);
+    return;
+  }
+
+  if (courseId && lesson._id) {
+    setLoading(true);
+    api.courses.getLesson(courseId, lesson._id)
+      .then(d => setLessonData({ ...d.lesson, navigation: d.navigation }))
+      .catch(error => {
+        // 403 – Premium dars ekanligini aniqlash
+        let isPremiumLocked = false;
+        let lockMessage = 'Bu dars premium foydalanuvchilar uchun';
+
+        // Turli xil error formatlarini tekshirish
+        if (error.response?.status === 403) {
+          isPremiumLocked = true;
+          lockMessage = error.response.data?.message || lockMessage;
+        } else if (error.status === 403) {
+          isPremiumLocked = true;
+          lockMessage = error.data?.message || lockMessage;
+        } else if (error.message?.includes('403') || error.toString().includes('403')) {
+          isPremiumLocked = true;
+        }
+
+        if (isPremiumLocked) {
+          setLessonData({
+            ...lesson,
+            isLocked: true,
+            lockMessage: lockMessage
+          });
+        } else {
+          // Boshqa xatoliklar – eski holatga tushamiz
+          setLessonData(lesson);
+        }
+      })
+      .finally(() => setLoading(false));
+  }
+  
+  }, [courseId, lesson._id, lesson.isLocked]);
 
   const handleCompleteLesson = async () => {
     if (!courseId || !lessonData._id) return;
@@ -445,12 +484,13 @@ function LessonModal({ lesson, courseTitle, courseId, onClose, onNavigate }) {
           <button onClick={onClose} style={{ width:36, height:36, borderRadius:10, background:T.roseLight, border:"none", cursor:"pointer", fontSize:18, color:T.rose, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>✕</button>
         </div>
         <div style={{ padding:"24px" }}>
-          {lessonData.isLocked ? (
+          {(lessonData.isLocked) ? (
+            
             <div style={{ textAlign:"center", padding:"40px 20px" }}>
               <div style={{ fontSize:56, marginBottom:16 }}>🔒</div>
               <p style={{ fontFamily:serif, fontSize:22, fontWeight:700, color:T.dark, margin:"0 0 8px" }}>Premium kontent</p>
               <p style={{ fontFamily:sans, fontSize:14, color:T.muted, margin:"0 0 24px", lineHeight:1.6 }}>Bu dars faqat Premium obunachilarga ochiq. Premiumga o'ting va barcha darslarga kiring.</p>
-              <Btn variant="gold" size="lg" onClick={openPaymentBot}>✦ Premiumga o'tish</Btn>
+              <Btn variant="gold" size="lg" onClick={openPaymentBot}> <img width="24" src="/8516604.png" alt="" /> Premiumga o'tish</Btn>
             </div>
           ) : (
             <>
@@ -570,12 +610,12 @@ function CourseDetail({ course, userIsPro, onBack }) {
             <div style={{ background:"linear-gradient(135deg,#fffbeb,#fef9ef)", border:"1.5px solid rgba(233,168,37,.3)", borderRadius:18, padding:"18px 20px", textAlign:"center", marginTop:8 }}>
               <p style={{ fontFamily:sans, fontSize:14, fontWeight:700, color:"#92400e", margin:"0 0 4px" }}>✦ {lessons.length - 1} ta dars Premium uchun</p>
               <p style={{ fontFamily:sans, fontSize:12, color:"#b45309", margin:"0 0 14px" }}>Premium obunaga o'ting va barcha darslarga kiring</p>
-              <Btn variant="gold" size="sm" onClick={openPaymentBot}>Premiumga o'tish ✦</Btn>
+              <Btn variant="gold" size="sm" onClick={openPaymentBot}>Premiumga o'tish <img width={24} src="/8516604.png" alt="" /></Btn>
             </div>
           )}
         </div>
       )}
-      {active && <LessonModal lesson={active} courseTitle={course.title} courseId={course._id} onClose={() => setActive(null)} onNavigate={handleNavigateLesson}/>}
+      {active && <LessonModal userIsPro={userIsPro} lesson={active} courseTitle={course.title} courseId={course._id} onClose={() => setActive(null)} onNavigate={handleNavigateLesson}/>}
     </div>
   );
 }
@@ -658,10 +698,10 @@ function Modules({ w, user }) {
           <div style={{ background:"linear-gradient(145deg,#1e1015,#2d1520)", borderRadius:24, padding:"24px" }}>
             <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:20, flexWrap:"wrap", gap:12 }}>
               <div>
-                <p style={{ fontFamily:serif, fontSize: isLg ? 24 : 20, fontWeight:700, color:T.white, margin:"0 0 4px" }}>✦ Premium Darslar</p>
+                <p style={{ fontFamily:serif, fontSize: isLg ? 24 : 20, fontWeight:700, color:T.white, margin:"0 0 4px" }}> <img width={28} src="/8516604.png" alt="premium" /> Premium Darslar</p>
                 <p style={{ fontFamily:sans, fontSize:13, color:"rgba(255,255,255,.55)", margin:0 }}>Premium rejimga o'ting va barchasini oching</p>
               </div>
-              <Btn variant="gold" onClick={openPaymentBot}>Premiumga o'tish ✦</Btn>
+              <Btn variant="gold" onClick={openPaymentBot}>Premiumga o'tish <img style={{ backgroundColor: 'rgba(255, 255, 255, 0.55)', borderRadius:12 }} width={30} src="/8516604.png" alt="premium" /></Btn>
             </div>
             <div style={{ display:"grid", gridTemplateColumns: isLg ? "repeat(3,1fr)" : isMd ? "repeat(2,1fr)" : "1fr", gap:12 }}>
               {pro.map((c, i) => (
@@ -774,10 +814,10 @@ function Notifications({ w, onRead }) {
                   </div>
                   <div style={{ flex:1 }}>
                     <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:4, gap:8 }}>
-                      <p style={{ fontFamily:sans, fontSize:14, fontWeight:700, color: n.isRead ? T.muted : T.dark, margin:0 }}>{n.title}</p>
+                      <p style={{ fontFamily:sans, fontSize:14, fontWeight:700, whiteSpace:"nowrap", color: n.isRead ? T.muted : T.dark, margin:0 }}>{n.title}</p>
                       {!n.isRead && <span style={{ width:8, height:8, borderRadius:"50%", background:T.rose, flexShrink:0, display:"block" }}/>}
                     </div>
-                    <p style={{ fontFamily:sans, fontSize:13, color:T.muted, margin:"0 0 6px", lineHeight:1.5 }}>{n.message}</p>
+                    <p style={{ fontFamily:sans, fontSize:13, whiteSpace:"normal", color:T.muted, margin:"0 0 6px", lineHeight:1.5 }}>{n.message}</p>
                     <p style={{ fontFamily:sans, fontSize:11, color:T.muted, margin:0 }}>
                       {new Date(n.createdAt).toLocaleDateString("uz-UZ", { day:"numeric", month:"long", hour:"2-digit", minute:"2-digit" })}
                     </p>
@@ -845,7 +885,7 @@ function Profile({ w, user, onLogout }) {
     { icon:"📚", label:"Bajarilgan darslar", sub:`${user?.completedLessons?.length || 0} ta dars tugallangan`, color:T.blue,   bg:"#eff6ff" },
     { icon:"📧", label:"Email",              sub: user?.email || "",                                           color:T.green,  bg:"#f0fdf4" },
     { icon:"🔒", label:"Parol o'zgartirish",  sub:"Hisobi himoyasi",                                          color:T.gold,   bg:"#fffbeb", action: () => setPasswordMode(!passwordMode) },
-    { icon:"❓", label:"Yordam markazi",     sub:"Savol va javoblar",                                          color:"#0891b2",bg:"#ecfeff" },
+    { icon:"❓", label:"Yordam markazi",     sub:"Biz bilan bog'lanish uchun telefon raqami: +998 71 123 45 67",                                          color:"#0891b2",bg:"#ecfeff" },
     { icon:"🚪", label:"Chiqish",            sub:"Hisobdan chiqish",                                           color:"#ef4444",bg:"#fef2f2", danger:true, action:handleLogout },
   ];
 
@@ -860,32 +900,32 @@ function Profile({ w, user, onLogout }) {
           <div style={{ background:"linear-gradient(135deg,#d64f6e 0%,#b83155 50%,#92244a 100%)", borderRadius:24, padding:"32px 24px", textAlign:"center", marginBottom:20, position:"relative", overflow:"hidden", boxShadow:"0 16px 48px rgba(214,79,110,.3)" }}>
             <div style={{ position:"absolute", width:200, height:200, borderRadius:"50%", background:"rgba(255,255,255,.06)", top:-50, right:-40 }}/>
             <div style={{ position:"relative" }}>
-              <div style={{ width:88, height:88, borderRadius:"50%", background:"rgba(255,255,255,.2)", border:"3px solid rgba(255,255,255,.5)", display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 16px", fontSize:40 }}>👤</div>
+              <div style={{ width:88, height:88, borderRadius:"50%", background:"rgba(255,255,255,.2)", border:"3px solid rgba(255,255,255,.5)", display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 16px", fontSize:40 }}><i class="fi fi-rr-user"></i></div>
               <p style={{ fontFamily:serif, fontSize:26, fontWeight:700, color:T.white, margin:"0 0 4px" }}>{user?.name || "Foydalanuvchi"}</p>
               <p style={{ fontFamily:sans, fontSize:13, color:"rgba(255,255,255,.7)", margin:"0 0 16px" }}>{user?.email}</p>
               <span style={{ fontFamily:sans, fontSize:12, fontWeight:700, padding:"5px 14px", borderRadius:20, background: user?.isPro ? "linear-gradient(135deg,#e9a825,#f5bc3a)" : "rgba(255,255,255,.2)", color:"white" }}>
-                {user?.isPro ? "✦ Premium" : "Bepul"}
+                {user?.isPro ? "Premium" : "Bepul"}
               </span>
             </div>
           </div>
           {!user?.isPro && (
             <div style={{ background:"linear-gradient(135deg,#fffbeb,#fef9ef)", border:"1.5px solid rgba(233,168,37,.3)", borderRadius:20, padding:"18px 20px" }}>
               <div style={{ display:"flex", gap:14, alignItems:"center" }}>
-                <div style={{ width:48, height:48, borderRadius:14, background:"linear-gradient(135deg,#e9a825,#f5bc3a)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}>✦</div>
+                <div style={{ width:48, height:48, borderRadius:14, background:"rgba(233,168,37,.1)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}> <img width={28} src="/8516604.png" alt="premium" /> </div>
                 <div style={{ flex:1 }}>
-                  <p style={{ fontFamily:sans, fontSize:15, fontWeight:800, color:"#92400e", margin:"0 0 2px" }}>Premium ga o'ting</p>
+                  <p style={{ fontFamily:sans, fontSize:15, fontWeight:800, color:"#92400e", margin:"0 0 2px" }}>Premium ga o'ting <br />narxi : 37000 so'm</p>
                   <p style={{ fontFamily:sans, fontSize:12, color:"#b45309", margin:0 }}>Barcha darslarga cheksiz kirish</p>
                 </div>
-                <Btn variant="gold" size="sm" onClick={openPaymentBot}>Xaridi</Btn>
+                <Btn variant="gold" size="sm" onClick={openPaymentBot}>Xarid</Btn>
               </div>
             </div>
           )}
           {user?.isPro && (
             <div style={{ background:"linear-gradient(135deg,#f0fdf4,#fbfcf8)", border:"1.5px solid rgba(16,185,129,.3)", borderRadius:20, padding:"18px 20px" }}>
               <div style={{ display:"flex", gap:14 }}>
-                <div style={{ width:48, height:48, borderRadius:14, background:"rgba(16,185,129,.1)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}>🎁</div>
+                <div style={{ width:48, height:48, borderRadius:14, background:"rgba(16,185,129,.1)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}><img width={24} src="/8516604.png" alt="" /></div>
                 <div style={{ flex:1 }}>
-                  <p style={{ fontFamily:sans, fontSize:15, fontWeight:800, color:"#065f46", margin:"0 0 2px" }}>✦ Premium faol</p>
+                  <p style={{ fontFamily:sans, fontSize:15, fontWeight:800, color:"#065f46", margin:"0 0 2px" }}>Premium faol</p>
                   <p style={{ fontFamily:sans, fontSize:12, color:"#047857", margin:0 }}>
                     {`${user.proDaysLeft} kun qoldi`}
                   </p>
