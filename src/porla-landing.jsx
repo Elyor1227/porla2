@@ -170,7 +170,7 @@ export default function PorlaLanding() {
             display: "flex", alignItems: "center", justifyContent: "center",
             fontSize: 18,
           }}>🌸</div>
-          <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 22, fontWeight: 600, color: "#5a3e35", letterSpacing: "0.02em" }}>Porla</span>
+          <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 22, fontWeight: 600, color: "#5a3e35", letterSpacing: "0.02em" }}>Miila</span>
         </div>
         <div className="desktop-nav" style={{ display: "flex", alignItems: "center", gap: 36 }}>
           <a href="#features" className="nav-link">Imkoniyatlar</a>
@@ -247,7 +247,7 @@ export default function PorlaLanding() {
               fontFamily: "'DM Sans', sans-serif", fontSize: 17, color: "#7a6560",
               lineHeight: 1.7, marginBottom: 40, maxWidth: 480, fontWeight: 300,
             }}>
-              Porla bilan o‘z tanangizni yaxshiroq tushunib, sog‘lig‘ingizga ongli va ishonchli yondashishni boshlang.
+              Miila bilan o‘z tanangizni yaxshiroq tushunib, sog‘lig‘ingizga ongli va ishonchli yondashishni boshlang.
             </p>
 
             <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginBottom: 52 }}>
@@ -308,14 +308,14 @@ export default function PorlaLanding() {
                     {/* Status bar */}
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
                       <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 600, color: "#3d2b26" }}>9:41</span>
-                      <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 16, fontWeight: 700, color: "#c2545a" }}>Porla</span>
+                      <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 16, fontWeight: 700, color: "#c2545a" }}>Miila</span>
                       <span style={{ fontSize: 11 }}>●●●</span>
                     </div>
 
                     {/* Greeting */}
                     <div style={{ background: "linear-gradient(135deg, #c2545a, #e8728a)", borderRadius: 20, padding: "18px 16px", marginBottom: 16, color: "white" }}>
                       <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, opacity: 0.85, marginBottom: 4 }}>Xayrli kun, Malika! 🌸</div>
-                      <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, fontWeight: 600, lineHeight: 1.2 }}>Tsiklingizning<br />14-kuni</div>
+                      <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, fontWeight: 600, lineHeight: 1.2 }}>Siklingizning<br />14-kuni</div>
                       <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
                         {["12", "13", "14", "15", "16", "17"].map((d, i) => (
                           <div key={i} style={{
@@ -361,7 +361,7 @@ export default function PorlaLanding() {
                     <div style={{ background: "white", borderRadius: 16, margin: "12px 0", padding: "12px 14px", boxShadow: "0 2px 10px rgba(0,0,0,0.05)", display: "flex", alignItems: "center", gap: 10 }}>
                       <div style={{ flex: 1 }}>
                         <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 600, color: "#3d2b26" }}>Bugungi tibbiy fakt</div>
-                        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 9, color: "#9a8580" }}>emir organizm bo‘ylab kislorod tashishda muhim rol o‘ynaydi. </div>
+                        <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 9, color: "#9a8580" }}>Temir organizm bo‘ylab kislorod tashishda muhim rol o‘ynaydi. </div>
                       </div>
                       <div style={{ width: 24, height: 24, borderRadius: "50%", background: "linear-gradient(135deg, #c2545a, #e8728a)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "white" }}><i class="fi fi-rr-lightbulb-on"></i></div>
                     </div>
@@ -425,7 +425,7 @@ export default function PorlaLanding() {
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <AnimatedSection>
             <div style={{ textAlign: "center", marginBottom: 64 }}>
-              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, letterSpacing: "0.15em", color: "#c2545a", textTransform: "uppercase", fontWeight: 500, marginBottom: 16 }}>Nima  uchun Porla?</div>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, letterSpacing: "0.15em", color: "#c2545a", textTransform: "uppercase", fontWeight: 500, marginBottom: 16 }}>Nima  uchun Miila?</div>
               <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(36px, 5vw, 56px)", fontWeight: 700, color: "#3d2b26", lineHeight: 1.15, marginBottom: 20 }}>
                 Sog‘lig‘ingiz uchun asosiy<br />imkoniyatlar bir joyda
               </h2>
@@ -545,7 +545,7 @@ export default function PorlaLanding() {
               <em style={{ fontStyle: "italic", color: "#e8728a" }}>bepul</em>
             </h2>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 16, color: "rgba(255,255,255,0.7)", lineHeight: 1.7, marginBottom: 40, fontWeight: 300 }}>
-              Juda ko'p ayollar allaqachon Porla bilan o'z sog'lig'ini nazorat qilmoqda. Siz ham ularga qo'shiling.
+              Juda ko'p ayollar allaqachon Miila bilan o'z sog'lig'ini nazorat qilmoqda. Siz ham ularga qo'shiling.
             </p>
             <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
               {/* <button style={{
@@ -582,7 +582,7 @@ export default function PorlaLanding() {
       <footer style={{ background: "#2a1d18", padding: "48px 5% 32px", textAlign: "center" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 20 }}>
           <div style={{ width: 32, height: 32, borderRadius: "50%", background: "linear-gradient(135deg, #c2545a, #e8728a)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>🌸</div>
-          <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, fontWeight: 600, color: "white" }}>Porla</span>
+          <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, fontWeight: 600, color: "white" }}>Miila</span>
         </div>
         <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: "rgba(255,255,255,0.4)", marginBottom: 16, fontWeight: 300 }}>Ayollar salomatligi platformasi • O'zbekiston</p>
         <div style={{ display: "flex", justifyContent: "center", gap: 24, marginBottom: 24, flexWrap: "wrap" }}>
@@ -592,7 +592,7 @@ export default function PorlaLanding() {
               onMouseOut={e => e.target.style.color = "rgba(255,255,255,0.4)"}>{l}</a>
           ))}
         </div>
-        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "rgba(255,255,255,0.25)", fontWeight: 300 }}>© 2025 Porla. Barcha huquqlar himoyalangan.</p>
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "rgba(255,255,255,0.25)", fontWeight: 300 }}>© 2025 Miila. Barcha huquqlar himoyalangan.</p>
       </footer>
       {/* <QnaWidget /> */}
     </div>

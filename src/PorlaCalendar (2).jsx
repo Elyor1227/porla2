@@ -885,7 +885,7 @@ export default function PorlaCalendar() {
       <div style={{ background: "#FDF5F7", padding: "52px 20px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", position: "sticky", top: 0, zIndex: 10, borderBottom: "1px solid #FCE4EC" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ width: 36, height: 36, borderRadius: 10, background: "linear-gradient(135deg,#D4567A,#E8855A)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18 }}>🌸</div>
-          <span style={{ fontWeight: 900, fontSize: 18, color: "#222" }}>Porla</span>
+          <span style={{ fontWeight: 900, fontSize: 18, color: "#222" }}>Miila</span>
         </div>
         <span style={{ fontSize: 15, fontWeight: 800, color: "#D4567A" }}>Sikl kalendari</span>
         <div style={{ width: 36 }} />

@@ -111,7 +111,7 @@ function Sidebar({ tab, setTab, user, unread }) {
       <div style={{ padding:"28px 20px 20px", borderBottom:`1px solid ${T.border}` }}>
         <div style={{ display:"flex", alignItems:"center", gap:10 }}>
           <div style={{ width:36, height:36, borderRadius:12, background:"linear-gradient(135deg,#d64f6e,#e8728a)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:18 }}>🌸</div>
-          <span style={{ fontFamily:serif, fontSize:20, fontWeight:700, color:T.dark }}>Porla</span>
+          <span style={{ fontFamily:serif, fontSize:20, fontWeight:700, color:T.dark }}>Miila</span>
         </div>
       </div>
       <nav style={{ flex:1, padding:"16px 12px" }}>
@@ -153,7 +153,7 @@ function TopBar({ tab, setTab, unread }) {
       <header style={{ background:T.white, borderBottom:`1px solid ${T.border}`, padding:"0 20px", height:60, display:"flex", alignItems:"center", justifyContent:"space-between", position:"sticky", top:0, zIndex:100, boxShadow:"0 2px 12px rgba(34,18,25,.06)" }}>
         <div style={{ display:"flex", alignItems:"center", gap:10 }}>
           <div style={{ width:32, height:32, borderRadius:10, background:"linear-gradient(135deg,#d64f6e,#e8728a)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:16 }}>🌸</div>
-          <span style={{ fontFamily:serif, fontSize:18, fontWeight:700, color:T.dark }}>Porla</span>
+          <span style={{ fontFamily:serif, fontSize:18, fontWeight:700, color:T.dark }}>Miila</span>
         </div>
         <span style={{ fontFamily:sans, fontSize:14, fontWeight:700, color:T.ink }}>{NAV.find(n => n.key===tab)?.label}</span>
         <div style={{ display:"flex", gap:8, alignItems:"center" }}>
@@ -256,7 +256,7 @@ function AuthPage({ onLogin }) {
       <div style={{ width:"100%", maxWidth:420 }}>
         <div style={{ textAlign:"center", marginBottom:32 }}>
           <div style={{ width:64, height:64, borderRadius:20, background:"linear-gradient(135deg,#d64f6e,#e8728a)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:32, margin:"0 auto 16px", boxShadow:"0 12px 32px rgba(214,79,110,.3)" }}>🌸</div>
-          <h1 style={{ fontFamily:serif, fontSize:32, fontWeight:700, color:T.dark, margin:0 }}>Porla</h1>
+          <h1 style={{ fontFamily:serif, fontSize:32, fontWeight:700, color:T.dark, margin:0 }}>Miila</h1>
           <p style={{ fontFamily:sans, fontSize:14, color:T.muted, margin:"6px 0 0" }}>Ayollar salomatligi platformasi</p>
         </div>
         <Card style={{ padding:"32px" }}>
@@ -885,7 +885,7 @@ function Profile({ w, user, onLogout }) {
     { icon:"📚", label:"Bajarilgan darslar", sub:`${user?.completedLessons?.length || 0} ta dars tugallangan`, color:T.blue,   bg:"#eff6ff" },
     { icon:"📧", label:"Email",              sub: user?.email || "",                                           color:T.green,  bg:"#f0fdf4" },
     { icon:"🔒", label:"Parol o'zgartirish",  sub:"Hisobi himoyasi",                                          color:T.gold,   bg:"#fffbeb", action: () => setPasswordMode(!passwordMode) },
-    { icon:"❓", label:"Yordam markazi",     sub:"Biz bilan bog'lanish uchun telefon raqami: +998 71 123 45 67",                                          color:"#0891b2",bg:"#ecfeff" },
+    { icon:"❓", label:"Yordam markazi",     sub:"Biz bilan bog'lanish uchun telefon raqami: +998 91 779 34 70",                                          color:"#0891b2",bg:"#ecfeff" },
     { icon:"🚪", label:"Chiqish",            sub:"Hisobdan chiqish",                                           color:"#ef4444",bg:"#fef2f2", danger:true, action:handleLogout },
   ];
 
@@ -913,7 +913,7 @@ function Profile({ w, user, onLogout }) {
               <div style={{ display:"flex", gap:14, alignItems:"center" }}>
                 <div style={{ width:48, height:48, borderRadius:14, background:"rgba(233,168,37,.1)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}> <img width={28} src="/8516604.png" alt="premium" /> </div>
                 <div style={{ flex:1 }}>
-                  <p style={{ fontFamily:sans, fontSize:15, fontWeight:800, color:"#92400e", margin:"0 0 2px" }}>Premium ga o'ting <br />narxi : 37000 so'm</p>
+                  <p style={{ fontFamily:sans, fontSize:15, fontWeight:800, color:"#92400e", margin:"0 0 2px" }}>Premium : 37000 so'm</p>
                   <p style={{ fontFamily:sans, fontSize:12, color:"#b45309", margin:0 }}>Barcha darslarga cheksiz kirish</p>
                 </div>
                 <Btn variant="gold" size="sm" onClick={openPaymentBot}>Xarid</Btn>

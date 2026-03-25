@@ -217,7 +217,7 @@ function Dashboard() {
             { label:"Premium ulushi",     value:`${stats.proPercentage}%`,   color:T.gold },
             { label:"Bu hafta",       value:`+${stats.newUsersThisWeek}`, color:T.purple },
             { label:"Bu oy",          value:`+${stats.newUsersThisMonth}`,color:T.green },
-            { label:"Tsikl yozuvlar", value:stats.totalCycles,           color:T.rose },
+            { label:"Sikl yozuvlar", value:stats.totalCycles,           color:T.rose },
           ].map((s,i)=>(
             <div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"10px 0",borderBottom:i<3?`1px solid ${T.border}`:"none"}}>
               <span style={{fontFamily:sans,fontSize:13,color:T.muted}}>{s.label}</span>
@@ -1057,7 +1057,7 @@ function SidebarContent({ tab, setTab, setSide }) {
         <div style={{display:"flex",alignItems:"center",gap:10}}>
           <div style={{width:38,height:38,borderRadius:12,background:"linear-gradient(135deg,#d64f6e,#e8728a)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20}}>🌸</div>
           <div>
-            <p style={{fontFamily:serif,fontSize:18,fontWeight:700,color:"white",margin:0}}>Porla</p>
+            <p style={{fontFamily:serif,fontSize:18,fontWeight:700,color:"white",margin:0}}>Miila</p>
             <p style={{fontFamily:sans,fontSize:10,color:"rgba(255,255,255,.45)",margin:0,fontWeight:600,textTransform:"uppercase",letterSpacing:"0.06em"}}>Admin Panel</p>
           </div>
         </div>
