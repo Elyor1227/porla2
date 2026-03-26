@@ -120,8 +120,6 @@ export default function QnaWidget() {
           <p style={{ color: "#9a7585", fontSize: 11, marginTop: 8 }}>
             Savolingiz shifokor tomonidan anonim ko'rib chiqiladi.
           </p>
-
-          // Javoblar endi faqat notification/messages bo'limida ko'rinadi
         </div>
       )}
     </div>

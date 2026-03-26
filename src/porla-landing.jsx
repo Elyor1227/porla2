@@ -179,11 +179,11 @@ export default function PorlaLanding() {
           <a href="/qna" className="nav-link">Savol-javoblar</a>
           <button className="btn-primary" onClick={() => navigate("/login")} style={{ padding: "10px 24px", fontSize: 14 }}>Boshlash</button>
         </div>
-        <button className="mobile-menu" onClick={() => setMenuOpen(!menuOpen)}
+        <button className="mobile-menu" onClick={() => setMenuOpen(prev => !prev)}
           style={{ background: "none", border: "none", cursor: "pointer", padding: 8 }}>
-          <div style={{ width: 24, height: 2, background: "#5a3e35", marginBottom: 5, transition: "0.3s", transform: menuOpen ? "rotate(45deg) translateY(7px)" : "none" }} />
+          <div style={{ width: 24, height: 2, background: "#5a3e35", marginBottom: 5, transition: "0.3s", transformOrigin: "center", transform: menuOpen ? "rotate(45deg) translate(7px, 7px)" : "none" }} />
           <div style={{ width: 24, height: 2, background: "#5a3e35", marginBottom: 5, opacity: menuOpen ? 0 : 1, transition: "0.3s" }} />
-          <div style={{ width: 24, height: 2, background: "#5a3e35", transition: "0.3s", transform: menuOpen ? "rotate(-45deg) translateY(-7px)" : "none" }} />
+          <div style={{ width: 24, height: 2, background: "#5a3e35", transition: "0.3s",transformOrigin: "center", transform: menuOpen ? "rotate(-45deg) translate(-7px, -7px)" : "none" }} />
         </button>
       </nav>
 
