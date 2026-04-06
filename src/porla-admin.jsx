@@ -459,6 +459,7 @@ function Courses({ toast }) {
   const [lessonModal, setLessonModal] = useState(null);
   const [form, setForm] = useState({ title:"", description:"", icon:"📚", color:"#4c2fa0", bgColor:"#ede9ff", isPro:false, order:0 });
   const [lForm, setLForm] = useState({ title:"", content:"", videoUrl:"", duration:10, order:0, isPro:false });
+  const [lessonVideoFile, setLessonVideoFile] = useState(null);
 
   const load = () => {
     setLoading(true);
@@ -495,18 +496,30 @@ function Courses({ toast }) {
   };
 
   const openNewLesson = () => {
+    setLessonVideoFile(null);
     setLForm({ title:"", content:"", videoUrl:"", duration:10, order:lessons.length+1, isPro:lessonPanel.isPro });
     setLessonModal("new");
   };
-  const openEditLesson = (l) => { setLForm({...l}); setLessonModal(l); };
+  const openEditLesson = (l) => {
+    setLessonVideoFile(null);
+    setLForm({...l});
+    setLessonModal(l);
+  };
+
+  const closeLessonModal = () => {
+    setLessonModal(null);
+    setLessonVideoFile(null);
+  };
 
   const saveLesson = async () => {
     if (!lForm.title || !lForm.content) { toast("Sarlavha va mazmun majburiy","error"); return; }
     try {
-      if (lessonModal==="new") await adminApi.createLesson(lessonPanel._id, lForm);
-      else                      await adminApi.updateLesson(lessonPanel._id, lessonModal._id, lForm);
+      const payload = lessonVideoFile ? { ...lForm, video: lessonVideoFile } : { ...lForm };
+      if (lessonModal==="new") await adminApi.createLesson(lessonPanel._id, payload);
+      else                      await adminApi.updateLesson(lessonPanel._id, lessonModal._id, payload);
       toast(lessonModal==="new"?"Dars qo'shildi":"Dars yangilandi","success");
-      setLessonModal(null); loadLessons(lessonPanel);
+      closeLessonModal();
+      loadLessons(lessonPanel);
     } catch(e) { toast(e.message,"error"); }
   };
 
@@ -646,12 +659,25 @@ function Courses({ toast }) {
       </Modal>
 
       {/* Lesson modal */}
-      <Modal open={!!lessonModal} onClose={()=>setLessonModal(null)}
+      <Modal open={!!lessonModal} onClose={closeLessonModal}
         title={lessonModal==="new"?"Yangi dars":"Darsni tahrirlash"}>
         <Input label="Dars sarlavhasi" value={lForm.title} onChange={e=>setLForm(f=>({...f,title:e.target.value}))} placeholder="Dars nomi"/>
         <Textarea label="Mazmun" value={lForm.content} onChange={e=>setLForm(f=>({...f,content:e.target.value}))} rows={5} placeholder="Dars matni..."/>
-        <Input label="Video URL (ixtiyoriy)" value={lForm.videoUrl} onChange={e=>setLForm(f=>({...f,videoUrl:e.target.value}))} placeholder="https://youtube.com/watch?v=... yoki Vimeo, mp4"/>
-        {lForm.videoUrl && (() => {
+        <div style={{marginBottom:16}}>
+          <label style={{fontFamily:sans,fontSize:12,fontWeight:700,color:T.ink,display:"block",marginBottom:5}}>Video fayl (ixtiyoriy)</label>
+          <input type="file" accept=".mp4,.webm,.mov,.m4v,video/mp4,video/webm,video/quicktime"
+            onChange={e=>setLessonVideoFile(e.target.files?.[0]||null)}
+            style={{width:"100%",fontFamily:sans,fontSize:13,padding:8,borderRadius:10,border:`1.5px solid ${T.border}`,background:"#fff"}}/>
+          {lessonVideoFile && <p style={{fontFamily:sans,fontSize:11,color:T.muted,margin:"6px 0 0"}}>📎 {lessonVideoFile.name}</p>}
+          {lessonModal!=="new" && lessonModal?.videoFile && !lessonVideoFile && (
+            <p style={{fontFamily:sans,fontSize:11,color:T.muted,margin:"6px 0 0"}}>Serverdagi video: {lessonModal.videoFile}</p>
+          )}
+          <p style={{fontFamily:sans,fontSize:11,color:T.muted,margin:"8px 0 0",lineHeight:1.4}}>
+            mp4, webm, mov, m4v — maks. 500 MB. Fayl tanlansa tashqi URL e'tiborsiz qolinadi.
+          </p>
+        </div>
+        <Input label="Tashqi video URL (ixtiyoriy)" value={lForm.videoUrl} onChange={e=>setLForm(f=>({...f,videoUrl:e.target.value}))} placeholder="YouTube / Vimeo / to'g'ri https://..."/>
+        {!lessonVideoFile && lForm.videoUrl && (() => {
           const url = lForm.videoUrl;
           const ytId = (url.match(/(?:v=|youtu\.be\/|embed\/)([-\w]{11})/) || [])[1];
           const vmId = (url.match(/vimeo\.com\/(\d+)/) || [])[1];

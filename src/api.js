@@ -405,8 +405,44 @@ async function request(method, endpoint, body = null, requireAuth = true) {
     storage.clear(); window.location.reload();
     throw new Error(data.message);
   }
-  if (!res.ok) throw new Error(data.message || "So'rov muvaffaqiyatsiz");
+  if (!res.ok) {
+    const err = new Error(data.message || "So'rov muvaffaqiyatsiz");
+    err.status = res.status;
+    err.data = data;
+    throw err;
+  }
   return data;
+}
+
+/** multipart (video yuklash) — Content-Type ni qo'lda qo'yilmaydi */
+async function sendForm(method, endpoint, formData) {
+  const token = storage.getToken();
+  if (!token) throw new Error("TOKEN_MISSING");
+  const res = await fetch(`${BASE_URL}${endpoint}`, {
+    method,
+    headers: { Authorization: `Bearer ${token}` },
+    body: formData,
+  });
+  const data = await res.json();
+  if (res.status === 401 && data.message?.includes("muddati")) {
+    storage.clear(); window.location.reload();
+    throw new Error(data.message);
+  }
+  if (!res.ok) {
+    const err = new Error(data.message || "So'rov muvaffaqiyatsiz");
+    err.status = res.status;
+    err.data = data;
+    throw err;
+  }
+  return data;
+}
+
+function appendLessonFormData(fd, data) {
+  Object.entries(data).forEach(([k, v]) => {
+    if (k === "video") return;
+    if (v === undefined || v === null) return;
+    fd.append(k, typeof v === "boolean" ? String(v) : String(v));
+  });
 }
 
 const get   = (url, auth = true)       => request("GET",    url, null, auth);
@@ -732,7 +768,16 @@ export const admin = {
   },
 
   createLesson: async (cId, data) => {
-    const res = await post(`/admin/courses/${cId}/lessons`, data);
+    let res;
+    if (data.video instanceof File) {
+      const fd = new FormData();
+      fd.append("video", data.video);
+      appendLessonFormData(fd, data);
+      res = await sendForm("POST", `/admin/courses/${cId}/lessons`, fd);
+    } else {
+      const { video: _v, ...json } = data;
+      res = await post(`/admin/courses/${cId}/lessons`, json);
+    }
     cache.invalidate(`admin:lessons:${cId}`);
     cache.invalidate(`courses:${cId}`);
     cache.invalidate("courses:all");
@@ -740,7 +785,16 @@ export const admin = {
   },
 
   updateLesson: async (cId, lId, data) => {
-    const res = await patch(`/admin/courses/${cId}/lessons/${lId}`, data);
+    let res;
+    if (data.video instanceof File) {
+      const fd = new FormData();
+      fd.append("video", data.video);
+      appendLessonFormData(fd, data);
+      res = await sendForm("PATCH", `/admin/courses/${cId}/lessons/${lId}`, fd);
+    } else {
+      const { video: _v, ...json } = data;
+      res = await patch(`/admin/courses/${cId}/lessons/${lId}`, json);
+    }
     cache.invalidate(`admin:lessons:${cId}`);
     cache.invalidate(`lessons:${cId}:${lId}`);
     cache.invalidate(`courses:${cId}`);

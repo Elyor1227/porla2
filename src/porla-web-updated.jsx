@@ -358,11 +358,24 @@ function Home({ w, user, setTab }) {
 }
 
 /* ── VIDEO PLAYER ─────────────────────────────────────── */
+function streamVideoSrc(rawUrl) {
+  if (!rawUrl) return rawUrl;
+  const u = String(rawUrl);
+  if (u.includes("youtube.com") || u.includes("youtu.be") || u.includes("vimeo.com")) return u;
+  const base = (import.meta.env.VITE_API_URL || "http://localhost:5000/api").replace(/\/api\/?$/, "");
+  const full = u.startsWith("http://") || u.startsWith("https://") ? u : `${base}${u.startsWith("/") ? "" : "/"}${u}`;
+  const token = storage.getToken();
+  if (!token) return full;
+  const sep = full.includes("?") ? "&" : "?";
+  return `${full}${sep}token=${encodeURIComponent(token)}`;
+}
+
 function VideoPlayer({ url, title }) {
   const isYoutube = url?.includes("youtube.com") || url?.includes("youtu.be");
   const isVimeo   = url?.includes("vimeo.com");
   const getYoutubeId = u => { const m = u.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/); return m ? m[1] : null; };
   const getVimeoId   = u => { const m = u.match(/vimeo\.com\/(\d+)/); return m ? m[1] : null; };
+  const playUrl = streamVideoSrc(url);
 
   if (!url) return (
     <div style={{ background:"#1a1a2e", borderRadius:16, aspectRatio:"16/9", display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column", gap:12 }}>
@@ -392,7 +405,7 @@ function VideoPlayer({ url, title }) {
     );
   }
   return (
-    <video controls style={{ width:"100%", borderRadius:16, background:"#000", maxHeight:360 }} src={url}>
+    <video controls style={{ width:"100%", borderRadius:16, background:"#000", maxHeight:360 }} src={playUrl}>
       Brauzeringiz videoni qo'llab-quvvatlamaydi.
     </video>
   );
@@ -432,7 +445,7 @@ function LessonModal({ userIsPro, lesson, courseTitle, courseId, onClose, onNavi
           lockMessage = error.response.data?.message || lockMessage;
         } else if (error.status === 403) {
           isPremiumLocked = true;
-          lockMessage = error.data?.message || lockMessage;
+          lockMessage = error.message || lockMessage;
         } else if (error.message?.includes('403') || error.toString().includes('403')) {
           isPremiumLocked = true;
         }
