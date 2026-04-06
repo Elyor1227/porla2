@@ -405,7 +405,7 @@ function VideoPlayer({ url, title }) {
     );
   }
   return (
-    <video controls style={{ width:"100%", borderRadius:16, background:"#000", maxHeight:360 }} src={playUrl}>
+    <video controls controlsList="nodownload" style={{ width:"100%", borderRadius:16, background:"#000", maxHeight:360 }} src={playUrl}>
       Brauzeringiz videoni qo'llab-quvvatlamaydi.
     </video>
   );
