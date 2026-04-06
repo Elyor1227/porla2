@@ -33,22 +33,22 @@ const AnimatedSection = ({ children, className = "", delay = 0 }) => {
 
 const features = [
   {
-    icon: "🌸",
+    icon: '/image.png',
     title: "Sodda tushuntirishlar",
     desc: "Qisqa video darslar orqali, tanangizni tushuning Tanangizni tushunish orqali, o’zligingizni anglang",
   },
   {
-    icon: "👩‍⚕️",
+    icon: '/Untitled(1)/doctor-female1.png',
     title: "Qulay kuzatuv",
     desc: "Menstrual siklingizni qulay tarzda kuzating va muhim kunlarni oldindan biling.",
   },
   {
-    icon: "💊",
+    icon: '/Untitled(1)/medicines1.png',
     title: "Shaxsiylashtirilgan yondashuv",
     desc: "Siz kiritgan ma’lumotlarga qarab sog‘lig‘ingizni yaxshiroq tushunishga yordam beradigan tajriba.",
   },
   {
-    icon: "📊",
+    icon: '/Untitled(1)/book1.png',
     title: "Kunlik Maslahatlar",
     desc: "Oy davomida siklingiz davriga mos tarzda kunlik maslahatlar oling.",
   },
@@ -363,13 +363,13 @@ export default function PorlaLanding() {
                         <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 600, color: "#3d2b26" }}>Bugungi tibbiy fakt</div>
                         <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 9, color: "#9a8580" }}>Temir organizm bo‘ylab kislorod tashishda muhim rol o‘ynaydi. </div>
                       </div>
-                      <div style={{ width: 24, height: 24, borderRadius: "50%", background: "linear-gradient(135deg, #c2545a, #e8728a)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "white" }}><i class="fi fi-rr-lightbulb-on"></i></div>
+                      <div style={{ width: 24, height: 24, borderRadius: "50%", background: "linear-gradient(135deg, #c2545a, #e8728a)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "white" }}><img src='/Untitled(2)/mingcute_light-line.png'/></div>
                     </div>
                     <div style={{ background: "white", borderRadius: 16, margin: "12px 0", padding: "12px 14px", boxShadow: "0 2px 10px rgba(0,0,0,0.05)", display: "flex", alignItems: "center", gap: 10 }}>
                       <div style={{ flex: 1 }}>
                         <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 600, color: "#3d2b26" }}>Anonim savol yo’llash </div>
                       </div>
-                      <div style={{ width: 24, height: 24, borderRadius: "50%", background: "linear-gradient(135deg, #c2545a, #e8728a)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "white" }}><i class="fi fi-rr-comment-dots"></i></div>
+                      <div style={{ width: 24, height: 24, borderRadius: "50%", background: "linear-gradient(135deg, #c2545a, #e8728a)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "white" }}><img src='/Untitled(2)/message.png'/></div>
                     </div>
                   </div>
                 </div>
@@ -383,7 +383,7 @@ export default function PorlaLanding() {
                 display: "flex", alignItems: "center", gap: 8,
                 animation: "float 5s ease-in-out infinite 0.5s",
               }}>
-                <span style={{ fontSize: 18 }}>📅</span>
+                <span style={{ fontSize: 18 }}><img src='/Untitled(1)/calendar1.png'/></span>
                 <div>
                   <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, color: "#9a8580" }}>Keyingi sikl</div>
                   <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, fontWeight: 700, color: "#c2545a" }}>14 kun qoldi</div>
@@ -442,7 +442,7 @@ export default function PorlaLanding() {
                     background: "linear-gradient(135deg, rgba(194,84,90,0.1), rgba(232,114,138,0.15))",
                     display: "flex", alignItems: "center", justifyContent: "center",
                     fontSize: 24, marginBottom: 20,
-                  }}>{f.icon}</div>
+                  }}><img width={52} height={52} src={`${f.icon}`} /></div>
                   <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 22, fontWeight: 600, color: "#3d2b26", marginBottom: 10 }}>{f.title}</h3>
                   <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "#7a6560", lineHeight: 1.65, fontWeight: 300 }}>{f.desc}</p>
                 </div>

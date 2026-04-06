@@ -532,7 +532,7 @@ function Courses({ toast }) {
     } catch(e) { toast(e.message,"error"); }
   };
 
-  const ICONS = ["📚","🌸","🩺","⚗️","💧","🩸","🧬","💊","🧘","❤️","🔬","🫀"];
+  const ICONS = ["/Untitled(1)/book1.png","/image.png","/Untitled(1)/stethoscope 1.png","/Untitled(1)/blood-cells 1.png","/Untitled(1)/bio-pharma 1.png","/Untitled(1)/blood-drop 1.png","/Untitled(1)/cardiology 1.png","/Untitled(1)/clean-hands 1.png","/Untitled(1)/exercise-yoga 1.png","/Untitled(1)/coronary-care_unit (1) 1.png","/Untitled(1)/virus-research_alt 1.png","/Untitled(1)/exercise-yoga 1.png", "/Untitled(1)/calendar1.png", "/Untitled(1)/health 1.png", "/Untitled(1)/nerve 1.png","/Untitled(1)/neurology 1.png", "/Untitled(1)/ribbon 1.png", "/Untitled(1)/thermometer 1.png"];
 
   return (
     <div>
@@ -550,7 +550,7 @@ function Courses({ toast }) {
             <Card key={c._id} style={{padding:"20px"}}>
               <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",marginBottom:14}}>
                 <div style={{display:"flex",gap:12,alignItems:"center"}}>
-                  <div style={{width:48,height:48,borderRadius:14,background:c.bgColor||"#ede9ff",display:"flex",alignItems:"center",justifyContent:"center",fontSize:24}}>{c.icon}</div>
+                  <div style={{width:48,height:48,borderRadius:14,background:c.bgColor||"#ede9ff",display:"flex",alignItems:"center",justifyContent:"center",fontSize:24}}><img width={50} src={c.icon} /></div>
                   <div>
                     <p style={{fontFamily:sans,fontSize:14,fontWeight:700,color:T.dark,margin:"0 0 4px",lineHeight:1.3}}>{c.title}</p>
                     <div style={{display:"flex",gap:6,alignItems:"center"}}>
@@ -625,7 +625,7 @@ function Courses({ toast }) {
               <button key={ic} onClick={()=>setForm(f=>({...f,icon:ic}))} style={{
                 width:38,height:38,borderRadius:10,border:`2px solid ${form.icon===ic?T.purple:T.border}`,
                 background:form.icon===ic?T.purpleSoft:"transparent",fontSize:20,cursor:"pointer",
-              }}>{ic}</button>
+              }}><img width={26} src={ic} /></button>
             ))}
           </div>
         </div>

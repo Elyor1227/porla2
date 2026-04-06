@@ -98,11 +98,11 @@ const Input = ({ label, value, onChange, type="text", placeholder="", error="", 
 
 /* ── NAVIGATION ──────────────────────────────────────── */
 const NAV = [
-  { key:"home",    label:"Bosh sahifa", emoji:"🏠" },
-  { key:"modules", label:"Darslar",     emoji:"📚" },
-  { key:"tracker", label:"Sikl kalendari",        emoji:"📅" },
-  { key:"notifs",  label:"Xabarlar",    emoji:"🔔" },
-  { key:"profile", label:"Profil",      emoji:"👤" },
+  { key:"home",    label:"Bosh sahifa", emoji:"/Untitled(2)/fa7-solid_home.png" },
+  { key:"modules", label:"Darslar",     emoji:"/Untitled(2)/material-symbols-light_play-lesson-rounded.png" },
+  { key:"tracker", label:"Sikl kalendari",        emoji:"/Untitled(2)/mdi_calendar-heart.png" },
+  { key:"notifs",  label:"Xabarlar",    emoji:"/Untitled(2)/message.png" },
+  { key:"profile", label:"Profil",      emoji:"/Untitled(2)/ix_user-profile-filled.png" },
 ];
 
 function Sidebar({ tab, setTab, user, unread }) {
@@ -121,7 +121,7 @@ function Sidebar({ tab, setTab, user, unread }) {
             <button key={n.key} onClick={() => setTab(n.key)}
               style={{ width:"100%", display:"flex", alignItems:"center", gap:12, padding:"11px 14px", borderRadius:14, border:"none", cursor:"pointer", marginBottom:4, transition:"all .2s", background: a ? T.roseLight : "transparent", fontFamily:sans, fontSize:14, fontWeight: a ? 700 : 500, color: a ? T.rose : T.ink }}>
               <span style={{ fontSize:18, position:"relative" }}>
-                {n.emoji}
+                <img src={n.emoji} alt="" />
                 {n.key==="notifs" && unread > 0 && (
                   <span style={{ position:"absolute", top:-4, right:-4, width:16, height:16, borderRadius:"50%", background:T.rose, color:"white", fontSize:9, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center" }}>{unread > 9 ? "9+" : unread}</span>
                 )}
@@ -270,9 +270,9 @@ function AuthPage({ onLogin }) {
           </div>
           <Alert type="error" message={apiErr}/>
           {success && <Alert type="success" message={success}/>}
-          {mode==="register" && <Input label="Ism" value={form.name} onChange={e => set("name", e.target.value)} placeholder="To'liq ismingiz" error={errors.name} icon="👤"/>}
-          <Input label="Email" value={form.email} onChange={e => set("email", e.target.value)} type="email" placeholder="email@example.com" error={errors.email} icon="📧"/>
-          <Input label="Parol" value={form.password} onChange={e => set("password", e.target.value)} type="password" placeholder={mode==="login" ? "Parolingizni kiriting" : "Kamida 6 ta belgi"} error={errors.password} icon="🔒"/>
+          {mode==="register" && <Input label="Ism" value={form.name} onChange={e => set("name", e.target.value)} placeholder="To'liq ismingiz" error={errors.name} icon={<img width={20} src='/Untitled(2)/ix_user-profile-filled.png'/>}/>}
+          <Input label="Email" value={form.email} onChange={e => set("email", e.target.value)} type="email" placeholder="email@example.com" error={errors.email} icon={<img width={20} src='/Untitled(2)/entypo_email.png'/>}/>
+          <Input label="Parol" value={form.password} onChange={e => set("password", e.target.value)} type="password" placeholder={mode==="login" ? "Parolingizni kiriting" : "Kamida 6 ta belgi"} error={errors.password} icon={<img width={20} src='/Untitled(2)/mingcute_lock-fill.png'/>}/>
           <Btn onClick={handleSubmit} loading={loading} disabled={loading} style={{ width:"100%", justifyContent:"center", marginTop:8 }} size="lg" type="button">
             {loading ? "Kutilmoqda..." : (mode==="login" ? "Kirish →" : "Hisob yaratish →")}
           </Btn>
@@ -299,7 +299,7 @@ function Home({ w, user, setTab }) {
   return (
     <div style={{ padding: isLg ? "40px 48px" : "24px 20px", paddingBottom: isLg ? 40 : 90 }}>
       <div style={{ marginBottom:32 }}>
-        <p style={{ fontFamily:sans, fontSize:14, color:T.muted, margin:"0 0 4px", fontWeight:500 }}>Xayrli kun ✨</p>
+        <p style={{ fontFamily:sans, fontSize:14, color:T.muted, margin:"0 0 4px", fontWeight:500 }}>Xayrli kun <img width={30} src='/Untitled(1)/artificial-intelligence 1.png'/></p>
         <h1 style={{ fontFamily:serif, fontSize: isLg ? 42 : 28, fontWeight:700, color:T.dark, margin:0, lineHeight:1.2 }}>
           Salom, {user?.name?.split(" ")[0] || "Foydalanuvchi"}!
         </h1>
@@ -343,7 +343,7 @@ function Home({ w, user, setTab }) {
         <div style={{ display:"grid", gridTemplateColumns: isLg ? "repeat(3,1fr)" : isMd ? "repeat(2,1fr)" : "1fr", gap:16 }}>
           {courses.map((c, i) => (
             <Card key={i} onClick={() => setTab("modules")} style={{ padding:"20px" }}>
-              <div style={{ width:48, height:48, borderRadius:14, background:c.bgColor, display:"flex", alignItems:"center", justifyContent:"center", fontSize:24, marginBottom:14 }}>{c.icon}</div>
+              <div style={{ width:48, height:48, borderRadius:14, background:c.bgColor, display:"flex", alignItems:"center", justifyContent:"center", fontSize:24, marginBottom:14 }}><img width={40} src={c.icon} /></div>
               <p style={{ fontFamily:sans, fontSize:14, fontWeight:700, color:T.dark, margin:"0 0 6px", lineHeight:1.4 }}>{c.title}</p>
               <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
                 <span style={{ fontFamily:sans, fontSize:12, color:T.muted }}>{c.lessonCount} dars</span>
@@ -581,7 +581,7 @@ function CourseDetail({ course, userIsPro, onBack }) {
 
       <div style={{ background:`linear-gradient(135deg,${course.color}18,${course.bgColor})`, border:`1px solid ${course.color}30`, borderRadius:20, padding:"24px", marginBottom:24 }}>
         <div style={{ display:"flex", gap:16, alignItems:"center" }}>
-          <div style={{ width:64, height:64, borderRadius:18, background:course.bgColor, display:"flex", alignItems:"center", justifyContent:"center", fontSize:32, border:`2px solid ${course.color}30` }}>{course.icon}</div>
+          <div style={{ width:64, height:64, borderRadius:18, background:course.bgColor, display:"flex", alignItems:"center", justifyContent:"center", fontSize:32, border:`2px solid ${course.color}30` }}><img width={40} src={course.icon} /></div>
           <div>
             <p style={{ fontFamily:serif, fontSize:22, fontWeight:700, color:T.dark, margin:"0 0 4px" }}>{course.title}</p>
             <p style={{ fontFamily:sans, fontSize:13, color:T.muted, margin:"0 0 8px", lineHeight:1.5 }}>{course.description}</p>
@@ -691,7 +691,7 @@ function Modules({ w, user }) {
             {free.map((c, i) => (
               <Card key={i} onClick={() => setSelected(c)} style={{ padding:"20px 22px", cursor:"pointer" }}>
                 <div style={{ display:"flex", gap:16 }}>
-                  <div style={{ width:56, height:56, borderRadius:16, background:c.bgColor, display:"flex", alignItems:"center", justifyContent:"center", fontSize:26, flexShrink:0 }}>{c.icon}</div>
+                  <div style={{ width:56, height:56, borderRadius:16, background:c.bgColor, display:"flex", alignItems:"center", justifyContent:"center", fontSize:26, flexShrink:0 }}><img width={40} src={c.icon} /></div>
                   <div style={{ flex:1 }}>
                     <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", marginBottom:6 }}>
                       <p style={{ fontFamily:sans, fontSize:15, fontWeight:700, color:T.dark, margin:0, lineHeight:1.3 }}>{c.title}</p>
@@ -721,7 +721,7 @@ function Modules({ w, user }) {
                 <div key={i} onClick={() => setSelected(c)}
                   style={{ background:"rgba(255,255,255,.06)", borderRadius:18, padding:"18px", border:"1px solid rgba(255,255,255,.1)", cursor:"pointer" }}>
                   <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:12 }}>
-                    <div style={{ width:44, height:44, borderRadius:12, background:c.bgColor, display:"flex", alignItems:"center", justifyContent:"center", fontSize:22 }}>{c.icon}</div>
+                    <div style={{ width:44, height:44, borderRadius:12, background:c.bgColor, display:"flex", alignItems:"center", justifyContent:"center", fontSize:22 }}><img width={40} src={c.icon} /></div>
                     <span style={{ fontSize:18 }}>{userIsPro ? "▶" : "🔒"}</span>
                   </div>
                   <p style={{ fontFamily:sans, fontSize:13, fontWeight:700, color:T.white, margin:"0 0 4px", lineHeight:1.3 }}>{c.title}</p>
