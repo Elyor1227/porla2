@@ -890,7 +890,7 @@ export const admin = {
 
   // Tips
   tips: {
-    list: async (params = {}) => {
+    list: async (_params = {}) => {
       return cachedGet("admin:tips", async () => {
         try {
           return await get("/tips");

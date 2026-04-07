@@ -33,7 +33,7 @@ const T = {
 };
 const sans  = "'Plus Jakarta Sans', system-ui, sans-serif";
 const serif = "'Playfair Display', Georgia, serif";
-const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');`;
+const FONTS = ''
 
 /* ── HELPERS ─────────────────────────────────────────── */
 function useW() {
@@ -752,7 +752,7 @@ function QnaAdmin({ toast }) {
       await adminApi.qna.publish(q._id, pub);
       if (pub) {
         // QnA answer may have changed, so fetch latest
-        const updated = await adminApi.qna.getOne(q._id);
+        await adminApi.qna.getOne(q._id);
         // await adminApi.notifyAll({
         //   type: "info",
         //   title: "Yangi savol-javob e'lon qilindi",

@@ -18,7 +18,7 @@ export default function QnaAnonCheck() {
         setAnswers([]);
         setError("Javoblar topilmadi yoki hali javob berilmagan.");
       }
-    } catch (e) {
+    } catch {
       setError("Xatolik yuz berdi.");
     } finally {
       setLoading(false);

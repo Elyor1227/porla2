@@ -111,7 +111,6 @@ export default function PorlaLanding() {
   return (
     <div style={{ fontFamily: "'Georgia', 'Times New Roman', serif", background: "#fdf8f5", color: "#1a1a1a", overflowX: "hidden" }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { margin: 0; }
         .nav-link { color: #5a3e35; text-decoration: none; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.05em; transition: color 0.3s; }

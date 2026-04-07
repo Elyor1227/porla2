@@ -5,17 +5,15 @@ import api from "./api";
 export default function DailyTip({ onModulesClick }) {
   const [tip, setTip] = useState(null);
   const [loading, setLoading] = useState(true);
-  const serif = "'Playfair Display', Georgia, serif";
   const sans  = "'Plus Jakarta Sans', system-ui, sans-serif";
-  const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');`;
-const T = {
-  rose:"#d64f6e", roseMid:"#e8728a", roseLight:"#fde8ec",
-  cream:"#fdf8f5", dark:"#221219", ink:"#4a2535",
-  muted:"#9a7585", border:"rgba(214,79,110,0.12)", white:"#ffffff",
-  gold:"#e9a825", green:"#0ea87a", blue:"#3b7de8", purple:"#8657d6",
-  error:"#ef4444", errorBg:"#fef2f2",
-};
-const Btn = ({ children, variant="primary", onClick, style={}, size="md", loading=false, disabled=false, type="button" }) => {
+  const T = {
+    rose:"#d64f6e", roseMid:"#e8728a", roseLight:"#fde8ec",
+    cream:"#fdf8f5", dark:"#221219", ink:"#4a2535",
+    muted:"#9a7585", border:"rgba(214,79,110,0.12)", white:"#ffffff",
+    gold:"#e9a825", green:"#0ea87a", blue:"#3b7de8", purple:"#8657d6",
+    error:"#ef4444", errorBg:"#fef2f2",
+  };
+  const Btn = ({ children, variant="primary", onClick, style={}, size="md", loading=false, disabled=false, type="button" }) => {
   const [hov, setHov] = useState(false);
   const p  = size==="sm" ? "8px 16px" : size==="lg" ? "16px 36px" : "12px 24px";
   const fs = size==="sm" ? 13 : size==="lg" ? 16 : 14;
@@ -32,7 +30,7 @@ const Btn = ({ children, variant="primary", onClick, style={}, size="md", loadin
       {children}
     </button>
   );
-};
+  };
   useEffect(() => {
     let mounted = true;
     api.tips.getToday()

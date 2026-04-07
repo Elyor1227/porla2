@@ -9,8 +9,8 @@ export default function QnaWidget() {
   const [ok, setOk] = useState("");
   const [err, setErr] = useState("");
   const [form, setForm] = useState({ question: "", topic: "", askedName: "", contact: "" });
-  const [answers, setAnswers] = useState([]);
-  const [loadingAnswers, setLoadingAnswers] = useState(false);
+  const [, setAnswers] = useState([]);
+  const [, setLoadingAnswers] = useState(false);
   const [user, setUser] = useState(null);
 
   useEffect(() => {

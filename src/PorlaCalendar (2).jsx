@@ -507,20 +507,30 @@ const MONTHS_UZ = [
 ];
 const DAYS_UZ = ["Du", "Se", "Ch", "Pa", "Ju", "Sh", "Ya"];
 
+/* public/ — boshqa ekranlar bilan mos tibbiy ikonlar */
+const CAL_IC = {
+  brand: "/Untitled(2)/mdi_calendar-heart.png",
+  hayz: "/Untitled(1)/blood-drop 1.png",
+  taxmin: "/Untitled(1)/calendar1.png",
+  follik: "/Untitled(1)/exercise-yoga 1.png",
+  ovul: "/Untitled(1)/cardiology 1.png",
+  lyut: "/Untitled(1)/neurology 1.png",
+};
+
 const PHASES = {
-  hayz:        { label: "Hayz",        color: "#D4567A", bg: "#FCE4EC", emoji: "🩸" },
-  predicted:   { label: "Taxminiy",    color: "#E8869E", bg: "#FDE8F0", emoji: "📅" },
-  follikulyar: { label: "Follikulyar", color: "#E07840", bg: "#FFF0E8", emoji: "🌱" },
-  ovulatsiya:  { label: "Ovulatsiya",  color: "#C8900A", bg: "#FFF8E1", emoji: "🌟" },
-  lyuteal:     { label: "Lyuteal",     color: "#7C5CBF", bg: "#F0EAF8", emoji: "🌙" },
+  hayz:        { label: "Hayz",        color: "#D4567A", bg: "#FCE4EC", iconSrc: CAL_IC.hayz },
+  predicted:   { label: "Taxminiy",    color: "#E8869E", bg: "#FDE8F0", iconSrc: CAL_IC.taxmin },
+  follikulyar: { label: "Follikulyar", color: "#E07840", bg: "#FFF0E8", iconSrc: CAL_IC.follik },
+  ovulatsiya:  { label: "Ovulatsiya",  color: "#C8900A", bg: "#FFF8E1", iconSrc: CAL_IC.ovul },
+  lyuteal:     { label: "Lyuteal",     color: "#7C5CBF", bg: "#F0EAF8", iconSrc: CAL_IC.lyut },
 };
 
 const PHASE_INFO = {
-  hayz:        { title: "🩸 Hayz fazasi", text: "Hayz – bachadon shilliq qavatining to'kilishi. 3–7 kun davom etadi. Dam olish va issiq ovqat yeyish tavsiya etiladi.", tips: ["Issiq kompres qo'ying, yaxshi bo'ladi 🌡️", "Temir boy ovqatlar yeyish foydali", "Yengil cho'zilish og'riqni kamaytiradi", "Ko'p suv iching 💧"] },
-  predicted:   { title: "📅 Taxminiy hayz", text: "Bu kunlar oldingi siklga asosan hisoblangan taxminiy sanalar. Aniq sanangiz farq qilishi mumkin — o'zingiz kiritib yangilang.", tips: ["Gigiyena narsalarini tayyorlang", "Issiq ovqat yeyish foydali", "Dam olishni rejalashtiring"] },
-  follikulyar: { title: "🌱 Follikulyar faza", text: "Estrogen oshadi, energiyangiz ko'tariladi. Yangi narsalar o'rganishga eng yaxshi vaqt!", tips: ["Yangi narsalar o'rganishga eng zo'r vaqt!", "Uchrashuvlarni shu vaqtga rejalashtirsangiz yaxshi", "Sport va ijod uchun ideal davr 🚀", "Energiyangizdan to'liq foydalaning!"] },
-  ovulatsiya:  { title: "🌟 Ovulatsiya", text: "Tuxumhujayra chiqadi — eng unumdor kun. Tuxumhujayra 12–24 soat, sperma 5 kungacha yashaydi.", tips: ["Eng unumdor kunlaringiz, e'tibor bering 🥚", "Kayfiyat va energiya cho'qqida!", "Muhim qarorlarni shu kunga qo'ying"] },
-  lyuteal:     { title: "🌙 Lyuteal faza", text: "Progesteron ko'tariladi. PMS belgilari (shishish, kayfiyat o'zgarishi) bo'lishi mumkin.", tips: ["Shirin ishtaha oshsa — meva yeng 🍌", "Kayfiyat o'zgarsa o'zingizni ayblamang 💜", "Magniyga boy ovqatlar yeyish foydali", "Dam olishni ko'paytiring, katta qarorlarni keyinga qo'ying"] },
+  hayz:        { title: "Hayz fazasi", text: "Hayz – bachadon shilliq qavatining to'kilishi. 3–7 kun davom etadi. Dam olish va issiq ovqat yeyish tavsiya etiladi.", tips: ["Issiq kompres qo'ying, yaxshi bo'ladi 🌡️", "Temir boy ovqatlar yeyish foydali", "Yengil cho'zilish og'riqni kamaytiradi", "Ko'p suv iching 💧"] },
+  predicted:   { title: "Taxminiy hayz", text: "Bu kunlar oldingi siklga asosan hisoblangan taxminiy sanalar. Aniq sanangiz farq qilishi mumkin — o'zingiz kiritib yangilang.", tips: ["Gigiyena narsalarini tayyorlang", "Issiq ovqat yeyish foydali", "Dam olishni rejalashtiring"] },
+  follikulyar: { title: "Follikulyar faza", text: "Estrogen oshadi, energiyangiz ko'tariladi. Yangi narsalar o'rganishga eng yaxshi vaqt!", tips: ["Yangi narsalar o'rganishga eng zo'r vaqt!", "Uchrashuvlarni shu vaqtga rejalashtirsangiz yaxshi", "Sport va ijod uchun ideal davr 🚀", "Energiyangizdan to'liq foydalaning!"] },
+  ovulatsiya:  { title: "Ovulatsiya", text: "Tuxumhujayra chiqadi — eng unumdor kun. Tuxumhujayra 12–24 soat, sperma 5 kungacha yashaydi.", tips: ["Eng unumdor kunlaringiz, e'tibor bering 🥚", "Kayfiyat va energiya cho'qqida!", "Muhim qarorlarni shu kunga qo'ying"] },
+  lyuteal:     { title: "Lyuteal faza", text: "Progesteron ko'tariladi. PMS belgilari (shishish, kayfiyat o'zgarishi) bo'lishi mumkin.", tips: ["Shirin ishtaha oshsa — meva yeng 🍌", "Kayfiyat o'zgarsa o'zingizni ayblamang 💜", "Magniyga boy ovqatlar yeyish foydali", "Dam olishni ko'paytiring, katta qarorlarni keyinga qo'ying"] },
 };
 
 // ========== Build cycle map (unchanged logic) ==========
@@ -621,7 +631,7 @@ export default function PorlaCalendar() {
       try {
         const notes = cycle.notes ? JSON.parse(cycle.notes) : {};
         if (notes.periodLength) periodLength = notes.periodLength;
-      } catch {}
+      } catch { /* noto‘g‘ri JSON */ }
       const startRaw = cycle.startDate;
       const start = normalizeDateStr(startRaw);
       if (!start) return null;
@@ -666,6 +676,7 @@ export default function PorlaCalendar() {
 
   useEffect(() => {
     fetchCycles();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- faqat mount
   }, []);
 
   // --- Save new period (create cycle) ---
@@ -680,7 +691,7 @@ export default function PorlaCalendar() {
         const notes = cycle.notes ? JSON.parse(cycle.notes) : {};
         const periodLength = notes.periodLength || 5;
         cycleEnd = addD(cycleStart, periodLength - 1);
-      } catch {}
+      } catch { /* noto‘g‘ri JSON */ }
       return !(cycleEnd < newStart || cycleStart > newEnd);
     });
 
@@ -688,7 +699,7 @@ export default function PorlaCalendar() {
     for (const cycle of overlappingCycles) {
       try {
         let notes = {};
-        try { notes = cycle.notes ? JSON.parse(cycle.notes) : {}; } catch {}
+        try { notes = cycle.notes ? JSON.parse(cycle.notes) : {}; } catch { /* noto‘g‘ri JSON */ }
         notes.deleted = true;
         await api.tracker.updateCycle(cycle._id, { notes: JSON.stringify(notes) });
       } catch (err) {
@@ -715,7 +726,7 @@ export default function PorlaCalendar() {
 
     try {
       let notes = {};
-      try { notes = cycle.notes ? JSON.parse(cycle.notes) : {}; } catch {}
+      try { notes = cycle.notes ? JSON.parse(cycle.notes) : {}; } catch { /* noto‘g‘ri JSON */ }
       notes.deleted = true;
       await api.tracker.updateCycle(cycle._id, { notes: JSON.stringify(notes) });
       await fetchCycles();
@@ -850,7 +861,10 @@ export default function PorlaCalendar() {
   if (loading) {
     return (
       <div style={{ minHeight: "100vh", background: "#FDF5F7", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div style={{ textAlign: "center", color: "#D4567A", fontSize: 20 }}>⏳ Yuklanmoqda...</div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, color: "#D4567A", fontSize: 16, fontWeight: 700 }}>
+          <img src={CAL_IC.brand} alt="" width={28} height={28} style={{ objectFit: "contain" }} />
+          Yuklanmoqda…
+        </div>
       </div>
     );
   }
@@ -870,7 +884,6 @@ export default function PorlaCalendar() {
   return (
     <div style={{ minHeight: "100vh", background: "#FDF5F7", fontFamily: "'Nunito',sans-serif", maxWidth: 480, margin: "0 auto" }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
         *{box-sizing:border-box;margin:0;padding:0;}
         button{font-family:'Nunito',sans-serif;}
         @keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
@@ -884,7 +897,9 @@ export default function PorlaCalendar() {
       {/* TOP BAR */}
       <div style={{ background: "#FDF5F7", padding: "52px 20px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", position: "sticky", top: 0, zIndex: 10, borderBottom: "1px solid #FCE4EC" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ width: 36, height: 36, borderRadius: 10, background: "linear-gradient(135deg,#D4567A,#E8855A)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18 }}>🌸</div>
+          <div style={{ width: 36, height: 36, borderRadius: 10, background: "linear-gradient(135deg,#D4567A,#E8855A)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <img src={CAL_IC.brand} alt="" width={22} height={22} style={{ objectFit: "contain" }} />
+          </div>
           <span style={{ fontWeight: 900, fontSize: 18, color: "#222" }}>Miila</span>
         </div>
         <span style={{ fontSize: 15, fontWeight: 800, color: "#D4567A" }}>Sikl kalendari</span>
@@ -896,8 +911,12 @@ export default function PorlaCalendar() {
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 18 }}>
           <div style={{ background: "linear-gradient(135deg,#D4567A,#B83060)", borderRadius: 20, padding: "20px 16px", color: "#fff", boxShadow: "0 8px 28px rgba(212,86,122,0.38)" }}>
             <p style={{ fontSize: 10, opacity: .75, letterSpacing: 2.5, textTransform: "uppercase", marginBottom: 10 }}>KEYINGI HAYZGACHA</p>
-            <p style={{ fontSize: 36, fontWeight: 900, lineHeight: 1 }}>
-              {daysUntilNext === null ? "—" : daysUntilNext <= 0 ? "🩸" : daysUntilNext}
+            <p style={{ fontSize: 36, fontWeight: 900, lineHeight: 1, display: "flex", alignItems: "center", justifyContent: "center", minHeight: 44 }}>
+              {daysUntilNext === null ? "—" : daysUntilNext <= 0 ? (
+                <img src={CAL_IC.hayz} alt="" width={40} height={40} style={{ objectFit: "contain" }} />
+              ) : (
+                daysUntilNext
+              )}
             </p>
             <p style={{ fontSize: 12, opacity: .8, marginTop: 5 }}>
               {daysUntilNext === null ? "Sanani kiriting" : daysUntilNext <= 0 ? "Bugun yoki kechikkan" : "kun qoldi"}
@@ -927,7 +946,10 @@ export default function PorlaCalendar() {
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <div>
                   <p style={{ fontSize: 12, color: "rgba(255,255,255,0.85)", marginBottom: 2 }}>Boshlandi: <strong>{selectFirst}</strong></p>
-                  <p style={{ fontSize: 13, fontWeight: 800, color: "#fff" }}>Endi oxirgi kunni bosing 👇</p>
+                  <p style={{ fontSize: 13, fontWeight: 800, color: "#fff", display: "flex", alignItems: "center", gap: 6 }}>
+                    Endi oxirgi kunni bosing
+                    <span aria-hidden style={{ fontSize: 16 }}>↓</span>
+                  </p>
                 </div>
                 <button onClick={() => setSelectFirst(null)}
                   style={{ background: "rgba(255,255,255,0.25)", border: "none", borderRadius: 10, padding: "6px 10px", color: "#fff", fontSize: 12, fontWeight: 800, cursor: "pointer" }}>
@@ -935,8 +957,9 @@ export default function PorlaCalendar() {
                 </button>
               </div>
             ) : (
-              <p style={{ fontSize: 13, fontWeight: 800, color: "#D4567A" }}>
-                🩸 Kalendarda 1-kun → oxirgi kun bosing
+              <p style={{ fontSize: 13, fontWeight: 800, color: "#D4567A", display: "flex", alignItems: "center", gap: 8 }}>
+                <img src={CAL_IC.hayz} alt="" width={20} height={20} style={{ objectFit: "contain", flexShrink: 0 }} />
+                Kalendarda 1-kun → oxirgi kun bosing
               </p>
             )}
           </div>
@@ -995,7 +1018,9 @@ export default function PorlaCalendar() {
                 <div key={i} style={{ paddingBottom: 12, marginBottom: i < arr.length - 1 ? 12 : 0, borderBottom: i < arr.length - 1 ? "1.5px solid #FCE4EC" : "none" }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                      <div style={{ width: 40, height: 40, borderRadius: 12, background: "#FCE4EC", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>🩸</div>
+                      <div style={{ width: 40, height: 40, borderRadius: 12, background: "#FCE4EC", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <img src={CAL_IC.hayz} alt="" width={24} height={24} style={{ objectFit: "contain" }} />
+                      </div>
                       <div>
                         <p style={{ fontSize: 14, fontWeight: 800, color: "#333" }}>{r.start} → {r.end}</p>
                         <p style={{ fontSize: 12, color: "#D4567A", fontWeight: 700 }}>{days} kun</p>
@@ -1007,7 +1032,7 @@ export default function PorlaCalendar() {
                     </button>
                   </div>
                   <div style={{ marginTop: 8, background: "#FDE8F0", borderRadius: 12, padding: "9px 13px", display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ fontSize: 14 }}>📅</span>
+                    <img src={CAL_IC.taxmin} alt="" width={20} height={20} style={{ objectFit: "contain", flexShrink: 0 }} />
                     <div>
                       <p style={{ fontSize: 10, color: "#E8869E", fontWeight: 800, letterSpacing: 1.5, textTransform: "uppercase" }}>Taxminiy keyingi hayz</p>
                       <p style={{ fontSize: 13, fontWeight: 800, color: "#C4406A" }}>{nextStart}</p>
@@ -1027,7 +1052,10 @@ export default function PorlaCalendar() {
           <div onClick={e => e.stopPropagation()}
             style={{ background: "#fff", borderRadius: "28px 28px 0 0", width: "100%", maxWidth: 480, padding: "28px 24px 48px", animation: "slideUp 0.3s ease" }}>
             <div style={{ width: 40, height: 4, borderRadius: 2, background: "#eee", margin: "0 auto 24px" }} />
-            <h2 style={{ fontSize: 20, fontWeight: 900, color: "#222", marginBottom: 6 }}>🩸 Hayz kunlarini qo'shish</h2>
+            <h2 style={{ fontSize: 20, fontWeight: 900, color: "#222", marginBottom: 6, display: "flex", alignItems: "center", gap: 10 }}>
+              <img src={CAL_IC.hayz} alt="" width={28} height={28} style={{ objectFit: "contain" }} />
+              Hayz kunlarini qo'shish
+            </h2>
             <p style={{ fontSize: 13, color: "#aaa", marginBottom: 24 }}>Boshlangan sana va necha kun davom etganini kiriting</p>
 
             <p style={{ fontSize: 13, fontWeight: 800, color: "#555", marginBottom: 8 }}>Boshlanish sanasi</p>
@@ -1047,9 +1075,12 @@ export default function PorlaCalendar() {
                 </button>
               ))}
             </div>
-            <p style={{ fontSize: 12, color: "#D4567A", marginBottom: 24 }}>
-              📅 {addStart} → {toStr(addD(parseD(addStart || TODAY), addDuration - 1))}
-              &nbsp;({addDuration} kun)
+            <p style={{ fontSize: 12, color: "#D4567A", marginBottom: 24, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+              <img src={CAL_IC.taxmin} alt="" width={18} height={18} style={{ objectFit: "contain" }} />
+              <span>
+                {addStart} → {toStr(addD(parseD(addStart || TODAY), addDuration - 1))}
+                &nbsp;({addDuration} kun)
+              </span>
             </p>
 
             <button onClick={handleAddModal}
@@ -1078,7 +1109,9 @@ export default function PorlaCalendar() {
               const info = PHASE_INFO[phasePopup];
               return (
                 <>
-                  <div style={{ width: 58, height: 58, borderRadius: 18, background: ph.bg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 30, marginBottom: 16 }}>{ph.emoji}</div>
+                  <div style={{ width: 58, height: 58, borderRadius: 18, background: ph.bg, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}>
+                    <img src={ph.iconSrc} alt="" width={34} height={34} style={{ objectFit: "contain" }} />
+                  </div>
                   <h3 style={{ fontSize: 21, fontWeight: 900, color: "#222", marginBottom: 10 }}>{info.title}</h3>
                   <p style={{ fontSize: 14, color: "#555", lineHeight: 1.75, marginBottom: 18 }}>{info.text}</p>
                   <div style={{ background: ph.bg, borderRadius: 16, padding: "16px" }}>

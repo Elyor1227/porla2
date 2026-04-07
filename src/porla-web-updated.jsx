@@ -13,7 +13,7 @@ import QnaWidget from "./QnaWidget";
 import DailyTip from "./DailyTip";
 
 /* ── DESIGN TOKENS ───────────────────────────────────── */
-const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');`;
+const FONTS = ''
 const T = {
   rose:"#d64f6e", roseMid:"#e8728a", roseLight:"#fde8ec",
   cream:"#fdf8f5", dark:"#221219", ink:"#4a2535",
@@ -104,6 +104,15 @@ const NAV = [
   { key:"notifs",  label:"Xabarlar",    emoji:"/Untitled(2)/message.png" },
   { key:"profile", label:"Profil",      emoji:"/Untitled(2)/ix_user-profile-filled.png" },
 ];
+
+/* Profil menyusi — NAV/login bilan bir xil public rasmlar */
+const PROFILE_MENU_ICONS = {
+  lessons: "/Untitled(2)/material-symbols-light_play-lesson-rounded.png",
+  email: "/Untitled(2)/entypo_email.png",
+  lock: "/Untitled(2)/mingcute_lock-fill.png",
+  help: "/Untitled(1)/stethoscope 1.png",
+  logout: "/Untitled(2)/fa7-solid_home.png",
+};
 
 function Sidebar({ tab, setTab, user, unread }) {
   return (
@@ -412,9 +421,9 @@ function VideoPlayer({ url, title }) {
 }
 
 /* ── LESSON MODAL ─────────────────────────────────────── */
-function LessonModal({ userIsPro, lesson, courseTitle, courseId, onClose, onNavigate }) {
+function LessonModal({ userIsPro: _userIsPro, lesson, courseTitle, courseId, onClose, onNavigate }) {
   const [lessonData, setLessonData] = useState(lesson);
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
   const [completing, setCompleting] = useState(false);
 
   useEffect(() => {
@@ -464,6 +473,7 @@ function LessonModal({ userIsPro, lesson, courseTitle, courseId, onClose, onNavi
       .finally(() => setLoading(false));
   }
   
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- lesson obyektini to‘liq qaramlikka qo‘yish ortiqcha qayta yuklashlarni keltirib chiqaradi
   }, [courseId, lesson._id, lesson.isLocked]);
 
   const handleCompleteLesson = async () => {
@@ -895,11 +905,11 @@ function Profile({ w, user, onLogout }) {
   };
 
   const menuItems = [
-    { icon:"📚", label:"Bajarilgan darslar", sub:`${user?.completedLessons?.length || 0} ta dars tugallangan`, color:T.blue,   bg:"#eff6ff" },
-    { icon:"📧", label:"Email",              sub: user?.email || "",                                           color:T.green,  bg:"#f0fdf4" },
-    { icon:"🔒", label:"Parol o'zgartirish",  sub:"Hisobi himoyasi",                                          color:T.gold,   bg:"#fffbeb", action: () => setPasswordMode(!passwordMode) },
-    { icon:"❓", label:"Yordam markazi",     sub:"Biz bilan bog'lanish uchun telefon raqami: +998 91 779 34 70",                                          color:"#0891b2",bg:"#ecfeff" },
-    { icon:"🚪", label:"Chiqish",            sub:"Hisobdan chiqish",                                           color:"#ef4444",bg:"#fef2f2", danger:true, action:handleLogout },
+    { iconSrc: PROFILE_MENU_ICONS.lessons, label:"Bajarilgan darslar", sub:`${user?.completedLessons?.length || 0} ta dars tugallangan`, color:T.blue,   bg:"#eff6ff" },
+    { iconSrc: PROFILE_MENU_ICONS.email, label:"Email",              sub: user?.email || "",                                           color:T.green,  bg:"#f0fdf4" },
+    { iconSrc: PROFILE_MENU_ICONS.lock, label:"Parol o'zgartirish",  sub:"Hisobi himoyasi",                                          color:T.gold,   bg:"#fffbeb", action: () => setPasswordMode(!passwordMode) },
+    { iconSrc: PROFILE_MENU_ICONS.help, label:"Yordam markazi",     sub:"Biz bilan bog'lanish uchun telefon raqami: +998 91 779 34 70",                                          color:"#0891b2",bg:"#ecfeff" },
+    { iconSrc: PROFILE_MENU_ICONS.logout, label:"Chiqish",            sub:"Hisobdan chiqish",                                           color:"#ef4444",bg:"#fef2f2", danger:true, action:handleLogout },
   ];
 
   return (
@@ -913,7 +923,9 @@ function Profile({ w, user, onLogout }) {
           <div style={{ background:"linear-gradient(135deg,#d64f6e 0%,#b83155 50%,#92244a 100%)", borderRadius:24, padding:"32px 24px", textAlign:"center", marginBottom:20, position:"relative", overflow:"hidden", boxShadow:"0 16px 48px rgba(214,79,110,.3)" }}>
             <div style={{ position:"absolute", width:200, height:200, borderRadius:"50%", background:"rgba(255,255,255,.06)", top:-50, right:-40 }}/>
             <div style={{ position:"relative" }}>
-              <div style={{ width:88, height:88, borderRadius:"50%", background:"rgba(255,255,255,.2)", border:"3px solid rgba(255,255,255,.5)", display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 16px", fontSize:40 }}><i class="fi fi-rr-user"></i></div>
+              <div style={{ width:88, height:88, borderRadius:"50%", background:"rgba(255,255,255,.2)", border:"3px solid rgba(255,255,255,.5)", display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 16px", fontSize:40 }}>
+                <img src="/Untitled(2)/ix_user-profile-filled.png" alt="" width={44} height={44} style={{ objectFit:"contain" }} />
+              </div>
               <p style={{ fontFamily:serif, fontSize:26, fontWeight:700, color:T.white, margin:"0 0 4px" }}>{user?.name || "Foydalanuvchi"}</p>
               <p style={{ fontFamily:sans, fontSize:13, color:"rgba(255,255,255,.7)", margin:"0 0 16px" }}>{user?.email}</p>
               <span style={{ fontFamily:sans, fontSize:12, fontWeight:700, padding:"5px 14px", borderRadius:20, background: user?.isPro ? "linear-gradient(135deg,#e9a825,#f5bc3a)" : "rgba(255,255,255,.2)", color:"white" }}>
@@ -954,7 +966,9 @@ function Profile({ w, user, onLogout }) {
             {menuItems.map((m, i) => (
               <Card key={i} onClick={m.action || (() => {})} style={{ padding:"16px 18px" }}>
                 <div style={{ display:"flex", alignItems:"center", gap:14 }}>
-                  <div style={{ width:44, height:44, borderRadius:13, background:m.bg, display:"flex", alignItems:"center", justifyContent:"center", fontSize:20, flexShrink:0 }}>{m.icon}</div>
+                  <div style={{ width:44, height:44, borderRadius:13, background:m.bg, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+                    <img src={m.iconSrc} alt="" width={22} height={22} style={{ objectFit:"contain" }} />
+                  </div>
                   <div style={{ flex:1 }}>
                     <p style={{ fontFamily:sans, fontSize:14, fontWeight:700, color: m.danger ? "#ef4444" : T.dark, margin:"0 0 2px" }}>{m.label}</p>
                     <p style={{ fontFamily:sans, fontSize:12, color:T.muted, margin:0 }}>{m.sub}</p>
