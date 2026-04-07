@@ -205,13 +205,14 @@ function BottomNav({ tab, setTab, unread }) {
         return (
           <button key={n.key} onClick={() => setTab(n.key)}
             style={{ flex:1, background:"none", border:"none", cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center", gap:3, padding:"4px 0" }}>
-            <span style={{ position:"relative", width:40, height:28, borderRadius:10, background: a ? "linear-gradient(135deg,#d64f6e,#e8728a)" : "transparent", display:"flex", alignItems:"center", justifyContent:"center", fontSize:16, boxShadow: a ? "0 4px 10px rgba(214,79,110,.25)" : "none", transition:"all .2s" }}>
+            <span style={{ position:"relative", width:40, height:28, borderRadius:10, background:"transparent", display:"flex", alignItems:"center", justifyContent:"center", fontSize:16, transition:"all .2s" }}>
               <img width={30} height={30} src={n.emoji} alt="" />
               {n.key==="notifs" && unread > 0 && (
                 <span style={{ position:"absolute", top:2, right:2, width:14, height:14, borderRadius:"50%", background:"#ef4444", color:"white", fontSize:8, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center" }}>{unread > 9 ? "9+" : unread}</span>
               )}
             </span>
             <span style={{ fontFamily:sans, fontSize:10, fontWeight: a ? 700 : 500, color: a ? T.rose : T.muted }}>{n.label}</span>
+            <span style={{ width:18, height:2, borderRadius:999, background:a ? T.rose : "transparent", transition:"all .2s" }}/>
           </button>
         );
       })}
