@@ -457,7 +457,7 @@ function Courses({ toast }) {
   const [lessonPanel, setLessonPanel] = useState(null); // course object
   const [lessons, setLessons]         = useState([]);
   const [lessonModal, setLessonModal] = useState(null);
-  const [form, setForm] = useState({ title:"", description:"", icon:"📚", color:"#4c2fa0", bgColor:"#ede9ff", isPro:false, order:0 });
+  const [form, setForm] = useState({ title:"", description:"", icon:"/Untitled (9)/svg1.svg", color:"#4c2fa0", bgColor:"#ede9ff", isPro:false, order:0 });
   const [lForm, setLForm] = useState({ title:"", content:"", videoUrl:"", duration:10, order:0, isPro:false });
   const [lessonVideoFile, setLessonVideoFile] = useState(null);
   const [lessonSaving, setLessonSaving] = useState(false);
@@ -474,7 +474,7 @@ function Courses({ toast }) {
   };
 
   const openNewCourse = () => {
-    setForm({ title:"", description:"", icon:"📚", color:"#4c2fa0", bgColor:"#ede9ff", isPro:false, order:courses.length+1 });
+    setForm({ title:"", description:"", icon:"/Untitled (9)/svg1.svg", color:"#4c2fa0", bgColor:"#ede9ff", isPro:false, order:courses.length+1 });
     setCourseModal("new");
   };
   const openEditCourse = (c) => { setForm({...c}); setCourseModal(c); };
@@ -537,7 +537,7 @@ function Courses({ toast }) {
     } catch(e) { toast(e.message,"error"); }
   };
 
-  const ICONS = ["/Untitled(1)/book1.png","/image.png","/Untitled(1)/stethoscope 1.png","/Untitled(1)/blood-cells 1.png","/Untitled(1)/bio-pharma 1.png","/Untitled(1)/blood-drop 1.png","/Untitled(1)/cardiology 1.png","/Untitled(1)/clean-hands 1.png","/Untitled(1)/exercise-yoga 1.png","/Untitled(1)/coronary-care_unit (1) 1.png","/Untitled(1)/virus-research_alt 1.png","/Untitled(1)/exercise-yoga 1.png", "/Untitled(1)/calendar1.png", "/Untitled(1)/health 1.png", "/Untitled(1)/nerve 1.png","/Untitled(1)/neurology 1.png", "/Untitled(1)/ribbon 1.png", "/Untitled(1)/thermometer 1.png"];
+  const ICONS = Array.from({ length: 18 }, (_, i) => `/Untitled (9)/svg${(i % 6) + 1}.svg`);
 
   return (
     <div>
@@ -1015,7 +1015,10 @@ function Broadcast({ toast }) {
   return (
     <div>
       <div style={{marginBottom:32}}>
-        <h2 style={{fontFamily:serif,fontSize:28,fontWeight:700,color:T.dark,margin:"0 0 6px"}}>Xabar yuborish</h2>
+        <h2 style={{fontFamily:serif,fontSize:28,fontWeight:700,color:T.dark,margin:"0 0 6px",display:"flex",alignItems:"center",gap:12}}>
+          <img src="/Untitled (11)/fontisto_info.svg" alt="" width={36} height={36} style={{ objectFit:"contain" }} />
+          Xabar yuborish
+        </h2>
         <p style={{fontFamily:sans,fontSize:14,color:T.muted,margin:0}}>Barcha yoki Premium foydalanuvchilarga bildirishnoma</p>
       </div>
       <div style={{display:"grid",gridTemplateColumns:"1fr 320px",gap:24}}>
@@ -1040,8 +1043,9 @@ function Broadcast({ toast }) {
                 style={{width:16,height:16,accentColor:T.gold}}/>
               Faqat ✦ Premium foydalanuvchilarga
             </label>
-            <Btn onClick={send} loading={loading} size="lg">
-              📣 Yuborish
+            <Btn onClick={send} loading={loading} size="lg" style={{ display:"inline-flex", alignItems:"center", gap:8 }}>
+              <img src="/Untitled (11)/mingcute_light-line.svg" alt="" width={20} height={20} style={{ objectFit:"contain" }} />
+              Yuborish
             </Btn>
           </div>
         </Card>
@@ -1082,7 +1086,7 @@ const ADMIN_MENU = [
   { key:"courses",   label:"Kurslar",       emoji:"📚" },
   { key:"qna",       label:"Savol-javoblar",emoji:"❓" },
   { key:"tips",      label:"Maslahatlar",   emoji:"💡" },
-  { key:"broadcast", label:"Xabar yuborish",emoji:"📣" },
+  { key:"broadcast", label:"Xabar yuborish", iconSrc:"/Untitled (11)/fontisto_info.svg" },
 ];
 
 function SidebarContent({ tab, setTab, setSide }) {
@@ -1109,7 +1113,9 @@ function SidebarContent({ tab, setTab, setSide }) {
               boxShadow:a?"inset 0 0 0 1px rgba(124,92,214,.5)":"none",
             }}>
               <span style={{width:32,height:32,borderRadius:9,flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,
-                background:a?"rgba(124,92,214,.4)":"rgba(255,255,255,.07)"}}>{m.emoji}</span>
+                background:a?"rgba(124,92,214,.4)":"rgba(255,255,255,.07)"}}>
+                {m.iconSrc ? <img src={m.iconSrc} alt="" width={20} height={20} style={{ objectFit:"contain" }} /> : m.emoji}
+              </span>
               {m.label}
               {a && <span style={{marginLeft:"auto",width:6,height:6,borderRadius:"50%",background:"#7c5cd6"}}/>}
             </button>

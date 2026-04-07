@@ -75,11 +75,12 @@ const Badge = ({ type }) => (
   </span>
 );
 
-const Alert = ({ type, message }) => {
+const Alert = ({ type, message, iconSrc }) => {
   if (!message) return null;
   return (
-    <div style={{ background: type==="error" ? T.errorBg : "#f0fdf4", border:`1px solid ${type==="error" ? "#fecaca" : "#bbf7d0"}`, borderRadius:12, padding:"12px 16px", marginBottom:16, fontFamily:sans, fontSize:13, color: type==="error" ? "#b91c1c" : "#065f46", fontWeight:600 }}>
-      {type==="error" ? "⚠ " : "✓ "}{message}
+    <div style={{ display:"flex", alignItems:"center", gap:10, background: type==="error" ? T.errorBg : "#f0fdf4", border:`1px solid ${type==="error" ? "#fecaca" : "#bbf7d0"}`, borderRadius:12, padding:"12px 16px", marginBottom:16, fontFamily:sans, fontSize:13, color: type==="error" ? "#b91c1c" : "#065f46", fontWeight:600 }}>
+      {type==="error" ? "⚠ " : iconSrc ? <img src={iconSrc} alt="" width={22} height={22} style={{ flexShrink:0, objectFit:"contain" }} /> : "✓ "}
+      <span style={{ flex:1 }}>{message}</span>
     </div>
   );
 };
@@ -101,7 +102,7 @@ const NAV = [
   { key:"home",    label:"Bosh sahifa", emoji:"/svg/Boshsahifaicons/fa7-solid_home.svg" },
   { key:"modules", label:"Darslar",     emoji:"/svg/Boshsahifaicons/material-symbols-light_play-lesson-rounded.svg" },
   { key:"tracker", label:"Sikl kalendari",        emoji:"/svg/Boshsahifaicons/mdi_calendar-heart.svg" },
-  { key:"notifs",  label:"Xabarlar",    emoji:"/svg/Boshsahifaicons/ion_notifications.svg" },
+  { key:"notifs",  label:"Xabarlar",    emoji:"/Untitled (11)/fontisto_info.svg" },
   { key:"profile", label:"Profil",      emoji:"/svg/Boshsahifaicons/ix_user-profile-filled.svg" },
 ];
 
@@ -167,8 +168,10 @@ function TopBar({ tab, setTab, unread }) {
         <span style={{ fontFamily:sans, fontSize:14, fontWeight:700, color:T.ink }}>{NAV.find(n => n.key===tab)?.label}</span>
         <div style={{ display:"flex", gap:8, alignItems:"center" }}>
           <button onClick={() => setTab("notifs")}
-            style={{ position:"relative", width:36, height:36, background:T.roseLight, border:"none", borderRadius:10, cursor:"pointer", fontSize:16, display:"flex", alignItems:"center", justifyContent:"center" }}>
-            🔔
+            style={{ position:"relative", width:36, height:36, background:T.roseLight, border:"none", borderRadius:10, cursor:"pointer", fontSize:16, display:"flex", alignItems:"center", justifyContent:"center" }}
+            aria-label="Xabarlar"
+          >
+            <img src="/Untitled (11)/mingcute_light-line.svg" alt="" width={22} height={22} style={{ objectFit:"contain" }} />
             {unread > 0 && <span style={{ position:"absolute", top:4, right:4, width:14, height:14, borderRadius:"50%", background:T.rose, color:"white", fontSize:8, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center" }}>{unread > 9 ? "9+" : unread}</span>}
           </button>
           <button onClick={() => setOpen(_o => !_o)}
@@ -279,7 +282,7 @@ function AuthPage({ onLogin }) {
             ))}
           </div>
           <Alert type="error" message={apiErr}/>
-          {success && <Alert type="success" message={success}/>}
+          {success && <Alert type="success" message={success} iconSrc="/Untitled (11)/mdi_flower.svg"/>}
           {mode==="register" && <Input label="Ism" value={form.name} onChange={e => set("name", e.target.value)} placeholder="To'liq ismingiz" error={errors.name} icon={<img width={20} src='/svg/xabarlarandprofileicons/ix_user-profile-filled.svg'/>}/>}
           <Input label="Email" value={form.email} onChange={e => set("email", e.target.value)} type="email" placeholder="email@example.com" error={errors.email} icon={<img width={20} src='/svg/xabarlarandprofileicons/entypo_email.svg'/>}/>
           <Input label="Parol" value={form.password} onChange={e => set("password", e.target.value)} type="password" placeholder={mode==="login" ? "Parolingizni kiriting" : "Kamida 6 ta belgi"} error={errors.password} icon={<img width={20} src='/svg/xabarlarandprofileicons/mingcute_lock-fill.svg'/>}/>
@@ -801,7 +804,12 @@ function Notifications({ w, onRead }) {
   };
 
   const typeColor = { info:T.blue, reminder:T.purple, achievement:T.green, warning:T.gold };
-  const typeEmoji = { info:"💬", reminder:"🔔", achievement:"🏆", warning:"⚠️" };
+  const typeIconSrc = {
+    info: "/Untitled (11)/fontisto_info.svg",
+    reminder: "/Untitled (11)/mingcute_light-line.svg",
+    achievement: "/Untitled (11)/material-symbols_trophy-rounded.svg",
+    warning: "/Untitled (11)/fluent_warning-12-regular.svg",
+  };
 
   return (
     <div style={{ padding: isLg ? "40px 48px" : "24px 20px", paddingBottom: isLg ? 40 : 90 }}>
@@ -833,8 +841,8 @@ function Notifications({ w, onRead }) {
               <Card key={n._id} onClick={() => !n.isRead && markRead(n._id)}
                 style={{ padding:"16px 20px", cursor: n.isRead ? "default" : "pointer", borderLeft:`3px solid ${n.isRead ? "transparent" : col}`, background: n.isRead ? T.white : "#fdfaff" }}>
                 <div style={{ display:"flex", gap:14, alignItems:"flex-start" }}>
-                  <div style={{ width:40, height:40, borderRadius:12, flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center", fontSize:18, background: n.isRead ? "#f5f5f5" : `${col}15` }}>
-                    {typeEmoji[n.type] || "💬"}
+                  <div style={{ width:40, height:40, borderRadius:12, flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center", background: n.isRead ? "#f5f5f5" : `${col}15` }}>
+                    <img src={typeIconSrc[n.type] || typeIconSrc.info} alt="" width={22} height={22} style={{ objectFit:"contain" }} />
                   </div>
                   <div style={{ flex:1 }}>
                     <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:4, gap:8 }}>
