@@ -130,7 +130,7 @@ function Sidebar({ tab, setTab, user, unread }) {
             <button key={n.key} onClick={() => setTab(n.key)}
               style={{ width:"100%", display:"flex", alignItems:"center", gap:12, padding:"11px 14px", borderRadius:14, border:"none", cursor:"pointer", marginBottom:4, transition:"all .2s", background: a ? T.roseLight : "transparent", fontFamily:sans, fontSize:14, fontWeight: a ? 700 : 500, color: a ? T.rose : T.ink }}>
               <span style={{ fontSize:18, position:"relative" }}>
-                <img src={n.emoji} alt="" />
+                <img width={30} height={30} src={n.emoji} alt="" />
                 {n.key==="notifs" && unread > 0 && (
                   <span style={{ position:"absolute", top:-4, right:-4, width:16, height:16, borderRadius:"50%", background:T.rose, color:"white", fontSize:9, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center" }}>{unread > 9 ? "9+" : unread}</span>
                 )}
@@ -183,7 +183,7 @@ function TopBar({ tab, setTab, unread }) {
             {NAV.map(n => (
               <button key={n.key} onClick={() => { setTab(n.key); setOpen(false); }}
                 style={{ width:"100%", display:"flex", alignItems:"center", gap:12, padding:"13px 14px", borderRadius:14, border:"none", cursor:"pointer", marginBottom:4, background: tab===n.key ? T.roseLight : "transparent", fontFamily:sans, fontSize:14, fontWeight: tab===n.key ? 700 : 500, color: tab===n.key ? T.rose : T.ink }}>
-                <span style={{ fontSize:18 }}><img src={n.emoji} alt="" /></span>
+                <span style={{ fontSize:18 }}><img width={30} height={30} src={n.emoji} alt="" /></span>
                 {n.label}
                 {n.key==="notifs" && unread > 0 && (
                   <span style={{ marginLeft:"auto", background:T.rose, color:"white", borderRadius:20, fontSize:11, fontWeight:700, padding:"1px 7px" }}>{unread}</span>
@@ -206,7 +206,7 @@ function BottomNav({ tab, setTab, unread }) {
           <button key={n.key} onClick={() => setTab(n.key)}
             style={{ flex:1, background:"none", border:"none", cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center", gap:3, padding:"4px 0" }}>
             <span style={{ position:"relative", width:40, height:28, borderRadius:10, background: a ? "linear-gradient(135deg,#d64f6e,#e8728a)" : "transparent", display:"flex", alignItems:"center", justifyContent:"center", fontSize:16, boxShadow: a ? "0 4px 10px rgba(214,79,110,.25)" : "none", transition:"all .2s" }}>
-              <img src={n.emoji} alt="" />
+              <img width={30} height={30} src={n.emoji} alt="" />
               {n.key==="notifs" && unread > 0 && (
                 <span style={{ position:"absolute", top:2, right:2, width:14, height:14, borderRadius:"50%", background:"#ef4444", color:"white", fontSize:8, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center" }}>{unread > 9 ? "9+" : unread}</span>
               )}
