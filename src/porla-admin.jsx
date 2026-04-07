@@ -460,12 +460,12 @@ function Courses({ toast }) {
   const [form, setForm] = useState({ title:"", description:"", icon:"📚", color:"#4c2fa0", bgColor:"#ede9ff", isPro:false, order:0 });
   const [lForm, setLForm] = useState({ title:"", content:"", videoUrl:"", duration:10, order:0, isPro:false });
   const [lessonVideoFile, setLessonVideoFile] = useState(null);
+  const [lessonSaving, setLessonSaving] = useState(false);
 
   const load = () => {
     setLoading(true);
     adminApi.courses().then(d=>setCourses(d.courses)).finally(()=>setLoading(false));
   };
-  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(()=>load(),[]);
 
   const loadLessons = (course) => {
@@ -507,20 +507,25 @@ function Courses({ toast }) {
   };
 
   const closeLessonModal = () => {
+    if (lessonSaving) return;
     setLessonModal(null);
     setLessonVideoFile(null);
   };
 
   const saveLesson = async () => {
+    if (lessonSaving) return;
     if (!lForm.title || !lForm.content) { toast("Sarlavha va mazmun majburiy","error"); return; }
+    setLessonSaving(true);
     try {
       const payload = lessonVideoFile ? { ...lForm, video: lessonVideoFile } : { ...lForm };
       if (lessonModal==="new") await adminApi.createLesson(lessonPanel._id, payload);
       else                      await adminApi.updateLesson(lessonPanel._id, lessonModal._id, payload);
       toast(lessonModal==="new"?"Dars qo'shildi":"Dars yangilandi","success");
-      closeLessonModal();
+      setLessonModal(null);
+      setLessonVideoFile(null);
       loadLessons(lessonPanel);
     } catch(e) { toast(e.message,"error"); }
+    finally { setLessonSaving(false); }
   };
 
   const deleteLesson = async (l) => {
@@ -666,9 +671,13 @@ function Courses({ toast }) {
         <div style={{marginBottom:16}}>
           <label style={{fontFamily:sans,fontSize:12,fontWeight:700,color:T.ink,display:"block",marginBottom:5}}>Video fayl (ixtiyoriy)</label>
           <input type="file" accept=".mp4,.webm,.mov,.m4v,video/mp4,video/webm,video/quicktime"
+            disabled={lessonSaving}
             onChange={e=>setLessonVideoFile(e.target.files?.[0]||null)}
             style={{width:"100%",fontFamily:sans,fontSize:13,padding:8,borderRadius:10,border:`1.5px solid ${T.border}`,background:"#fff"}}/>
           {lessonVideoFile && <p style={{fontFamily:sans,fontSize:11,color:T.muted,margin:"6px 0 0"}}>📎 {lessonVideoFile.name}</p>}
+          {lessonSaving && lessonVideoFile && (
+            <p style={{fontFamily:sans,fontSize:11,color:T.purple,margin:"6px 0 0"}}>Video yuklanmoqda... iltimos kuting.</p>
+          )}
           {lessonModal!=="new" && lessonModal?.videoFile && !lessonVideoFile && (
             <p style={{fontFamily:sans,fontSize:11,color:T.muted,margin:"6px 0 0"}}>Serverdagi video: {lessonModal.videoFile}</p>
           )}
@@ -702,7 +711,7 @@ function Courses({ toast }) {
             style={{width:16,height:16,accentColor:T.gold}}/>
           ✦ Premium dars
         </label>
-        <Btn onClick={saveLesson} style={{width:"100%",justifyContent:"center"}}>
+        <Btn onClick={saveLesson} loading={lessonSaving} disabled={lessonSaving} style={{width:"100%",justifyContent:"center"}}>
           {lessonModal==="new"?"＋ Dars qo'shish":"✓ Saqlash"}
         </Btn>
       </Modal>
