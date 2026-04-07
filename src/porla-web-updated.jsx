@@ -98,20 +98,20 @@ const Input = ({ label, value, onChange, type="text", placeholder="", error="", 
 
 /* ── NAVIGATION ──────────────────────────────────────── */
 const NAV = [
-  { key:"home",    label:"Bosh sahifa", emoji:"/Untitled(2)/fa7-solid_home.png" },
-  { key:"modules", label:"Darslar",     emoji:"/Untitled(2)/material-symbols-light_play-lesson-rounded.png" },
-  { key:"tracker", label:"Sikl kalendari",        emoji:"/Untitled(2)/mdi_calendar-heart.png" },
-  { key:"notifs",  label:"Xabarlar",    emoji:"/Untitled(2)/message.png" },
-  { key:"profile", label:"Profil",      emoji:"/Untitled(2)/ix_user-profile-filled.png" },
+  { key:"home",    label:"Bosh sahifa", emoji:"/svg/Boshsahifaicons/fa7-solid_home.svg" },
+  { key:"modules", label:"Darslar",     emoji:"/svg/Boshsahifaicons/material-symbols-light_play-lesson-rounded.svg" },
+  { key:"tracker", label:"Sikl kalendari",        emoji:"/svg/Boshsahifaicons/mdi_calendar-heart.svg" },
+  { key:"notifs",  label:"Xabarlar",    emoji:"/svg/Boshsahifaicons/ion_notifications.svg" },
+  { key:"profile", label:"Profil",      emoji:"/svg/Boshsahifaicons/ix_user-profile-filled.svg" },
 ];
 
 /* Profil menyusi — NAV/login bilan bir xil public rasmlar */
 const PROFILE_MENU_ICONS = {
-  lessons: "/Untitled(2)/material-symbols-light_play-lesson-rounded.png",
-  email: "/Untitled(2)/entypo_email.png",
-  lock: "/Untitled(2)/mingcute_lock-fill.png",
-  help: "/Untitled(1)/stethoscope 1.png",
-  logout: "/Untitled(2)/fa7-solid_home.png",
+  lessons: "/svg/xabarlarandprofileicons/mdi_book-heart.svg",
+  email: "/svg/xabarlarandprofileicons/entypo_email.svg",
+  lock: "/svg/xabarlarandprofileicons/mingcute_lock-fill.svg",
+  help: "/svg/xabarlarandprofileicons/mage_shield-question-mark-fill.svg",
+  logout: "/svg/xabarlarandprofileicons/mingcute_exit-fill.svg",
 };
 
 function Sidebar({ tab, setTab, user, unread }) {
@@ -279,9 +279,9 @@ function AuthPage({ onLogin }) {
           </div>
           <Alert type="error" message={apiErr}/>
           {success && <Alert type="success" message={success}/>}
-          {mode==="register" && <Input label="Ism" value={form.name} onChange={e => set("name", e.target.value)} placeholder="To'liq ismingiz" error={errors.name} icon={<img width={20} src='/Untitled(2)/ix_user-profile-filled.png'/>}/>}
-          <Input label="Email" value={form.email} onChange={e => set("email", e.target.value)} type="email" placeholder="email@example.com" error={errors.email} icon={<img width={20} src='/Untitled(2)/entypo_email.png'/>}/>
-          <Input label="Parol" value={form.password} onChange={e => set("password", e.target.value)} type="password" placeholder={mode==="login" ? "Parolingizni kiriting" : "Kamida 6 ta belgi"} error={errors.password} icon={<img width={20} src='/Untitled(2)/mingcute_lock-fill.png'/>}/>
+          {mode==="register" && <Input label="Ism" value={form.name} onChange={e => set("name", e.target.value)} placeholder="To'liq ismingiz" error={errors.name} icon={<img width={20} src='/svg/xabarlarandprofileicons/ix_user-profile-filled.svg'/>}/>}
+          <Input label="Email" value={form.email} onChange={e => set("email", e.target.value)} type="email" placeholder="email@example.com" error={errors.email} icon={<img width={20} src='/svg/xabarlarandprofileicons/entypo_email.svg'/>}/>
+          <Input label="Parol" value={form.password} onChange={e => set("password", e.target.value)} type="password" placeholder={mode==="login" ? "Parolingizni kiriting" : "Kamida 6 ta belgi"} error={errors.password} icon={<img width={20} src='/svg/xabarlarandprofileicons/mingcute_lock-fill.svg'/>}/>
           <Btn onClick={handleSubmit} loading={loading} disabled={loading} style={{ width:"100%", justifyContent:"center", marginTop:8 }} size="lg" type="button">
             {loading ? "Kutilmoqda..." : (mode==="login" ? "Kirish →" : "Hisob yaratish →")}
           </Btn>
@@ -924,7 +924,7 @@ function Profile({ w, user, onLogout }) {
             <div style={{ position:"absolute", width:200, height:200, borderRadius:"50%", background:"rgba(255,255,255,.06)", top:-50, right:-40 }}/>
             <div style={{ position:"relative" }}>
               <div style={{ width:88, height:88, borderRadius:"50%", background:"rgba(255,255,255,.2)", border:"3px solid rgba(255,255,255,.5)", display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto 16px", fontSize:40 }}>
-                <img src="/Untitled(2)/ix_user-profile-filled.png" alt="" width={44} height={44} style={{ objectFit:"contain" }} />
+                <img src="/svg/xabarlarandprofileicons/ix_user-profile-filled.svg" alt="" width={44} height={44} style={{ objectFit:"contain" }} />
               </div>
               <p style={{ fontFamily:serif, fontSize:26, fontWeight:700, color:T.white, margin:"0 0 4px" }}>{user?.name || "Foydalanuvchi"}</p>
               <p style={{ fontFamily:sans, fontSize:13, color:"rgba(255,255,255,.7)", margin:"0 0 16px" }}>{user?.email}</p>

@@ -368,7 +368,7 @@ export default function PorlaLanding() {
                       <div style={{ flex: 1 }}>
                         <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 600, color: "#3d2b26" }}>Anonim savol yo’llash </div>
                       </div>
-                      <div style={{ width: 24, height: 24, borderRadius: "50%", background: "linear-gradient(135deg, #c2545a, #e8728a)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "white" }}><img src='/Untitled(2)/message.png'/></div>
+                      <div style={{ width: 24, height: 24, borderRadius: "50%", background: "linear-gradient(135deg, #c2545a, #e8728a)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "white" }}><img src='/svg/xabarlarandprofileicons/boxicons_message-bubble-heart-filled.svg'/></div>
                     </div>
                   </div>
                 </div>
@@ -382,7 +382,7 @@ export default function PorlaLanding() {
                 display: "flex", alignItems: "center", gap: 8,
                 animation: "float 5s ease-in-out infinite 0.5s",
               }}>
-                <span style={{ fontSize: 18 }}><img src='/Untitled(1)/calendar1.png'/></span>
+                <span style={{ fontSize: 18 }}><img src='/svg/Boshsahifaicons/mdi_calendar-heart.svg'/></span>
                 <div>
                   <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, color: "#9a8580" }}>Keyingi sikl</div>
                   <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, fontWeight: 700, color: "#c2545a" }}>14 kun qoldi</div>

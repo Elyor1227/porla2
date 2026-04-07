@@ -509,12 +509,12 @@ const DAYS_UZ = ["Du", "Se", "Ch", "Pa", "Ju", "Sh", "Ya"];
 
 /* public/ — boshqa ekranlar bilan mos tibbiy ikonlar */
 const CAL_IC = {
-  brand: "/Untitled(2)/mdi_calendar-heart.png",
-  hayz: "/Untitled(1)/blood-drop 1.png",
-  taxmin: "/Untitled(1)/calendar1.png",
-  follik: "/Untitled(1)/exercise-yoga 1.png",
-  ovul: "/Untitled(1)/cardiology 1.png",
-  lyut: "/Untitled(1)/neurology 1.png",
+  brand: "/svg/Boshsahifaicons/mdi_calendar-heart.svg",
+  hayz: "/svg/landingpagecalendar/heart-cardiogram 1.svg",
+  taxmin: "/svg/Boshsahifaicons/mdi_calendar-heart.svg",
+  follik: "/svg/landingpagecalendar/electricity 1.svg",
+  ovul: "/svg/Boshsahifaicons/svg4.svg",
+  lyut: "/svg/Boshsahifaicons/svg5.svg",
 };
 
 const PHASES = {
