@@ -102,7 +102,7 @@ const NAV = [
   { key:"home",    label:"Bosh sahifa", emoji:"/svg/Boshsahifaicons/fa7-solid_home.svg" },
   { key:"modules", label:"Darslar",     emoji:"/svg/Boshsahifaicons/material-symbols-light_play-lesson-rounded.svg" },
   { key:"tracker", label:"Sikl kalendari",        emoji:"/svg/Boshsahifaicons/mdi_calendar-heart.svg" },
-  { key:"notifs",  label:"Xabarlar",    emoji:"/Untitled (11)/fontisto_info.svg" },
+  { key:"notifs",  label:"Xabarlar",    emoji:"/svg/Boshsahifaicons/ion_notifications.svg" },
   { key:"profile", label:"Profil",      emoji:"/svg/Boshsahifaicons/ix_user-profile-filled.svg" },
 ];
 
@@ -171,7 +171,7 @@ function TopBar({ tab, setTab, unread }) {
             style={{ position:"relative", width:36, height:36, background:T.roseLight, border:"none", borderRadius:10, cursor:"pointer", fontSize:16, display:"flex", alignItems:"center", justifyContent:"center" }}
             aria-label="Xabarlar"
           >
-            <img src="/Untitled (11)/mingcute_light-line.svg" alt="" width={22} height={22} style={{ objectFit:"contain" }} />
+            <img src="/svg/xabarlarandprofileicons/ion_notifications.svg" alt="" width={22} height={22} style={{ objectFit:"contain" }} />
             {unread > 0 && <span style={{ position:"absolute", top:4, right:4, width:14, height:14, borderRadius:"50%", background:T.rose, color:"white", fontSize:8, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center" }}>{unread > 9 ? "9+" : unread}</span>}
           </button>
           <button onClick={() => setOpen(_o => !_o)}
@@ -312,7 +312,7 @@ function Home({ w, user, setTab }) {
   return (
     <div style={{ padding: isLg ? "40px 48px" : "24px 20px", paddingBottom: isLg ? 40 : 90 }}>
       <div style={{ marginBottom:32 }}>
-        <p style={{ fontFamily:sans, fontSize:14, color:T.muted, margin:"0 0 4px", fontWeight:500 }}>Xayrli kun <img width={30} src='/Untitled(1)/artificial-intelligence 1.png'/></p>
+        <p style={{ fontFamily:sans, fontSize:14, color:T.muted, margin:"0 0 4px", fontWeight:500 }}>Xayrli kun</p>
         <h1 style={{ fontFamily:serif, fontSize: isLg ? 42 : 28, fontWeight:700, color:T.dark, margin:0, lineHeight:1.2 }}>
           Salom, {user?.name?.split(" ")[0] || "Foydalanuvchi"}!
         </h1>
@@ -619,7 +619,7 @@ function CourseDetail({ course, userIsPro, onBack }) {
             <Card key={l._id || idx} onClick={() => setActive(l)} style={{ padding:"16px 20px", cursor:"pointer" }}>
               <div style={{ display:"flex", gap:14, alignItems:"center" }}>
                 <div style={{ width:44, height:44, borderRadius:12, flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center", fontSize:18, background: l.isLocked ? "#f5f5f5" : l.isCompleted ? "#f0fdf4" : course.bgColor, border: l.isLocked ? "1.5px dashed #ddd" : "none" }}>
-                  {l.isLocked ? "🔒" : l.isCompleted ? "✅" : idx === 0 ? "🎬" : "▶"}
+                  {l.isLocked ? <img width={24} src="/public/Untitled (10)/mingcute_lock-fill.svg" alt="" /> : l.isCompleted ? "✅" : idx === 0 ? <img width={24} src="/public/Untitled (10)/mingcute_video-fill.svg" alt="" /> : <img width={24} src="/public/Untitled (10)/mingcute_video-fill.svg" alt="" />}
                 </div>
                 <div style={{ flex:1 }}>
                   <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:4, gap:8 }}>
