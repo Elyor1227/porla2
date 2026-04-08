@@ -38,17 +38,17 @@ const features = [
     desc: "Qisqa video darslar orqali, tanangizni tushuning Tanangizni tushunish orqali, o’zligingizni anglang",
   },
   {
-    icon: '/public/svg/Landing page icons/svg1.svg',
+    icon: '/svg/Landing page icons/svg1.svg',
     title: "Qulay kuzatuv",
     desc: "Menstrual siklingizni qulay tarzda kuzating va muhim kunlarni oldindan biling.",
   },
   {
-    icon: '/public/svg/Landing page icons/svg2.svg',
+    icon: '/svg/Landing page icons/svg2.svg',
     title: "Shaxsiylashtirilgan yondashuv",
     desc: "Siz kiritgan ma’lumotlarga qarab sog‘lig‘ingizni yaxshiroq tushunishga yordam beradigan tajriba.",
   },
   {
-    icon: '/public/svg/Landing page icons/svg3.svg',
+    icon: '/svg/Landing page icons/svg3.svg',
     title: "Kunlik Maslahatlar",
     desc: "Oy davomida siklingiz davriga mos tarzda kunlik maslahatlar oling.",
   },
