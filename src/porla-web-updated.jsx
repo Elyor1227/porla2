@@ -619,7 +619,7 @@ function CourseDetail({ course, userIsPro, onBack }) {
             <Card key={l._id || idx} onClick={() => setActive(l)} style={{ padding:"16px 20px", cursor:"pointer" }}>
               <div style={{ display:"flex", gap:14, alignItems:"center" }}>
                 <div style={{ width:44, height:44, borderRadius:12, flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center", fontSize:18, background: l.isLocked ? "#f5f5f5" : l.isCompleted ? "#f0fdf4" : course.bgColor, border: l.isLocked ? "1.5px dashed #ddd" : "none" }}>
-                  {l.isLocked ? <img width={24} src="/Untitled (10)/mingcute_lock-fill.svg" alt="" /> : l.isCompleted ? "✅" : idx === 0 ? <img width={24} src="/Untitled (10)/mingcute_video-fill.svg" alt="" /> : <img width={24} src="/public/Untitled (10)/mingcute_video-fill.svg" alt="" />}
+                  {l.isLocked ? <img width={24} src="/Untitled (10)/mingcute_lock-fill.svg" alt="" /> : l.isCompleted ? "✅" : idx === 0 ? <img width={24} src="/Untitled (10)/mingcute_video-fill.svg" alt="" /> : <img width={24} src="/Untitled (10)/mingcute_video-fill.svg" alt="" />}
                 </div>
                 <div style={{ flex:1 }}>
                   <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:4, gap:8 }}>
