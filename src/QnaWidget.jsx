@@ -67,7 +67,7 @@ export default function QnaWidget() {
   }
 
   return (
-    <div style={{ position: "fixed", bottom: 60, right: 20, zIndex: 1000, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
+    <div style={{ position: "fixed", bottom: 80, right: 20, zIndex: 1000, fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}>
       {!open && (
         <button onClick={() => setOpen(true)}
           aria-label="Savol yuborish"
