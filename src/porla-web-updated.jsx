@@ -682,7 +682,7 @@ function Modules({ w, user }) {
 
       <div style={{ display:"grid", gridTemplateColumns: isMd ? "repeat(4,1fr)" : "repeat(2,1fr)", gap:16, marginBottom:36 }}>
         {[
-          { n: courses.length+"",                                   l:"Jami darslar",  bg:"linear-gradient(135deg,#d64f6e,#e8728a)" },
+          // { n: courses.length+"",                                   l:"Ochiq darslar",  bg:"linear-gradient(135deg,#d64f6e,#e8728a)" },
           { n: free.length+"",                                      l:"Bepul darslar", bg:"linear-gradient(135deg,#0ea87a,#34d399)" },
           { n: pro.length+"",                                       l:"Premium darslar",   bg:"linear-gradient(135deg,#e9a825,#f5bc3a)" },
           { n: courses.reduce((s,c) => s + (c.lessonCount||0), 0)+"", l:"Jami darslar",  bg:"linear-gradient(135deg,#8657d6,#a78bfa)" },
