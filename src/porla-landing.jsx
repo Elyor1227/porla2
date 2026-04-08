@@ -355,20 +355,20 @@ export default function PorlaLanding() {
                         <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 600, color: "#3d2b26" }}>5- Modul. Ayol Garmonlari</div>
                         <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 9, color: "#9a8580" }}>Estrogen va progesteron sikl davrida qanday ishlashi </div>
                       </div>
-                      <div style={{ width: 24, height: 24, borderRadius: "50%", background: "linear-gradient(135deg, #c2545a, #e8728a)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "white" }}>→</div>
+                      <div style={{ width: 24, height: 24, borderRadius: "50%", background: "linear-gradient(135deg, #c2545a, #e8728a)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "white" }}><img src='/svg/landingpagecalendar/heart-cardiogram 1.svg'/></div>
                     </div>
                     <div style={{ background: "white", borderRadius: 16, margin: "12px 0", padding: "12px 14px", boxShadow: "0 2px 10px rgba(0,0,0,0.05)", display: "flex", alignItems: "center", gap: 10 }}>
                       <div style={{ flex: 1 }}>
                         <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 600, color: "#3d2b26" }}>Bugungi tibbiy fakt</div>
                         <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 9, color: "#9a8580" }}>Temir organizm bo‘ylab kislorod tashishda muhim rol o‘ynaydi. </div>
                       </div>
-                      <div style={{ width: 24, height: 24, borderRadius: "50%", background: "linear-gradient(135deg, #c2545a, #e8728a)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "white" }}><img src='/Untitled(2)/mingcute_light-line.png'/></div>
+                      <div style={{ width: 24, height: 24, borderRadius: "50%", background: "linear-gradient(135deg, #c2545a, #e8728a)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "white" }}><img src='/svg/landingpagecalendar/electricity 1.svg'/></div>
                     </div>
                     <div style={{ background: "white", borderRadius: 16, margin: "12px 0", padding: "12px 14px", boxShadow: "0 2px 10px rgba(0,0,0,0.05)", display: "flex", alignItems: "center", gap: 10 }}>
                       <div style={{ flex: 1 }}>
                         <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 600, color: "#3d2b26" }}>Anonim savol yo’llash </div>
                       </div>
-                      <div style={{ width: 24, height: 24, borderRadius: "50%", background: "linear-gradient(135deg, #c2545a, #e8728a)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "white" }}><img src='/svg/xabarlarandprofileicons/boxicons_message-bubble-heart-filled.svg'/></div>
+                      <div style={{ width: 24, height: 24, borderRadius: "50%", background: "linear-gradient(135deg, #c2545a, #e8728a)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "white" }}><img src='/svg/landingpagecalendar/boxicons_message-bubble-heart-filled.svg'/></div>
                     </div>
                   </div>
                 </div>
