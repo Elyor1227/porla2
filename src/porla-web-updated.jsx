@@ -69,11 +69,14 @@ const Card = ({ children, style={}, onClick }) => {
   );
 };
 
-const Badge = ({ type }) => (
-  <span style={{ fontFamily:sans, fontSize:10, fontWeight:800, padding:"3px 10px", borderRadius:20, background: type==="pro" ? "linear-gradient(135deg,#e9a825,#f5bc3a)" : "linear-gradient(135deg,#0ea87a,#34d399)", color:T.white, letterSpacing:"0.04em", flexShrink:0 }}>
-    {type==="pro" ? "✦ Premium" : "BEPUL"}
-  </span>
-);
+const Badge = ({ type }) => {
+  const isPro = type === "pro" || type === "premium";
+  return (
+    <span style={{ fontFamily:sans, fontSize:10, fontWeight:800, padding:"3px 10px", borderRadius:20, background: isPro ? "linear-gradient(135deg,#e9a825,#f5bc3a)" : "linear-gradient(135deg,#0ea87a,#34d399)", color:T.white, letterSpacing:"0.04em", flexShrink:0 }}>
+      {isPro ? "✦ Premium" : "BEPUL"}
+    </span>
+  );
+};
 
 const Alert = ({ type, message, iconSrc }) => {
   if (!message) return null;
@@ -360,7 +363,7 @@ function Home({ w, user, setTab }) {
               <p style={{ fontFamily:sans, fontSize:14, fontWeight:700, color:T.dark, margin:"0 0 6px", lineHeight:1.4 }}>{c.title}</p>
               <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
                 <span style={{ fontFamily:sans, fontSize:12, color:T.muted }}>{c.lessonCount} dars</span>
-                <Badge type={c.isPro ? "premium" : "free"}/>
+                {!user?.isPro && <Badge type={c.isPro ? "pro" : "free"}/>}
               </div>
             </Card>
           ))}
@@ -425,7 +428,7 @@ function VideoPlayer({ url, title }) {
 }
 
 /* ── LESSON MODAL ─────────────────────────────────────── */
-function LessonModal({ userIsPro: _userIsPro, lesson, courseTitle, courseId, onClose, onNavigate }) {
+function LessonModal({ userIsPro, lesson, courseTitle, courseId, onClose, onNavigate }) {
   const [lessonData, setLessonData] = useState(lesson);
   const [, setLoading] = useState(false);
   const [completing, setCompleting] = useState(false);
@@ -515,9 +518,15 @@ function LessonModal({ userIsPro: _userIsPro, lesson, courseTitle, courseId, onC
             
             <div style={{ textAlign:"center", padding:"40px 20px" }}>
               <div style={{ fontSize:56, marginBottom:16 }}>🔒</div>
-              <p style={{ fontFamily:serif, fontSize:22, fontWeight:700, color:T.dark, margin:"0 0 8px" }}>Premium kontent</p>
-              <p style={{ fontFamily:sans, fontSize:14, color:T.muted, margin:"0 0 24px", lineHeight:1.6 }}>Bu dars faqat Premium obunachilarga ochiq. Premiumga o'ting va barcha darslarga kiring.</p>
-              <Btn variant="gold" size="lg" onClick={openPaymentBot}> <img width="24" src="/8516604.png" alt="" /> Premiumga o'tish</Btn>
+              <p style={{ fontFamily:serif, fontSize:22, fontWeight:700, color:T.dark, margin:"0 0 8px" }}>{userIsPro ? "Bu dars hozircha ochiq emas" : "Premium kontent"}</p>
+              <p style={{ fontFamily:sans, fontSize:14, color:T.muted, margin:"0 0 24px", lineHeight:1.6 }}>
+                {userIsPro
+                  ? "Agar muammo davom etsa, qo'llab-quvvatlash bilan bog'laning (+998 91 779 34 70)."
+                  : "Bu dars faqat Premium obunachilarga ochiq. Premiumga o'ting va barcha darslarga kiring."}
+              </p>
+              {!userIsPro && (
+                <Btn variant="gold" size="lg" onClick={openPaymentBot}> <img width={24} src="/8516604.png" alt="" /> Premiumga o'tish</Btn>
+              )}
             </div>
           ) : (
             <>
@@ -600,7 +609,7 @@ function CourseDetail({ course, userIsPro, onBack }) {
             <p style={{ fontFamily:serif, fontSize:22, fontWeight:700, color:T.dark, margin:"0 0 4px" }}>{course.title}</p>
             <p style={{ fontFamily:sans, fontSize:13, color:T.muted, margin:"0 0 8px", lineHeight:1.5 }}>{course.description}</p>
             <div style={{ display:"flex", gap:10, alignItems:"center" }}>
-              <Badge type={course.isPro ? "premium" : "free"}/>
+              {!userIsPro && <Badge type={course.isPro ? "pro" : "free"}/>}
               <span style={{ fontFamily:sans, fontSize:12, color:T.muted, fontWeight:600 }}>📖 {lessons.length} dars</span>
             </div>
           </div>
@@ -624,8 +633,8 @@ function CourseDetail({ course, userIsPro, onBack }) {
                 <div style={{ flex:1 }}>
                   <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:4, gap:8 }}>
                     <p style={{ fontFamily:sans, fontSize:14, fontWeight:700, color: l.isLocked ? T.muted : T.dark, margin:0 }}>{l.title}</p>
-                    {idx === 0 && <span style={{ fontFamily:sans, fontSize:10, fontWeight:700, color:T.green, background:"#f0fdf4", padding:"2px 8px", borderRadius:20 }}>BEPUL</span>}
-                    {l.isLocked && <span style={{ fontFamily:sans, fontSize:10, fontWeight:700, color:T.gold, background:"#fffbeb", padding:"2px 8px", borderRadius:20 }}>PREMIUM</span>}
+                    {!userIsPro && idx === 0 && <span style={{ fontFamily:sans, fontSize:10, fontWeight:700, color:T.green, background:"#f0fdf4", padding:"2px 8px", borderRadius:20 }}>BEPUL</span>}
+                    {!userIsPro && l.isLocked && <span style={{ fontFamily:sans, fontSize:10, fontWeight:700, color:T.gold, background:"#fffbeb", padding:"2px 8px", borderRadius:20 }}>PREMIUM</span>}
                   </div>
                   {l.duration > 0 && <p style={{ fontFamily:sans, fontSize:12, color:T.muted, margin:0 }}>⏱ {l.duration} daqiqa</p>}
                 </div>
@@ -665,6 +674,7 @@ function Modules({ w, user }) {
   const free = courses.filter(c => !c.isPro);
   const pro  = courses.filter(c => c.isPro);
   const userIsPro = user?.isPro || user?.isAdmin;
+  const totalLessons = courses.reduce((s, c) => s + (c.lessonCount || 0), 0);
 
   if (selected) return (
     <div style={{ padding: isLg ? "40px 48px" : "24px 20px", paddingBottom: isLg ? 40 : 90 }}>
@@ -680,13 +690,18 @@ function Modules({ w, user }) {
       </div>
       <Alert type="error" message={err}/>
 
-      <div style={{ display:"grid", gridTemplateColumns: isMd ? "repeat(4,1fr)" : "repeat(2,1fr)", gap:16, marginBottom:36 }}>
-        {[
-          // { n: courses.length+"",                                   l:"Ochiq darslar",  bg:"linear-gradient(135deg,#d64f6e,#e8728a)" },
-          { n: free.length+"",                                      l:"Bepul darslar", bg:"linear-gradient(135deg,#0ea87a,#34d399)" },
-          { n: pro.length+"",                                       l:"Premium darslar",   bg:"linear-gradient(135deg,#e9a825,#f5bc3a)" },
-          { n: courses.reduce((s,c) => s + (c.lessonCount||0), 0)+"", l:"Jami darslar",  bg:"linear-gradient(135deg,#8657d6,#a78bfa)" },
-        ].map((s, i) => (
+      <div style={{ display:"grid", gridTemplateColumns: userIsPro ? (isMd ? "repeat(2,1fr)" : "repeat(2,1fr)") : (isMd ? "repeat(4,1fr)" : "repeat(2,1fr)"), gap:16, marginBottom:36 }}>
+        {(userIsPro
+          ? [
+              { n: courses.length + "", l:"Kurslar", bg:"linear-gradient(135deg,#d64f6e,#e8728a)" },
+              { n: totalLessons + "", l:"Jami darslar", bg:"linear-gradient(135deg,#8657d6,#a78bfa)" },
+            ]
+          : [
+              { n: free.length + "", l:"Bepul darslar", bg:"linear-gradient(135deg,#0ea87a,#34d399)" },
+              { n: pro.length + "", l:"Premium darslar", bg:"linear-gradient(135deg,#e9a825,#f5bc3a)" },
+              { n: totalLessons + "", l:"Jami darslar", bg:"linear-gradient(135deg,#8657d6,#a78bfa)" },
+            ]
+        ).map((s, i) => (
           <div key={i} style={{ background:s.bg, borderRadius:20, padding:"20px", color:T.white, boxShadow:"0 8px 24px rgba(0,0,0,.1)" }}>
             <p style={{ fontFamily:serif, fontSize:32, fontWeight:700, color:T.white, margin:"0 0 4px" }}>{s.n}</p>
             <p style={{ fontFamily:sans, fontSize:12, color:"rgba(255,255,255,.8)", margin:0, fontWeight:600 }}>{s.l}</p>
@@ -698,6 +713,27 @@ function Modules({ w, user }) {
         <div style={{ display:"flex", justifyContent:"center", padding:60 }}>
           <div style={{ width:40, height:40, border:"3px solid rgba(214,79,110,.2)", borderTopColor:T.rose, borderRadius:"50%", animation:"spin .7s linear infinite" }}/>
         </div>
+      ) : userIsPro ? (
+        <>
+          <p style={{ fontFamily:sans, fontSize:11, fontWeight:800, color:T.rose, textTransform:"uppercase", letterSpacing:"0.1em", marginBottom:14 }}>Barcha kurslar</p>
+          <div style={{ display:"grid", gridTemplateColumns: isLg ? "repeat(2,1fr)" : "1fr", gap:14, marginBottom:32 }}>
+            {courses.map((c, i) => (
+              <Card key={c._id || i} onClick={() => setSelected(c)} style={{ padding:"20px 22px", cursor:"pointer" }}>
+                <div style={{ display:"flex", gap:16 }}>
+                  <div style={{ width:56, height:56, borderRadius:16, background:c.bgColor, display:"flex", alignItems:"center", justifyContent:"center", fontSize:26, flexShrink:0 }}><img width={40} src={c.icon} alt="" /></div>
+                  <div style={{ flex:1 }}>
+                    <p style={{ fontFamily:sans, fontSize:15, fontWeight:700, color:T.dark, margin:"0 0 6px", lineHeight:1.3 }}>{c.title}</p>
+                    <p style={{ fontFamily:sans, fontSize:13, color:T.muted, margin:"0 0 10px", lineHeight:1.5 }}>{c.description}</p>
+                    <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+                      <span style={{ fontFamily:sans, fontSize:12, color:T.muted, fontWeight:600 }}>📖 {c.lessonCount} dars</span>
+                      <Btn size="sm">Ochish →</Btn>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </>
       ) : (
         <>
           <p style={{ fontFamily:sans, fontSize:11, fontWeight:800, color:T.green, textTransform:"uppercase", letterSpacing:"0.1em", marginBottom:14 }}>✓ Bepul darslar</p>
@@ -705,7 +741,7 @@ function Modules({ w, user }) {
             {free.map((c, i) => (
               <Card key={i} onClick={() => setSelected(c)} style={{ padding:"20px 22px", cursor:"pointer" }}>
                 <div style={{ display:"flex", gap:16 }}>
-                  <div style={{ width:56, height:56, borderRadius:16, background:c.bgColor, display:"flex", alignItems:"center", justifyContent:"center", fontSize:26, flexShrink:0 }}><img width={40} src={c.icon} /></div>
+                  <div style={{ width:56, height:56, borderRadius:16, background:c.bgColor, display:"flex", alignItems:"center", justifyContent:"center", fontSize:26, flexShrink:0 }}><img width={40} src={c.icon} alt="" /></div>
                   <div style={{ flex:1 }}>
                     <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", marginBottom:6 }}>
                       <p style={{ fontFamily:sans, fontSize:15, fontWeight:700, color:T.dark, margin:0, lineHeight:1.3 }}>{c.title}</p>
@@ -735,8 +771,8 @@ function Modules({ w, user }) {
                 <div key={i} onClick={() => setSelected(c)}
                   style={{ background:"rgba(255,255,255,.06)", borderRadius:18, padding:"18px", border:"1px solid rgba(255,255,255,.1)", cursor:"pointer" }}>
                   <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:12 }}>
-                    <div style={{ width:44, height:44, borderRadius:12, background:c.bgColor, display:"flex", alignItems:"center", justifyContent:"center", fontSize:22 }}><img width={40} src={c.icon} /></div>
-                    <span style={{ fontSize:18 }}>{userIsPro ? "▶" : "🔒"}</span>
+                    <div style={{ width:44, height:44, borderRadius:12, background:c.bgColor, display:"flex", alignItems:"center", justifyContent:"center", fontSize:22 }}><img width={40} src={c.icon} alt="" /></div>
+                    <span style={{ fontSize:18 }}>🔒</span>
                   </div>
                   <p style={{ fontFamily:sans, fontSize:13, fontWeight:700, color:T.white, margin:"0 0 4px", lineHeight:1.3 }}>{c.title}</p>
                   <p style={{ fontFamily:sans, fontSize:11, color:"rgba(255,255,255,.45)", margin:0 }}>{c.lessonCount} dars · Premium</p>
