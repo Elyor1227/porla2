@@ -7,7 +7,7 @@
 import React from 'react'
 import { useState, useEffect, useCallback } from "react";
 import api, { storage } from "./api";
-import { LOGO_DEFAULT, logoImgSvg } from "./brandLogos";
+import { LOGO_DEFAULT, LOGO_PREMIUM, logoImgSvg } from "./brandLogos";
 import AdminApp from "./porla-admin";
 import PorlaCalendar from "./PorlaCalendar (2)";
 import QnaWidget from "./QnaWidget";
@@ -151,7 +151,7 @@ function Sidebar({ tab, setTab, user, unread }) {
         {!user?.isPro && (
           <button onClick={openPaymentBot}
             style={{ width:"100%", marginTop:12, padding:"8px 12px", fontSize:12, fontFamily:sans, fontWeight:700, background:"linear-gradient(135deg,#e9a825,#f5bc3a)", color:"white", border:"none", borderRadius:10, cursor:"pointer" }}>
-            <img width={56} height={56} src='/logos/logo1.svg' alt="premium" style={{marginLeft: 55}} /> Premium xaridi
+            <img width={40} height={40} src={LOGO_PREMIUM} alt="premium" style={logoImgSvg} /> Premium xaridi
           </button>
         )}
       </div>
@@ -526,7 +526,7 @@ function LessonModal({ userIsPro, lesson, courseTitle, courseId, onClose, onNavi
                   : "Bu dars faqat Premium obunachilarga ochiq. Premiumga o'ting va barcha darslarga kiring."}
               </p>
               {!userIsPro && (
-                <Btn variant="gold" size="lg" onClick={openPaymentBot}> <img width={56} height={56} src='/logos/logo1.svg' alt="premium" style={{marginLeft: 55}} /> Premiumga o'tish</Btn>
+                <Btn variant="gold" size="lg" onClick={openPaymentBot}> <img width={40} height={40} src={LOGO_PREMIUM} alt="premium" style={logoImgSvg} /> Premiumga o'tish</Btn>
               )}
             </div>
           ) : (
@@ -647,7 +647,7 @@ function CourseDetail({ course, userIsPro, onBack }) {
             <div style={{ background:"linear-gradient(135deg,#fffbeb,#fef9ef)", border:"1.5px solid rgba(233,168,37,.3)", borderRadius:18, padding:"18px 20px", textAlign:"center", marginTop:8 }}>
               <p style={{ fontFamily:sans, fontSize:14, fontWeight:700, color:"#92400e", margin:"0 0 4px" }}>✦ {lessons.length - 1} ta dars Premium uchun</p>
               <p style={{ fontFamily:sans, fontSize:12, color:"#b45309", margin:"0 0 14px" }}>Premium obunaga o'ting va barcha darslarga kiring</p>
-              <Btn variant="gold" size="sm" onClick={openPaymentBot}>Premiumga o'tish <img width={150} height={150} src='/logos/logo1.svg' alt="premium" style={{marginLeft: 55}} /></Btn>
+              <Btn variant="gold" size="sm" onClick={openPaymentBot}>Premiumga o'tish <img width={40} height={40} src={LOGO_PREMIUM} alt="premium" style={logoImgSvg} /></Btn>
             </div>
           )}
         </div>
@@ -762,10 +762,10 @@ function Modules({ w, user }) {
           <div style={{ background:"linear-gradient(145deg,#1e1015,#2d1520)", borderRadius:24, padding:"24px" }}>
             <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:20, flexWrap:"wrap", gap:12 }}>
               <div>
-                <p style={{ fontFamily:serif, fontSize: isLg ? 24 : 20, fontWeight:700, color:T.white, margin:"0 0 4px", display:"flex", alignItems:"center", gap:10, flexWrap:"wrap" }}><img width={150} height={150} src='/logos/logo1.svg' alt="premium" style={{marginLeft: 55}} /> Premium Darslar</p>
+                <p style={{ fontFamily:serif, fontSize: isLg ? 24 : 20, fontWeight:700, color:T.white, margin:"0 0 4px", display:"flex", alignItems:"center", gap:10, flexWrap:"wrap" }}><img width={52} height={52} src={LOGO_PREMIUM} alt="premium" style={logoImgSvg} /> Premium Darslar</p>
                 <p style={{ fontFamily:sans, fontSize:13, color:"rgba(255,255,255,.55)", margin:0 }}>Premium rejimga o'ting va barchasini oching</p>
               </div>
-              <Btn variant="gold" onClick={openPaymentBot}>Premiumga o'tish <img style={{ marginLeft:'55', backgroundColor: 'rgba(255, 255, 255, 0.55)', borderRadius:12 }} width={150} height={150} src='/logos/logo1.svg' alt="premium" /></Btn>
+              <Btn variant="gold" onClick={openPaymentBot}>Premiumga o'tish <img style={{ ...logoImgSvg, backgroundColor: 'rgba(255, 255, 255, 0.55)', borderRadius:12 }} width={52} height={52} src={LOGO_PREMIUM} alt="premium" /></Btn>
             </div>
             <div style={{ display:"grid", gridTemplateColumns: isLg ? "repeat(3,1fr)" : isMd ? "repeat(2,1fr)" : "1fr", gap:12 }}>
               {pro.map((c, i) => (
@@ -982,7 +982,7 @@ function Profile({ w, user, onLogout }) {
           {!user?.isPro && (
             <div style={{ background:"linear-gradient(135deg,#fffbeb,#fef9ef)", border:"1.5px solid rgba(233,168,37,.3)", borderRadius:20, padding:"18px 20px" }}>
               <div style={{ display:"flex", gap:14, alignItems:"center" }}>
-                <div style={{ width:80, height:80, borderRadius:14, background:"rgba(233,168,37,.1)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}> <img width={150} height={150} src='/logos/logo1.svg' alt="premium" style={{marginLeft: 55}} /> </div>
+                <div style={{ width:80, height:80, borderRadius:14, background:"rgba(233,168,37,.1)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}> <img width={52} height={52} src={LOGO_PREMIUM} alt="premium" style={logoImgSvg} /> </div>
                 <div style={{ flex:1 }}>
                   <p style={{ fontFamily:sans, fontSize:15, fontWeight:800, color:"#92400e", margin:"0 0 2px" }}>Premium : 37000 so'm</p>
                   <p style={{ fontFamily:sans, fontSize:12, color:"#b45309", margin:0 }}>Barcha darslarga cheksiz kirish</p>
@@ -994,7 +994,7 @@ function Profile({ w, user, onLogout }) {
           {user?.isPro && (
             <div style={{ background:"linear-gradient(135deg,#f0fdf4,#fbfcf8)", border:"1.5px solid rgba(16,185,129,.3)", borderRadius:20, padding:"18px 20px" }}>
               <div style={{ display:"flex", gap:14 }}>
-                <div style={{ width:80, height:80, borderRadius:14, background:"rgba(16,185,129,.1)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}><img width={56} height={56} src='/logos/logo1.svg' alt="" style={logoImgSvg} /></div>
+                <div style={{ width:80, height:80, borderRadius:14, background:"rgba(16,185,129,.1)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}><img width={52} height={52} src={LOGO_PREMIUM} alt="premium" style={logoImgSvg} /></div>
                 <div style={{ flex:1 }}>
                   <p style={{ fontFamily:sans, fontSize:15, fontWeight:800, color:"#065f46", margin:"0 0 2px" }}>Premium faol</p>
                   <p style={{ fontFamily:sans, fontSize:12, color:"#047857", margin:0 }}>
@@ -1153,7 +1153,7 @@ export default function PorlaApp() {
     <div style={{ minHeight:"100vh", display:"flex", alignItems:"center", justifyContent:"center", background:T.cream, flexDirection:"column", gap:20 }}>
       <style>{`${FONTS} @keyframes spin{to{transform:rotate(360deg);}}`}</style>
       <div style={{ minHeight:104, display:"flex", alignItems:"center", justifyContent:"center" }}>
-      <img width={56} height={56} src='/logos/logo1.svg' alt="premium" style={{marginLeft: 55}} />
+      <img src={LOGO_DEFAULT} alt="Miila" width={96} height={96} style={logoImgSvg} />
       </div>
       <div style={{ width:32, height:32, border:"3px solid rgba(214,79,110,.2)", borderTopColor:T.rose, borderRadius:"50%", animation:"spin .7s linear infinite" }}/>
     </div>
