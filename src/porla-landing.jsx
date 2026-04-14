@@ -175,9 +175,11 @@ export default function PorlaLanding() {
         </div>
         <button className="mobile-menu" onClick={() => setMenuOpen(prev => !prev)}
           style={{ background: "none", border: "none", cursor: "pointer", padding: 8 }}>
-          <div style={{ width: 24, height: 2, background: "#5a3e35", marginBottom: 5, transition: "0.3s", transformOrigin: "center", transform: menuOpen ? "rotate(45deg) translate(7px, 7px)" : "none" }} />
-          <div style={{ width: 24, height: 2, background: "#5a3e35", marginBottom: 5, opacity: menuOpen ? 0 : 1, transition: "0.3s" }} />
-          <div style={{ width: 24, height: 2, background: "#5a3e35", transition: "0.3s",transformOrigin: "center", transform: menuOpen ? "rotate(-45deg) translate(-7px, -7px)" : "none" }} />
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 5 }}>
+            <div style={{ width: 24, height: 2, background: "#5a3e35", transition: "0.3s", transformOrigin: "center", transform: menuOpen ? "rotate(45deg) translate(5px, 5px)" : "none" }} />
+            <div style={{ width: 24, height: 2, background: "#5a3e35", opacity: menuOpen ? 0 : 1, transition: "0.3s" }} />
+            <div style={{ width: 24, height: 2, background: "#5a3e35", transition: "0.3s", transformOrigin: "center", transform: menuOpen ? "rotate(-45deg) translate(5px, -5px)" : "none" }} />
+          </div>
         </button>
       </nav>
 
