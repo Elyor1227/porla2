@@ -8,6 +8,7 @@
 import React from 'react'
 import { useState, useEffect, useCallback } from "react";
 import api, { storage } from "./api";
+import { LOGO_WHITE } from "./brandLogos";
 
 /* adminApi — api.admin bilan mos, back-compat alias */
 const adminApi = api.admin;
@@ -1094,9 +1095,8 @@ function SidebarContent({ tab, setTab, setSide }) {
     <>
       <div style={{padding:"28px 20px 20px",borderBottom:`1px solid rgba(255,255,255,.08)`}}>
         <div style={{display:"flex",alignItems:"center",gap:10}}>
-          <div style={{width:38,height:38,borderRadius:12,background:"linear-gradient(135deg,#d64f6e,#e8728a)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20}}>🌸</div>
+          <img src={LOGO_WHITE} alt="Miila" style={{ height: 40, width: "auto", maxWidth: 160, objectFit: "contain" }} />
           <div>
-            <p style={{fontFamily:serif,fontSize:18,fontWeight:700,color:"white",margin:0}}>Miila</p>
             <p style={{fontFamily:sans,fontSize:10,color:"rgba(255,255,255,.45)",margin:0,fontWeight:600,textTransform:"uppercase",letterSpacing:"0.06em"}}>Admin Panel</p>
           </div>
         </div>

@@ -2,6 +2,7 @@ import React from 'react'
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import QnaWidget from "./QnaWidget";
+import { LOGO_BLACK, LOGO_WHITE } from "./brandLogos";
 
 const useInView = (threshold = 0.1) => {
   const ref = useRef(null);
@@ -163,13 +164,7 @@ export default function PorlaLanding() {
         height: 70, display: "flex", alignItems: "center", justifyContent: "space-between",
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{
-            width: 36, height: 36, borderRadius: "50%",
-            background: "linear-gradient(135deg, #c2545a, #e8728a)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: 18,
-          }}>🌸</div>
-          <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 22, fontWeight: 600, color: "#5a3e35", letterSpacing: "0.02em" }}>Miila</span>
+          <img src={LOGO_BLACK} alt="Miila" style={{ height: 36, width: "auto", maxWidth: 150, objectFit: "contain" }} />
         </div>
         <div className="desktop-nav" style={{ display: "flex", alignItems: "center", gap: 36 }}>
           <a href="#features" className="nav-link">Imkoniyatlar</a>
@@ -307,13 +302,13 @@ export default function PorlaLanding() {
                     {/* Status bar */}
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
                       <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 600, color: "#3d2b26" }}>9:41</span>
-                      <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 16, fontWeight: 700, color: "#c2545a" }}>Miila</span>
+                      <img src={LOGO_BLACK} alt="Miila" style={{ height: 18, width: "auto", maxWidth: 100, objectFit: "contain" }} />
                       <span style={{ fontSize: 11 }}>●●●</span>
                     </div>
 
                     {/* Greeting */}
                     <div style={{ background: "linear-gradient(135deg, #c2545a, #e8728a)", borderRadius: 20, padding: "18px 16px", marginBottom: 16, color: "white" }}>
-                      <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, opacity: 0.85, marginBottom: 4 }}>Xayrli kun, Malika! 🌸</div>
+                      <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, opacity: 0.85, marginBottom: 4 }}>Xayrli kun, Malika!</div>
                       <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, fontWeight: 600, lineHeight: 1.2 }}>Siklingizning<br />14-kuni</div>
                       <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
                         {["12", "13", "14", "15", "16", "17"].map((d, i) => (
@@ -538,7 +533,9 @@ export default function PorlaLanding() {
         </div>
         <div style={{ position: "relative", zIndex: 1, maxWidth: 700, margin: "0 auto" }}>
           <AnimatedSection>
-            <div style={{ fontSize: 48, marginBottom: 20 }}>🌸</div>
+            <div style={{ marginBottom: 20, display: "flex", justifyContent: "center" }}>
+              <img src={LOGO_WHITE} alt="Miila" style={{ height: 56, width: "auto", maxWidth: 240, objectFit: "contain" }} />
+            </div>
             <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(36px, 5vw, 60px)", fontWeight: 700, color: "white", lineHeight: 1.15, marginBottom: 20 }}>
               Bugun boshlang,<br />
               <em style={{ fontStyle: "italic", color: "#e8728a" }}>bepul</em>
@@ -580,8 +577,7 @@ export default function PorlaLanding() {
       {/* FOOTER */}
       <footer style={{ background: "#2a1d18", padding: "48px 5% 32px", textAlign: "center" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 20 }}>
-          <div style={{ width: 32, height: 32, borderRadius: "50%", background: "linear-gradient(135deg, #c2545a, #e8728a)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>🌸</div>
-          <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, fontWeight: 600, color: "white" }}>Miila</span>
+          <img src={LOGO_WHITE} alt="Miila" style={{ height: 36, width: "auto", maxWidth: 200, objectFit: "contain" }} />
         </div>
         <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: "rgba(255,255,255,0.4)", marginBottom: 16, fontWeight: 300 }}>Ayollar salomatligi platformasi • O'zbekiston</p>
         <div style={{ display: "flex", justifyContent: "center", gap: 24, marginBottom: 24, flexWrap: "wrap" }}>
