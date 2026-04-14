@@ -151,7 +151,7 @@ function Sidebar({ tab, setTab, user, unread }) {
         {!user?.isPro && (
           <button onClick={openPaymentBot}
             style={{ width:"100%", marginTop:12, padding:"8px 12px", fontSize:12, fontFamily:sans, fontWeight:700, background:"linear-gradient(135deg,#e9a825,#f5bc3a)", color:"white", border:"none", borderRadius:10, cursor:"pointer" }}>
-            <img width={150} height={150} src='/logos/logo1.svg' alt="premium" style={{marginLeft: 55}} /> Premium xaridi
+            <img width={56} height={56} src='/logos/logo1.svg' alt="premium" style={{marginLeft: 55}} /> Premium xaridi
           </button>
         )}
       </div>
@@ -526,7 +526,7 @@ function LessonModal({ userIsPro, lesson, courseTitle, courseId, onClose, onNavi
                   : "Bu dars faqat Premium obunachilarga ochiq. Premiumga o'ting va barcha darslarga kiring."}
               </p>
               {!userIsPro && (
-                <Btn variant="gold" size="lg" onClick={openPaymentBot}> <img width={150} height={150} src='/logos/logo1.svg' alt="premium" style={{marginLeft: 55}} /> Premiumga o'tish</Btn>
+                <Btn variant="gold" size="lg" onClick={openPaymentBot}> <img width={56} height={56} src='/logos/logo1.svg' alt="premium" style={{marginLeft: 55}} /> Premiumga o'tish</Btn>
               )}
             </div>
           ) : (
@@ -1153,7 +1153,7 @@ export default function PorlaApp() {
     <div style={{ minHeight:"100vh", display:"flex", alignItems:"center", justifyContent:"center", background:T.cream, flexDirection:"column", gap:20 }}>
       <style>{`${FONTS} @keyframes spin{to{transform:rotate(360deg);}}`}</style>
       <div style={{ minHeight:104, display:"flex", alignItems:"center", justifyContent:"center" }}>
-      <img width={150} height={150} src='/logos/logo1.svg' alt="premium" style={{marginLeft: 55}} />
+      <img width={56} height={56} src='/logos/logo1.svg' alt="premium" style={{marginLeft: 55}} />
       </div>
       <div style={{ width:32, height:32, border:"3px solid rgba(214,79,110,.2)", borderTopColor:T.rose, borderRadius:"50%", animation:"spin .7s linear infinite" }}/>
     </div>
