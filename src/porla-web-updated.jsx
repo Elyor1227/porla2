@@ -124,7 +124,7 @@ function Sidebar({ tab, setTab, user, unread }) {
     <aside style={{ width:240, flexShrink:0, background:T.white, borderRight:`1px solid ${T.border}`, display:"flex", flexDirection:"column", minHeight:"100vh", position:"sticky", top:0 }}>
         <div style={{ padding:"28px 20px 20px", borderBottom:`1px solid ${T.border}` }}>
         <div style={{ display:"flex", alignItems:"center", gap:10 }}>
-          <img src='/logos/logo1.svg' alt="Miila" style={{ ...logoImgSvg, height:60, width:"auto", maxWidth:280 }} />
+          <img src='/logos/logo1.svg' alt="Miila" style={{ marginLeft:'40px', height:120, width:"auto", maxWidth:280 }} />
         </div>
       </div>
       <nav style={{ flex:1, padding:"16px 12px" }}>
@@ -150,8 +150,8 @@ function Sidebar({ tab, setTab, user, unread }) {
         <p style={{ fontFamily:sans, fontSize:11, color:T.muted, margin:"2px 0 0", opacity:.7 }}>{user?.isPro ? "✦ Premium" : "Bepul"}</p>
         {!user?.isPro && (
           <button onClick={openPaymentBot}
-            style={{ width:"100%", marginTop:12, padding:"8px 12px", fontSize:12, fontFamily:sans, fontWeight:700, background:"linear-gradient(135deg,#e9a825,#f5bc3a)", color:"white", border:"none", borderRadius:10, cursor:"pointer" }}>
-            <img width={40} height={40} src={LOGO_PREMIUM} alt="premium" style={logoImgSvg} /> Premium xaridi
+            style={{ width:"100%", marginTop:12, padding:"8px 12px", fontSize:12, fontFamily:sans, fontWeight:700, background:"linear-gradient(135deg,#e9a825,#f5bc3a)", color:"white", border:"none", borderRadius:10, cursor:"pointer", display:'flex',}}>
+            <img width={40} src={LOGO_PREMIUM} alt="premium" /> <p style={{marginTop:16}}>Premium xaridi</p>
           </button>
         )}
       </div>
