@@ -271,7 +271,7 @@ function AuthPage({ onLogin }) {
       <div style={{ width:"100%", maxWidth:420 }}>
         <div style={{ textAlign:"center", marginBottom:32 }}>
           <div style={{ display:"flex", justifyContent:"center", margin:"0 auto 16px" }}>
-            <img src='/logos/logo1.svg' alt="Miila" style={{ ...logoImgSvg, height:120, width:"auto", maxWidth:380 }} />
+            <img src='/logos/logo1.svg' alt="Miila" style={{ marginLeft:'60px', height:120, width:"auto", maxWidth:380 }} />
           </div>
           <h1 style={{ fontFamily:serif, fontSize:32, fontWeight:700, color:T.dark, margin:0 }}>Miila</h1>
           <p style={{ fontFamily:sans, fontSize:14, color:T.muted, margin:"6px 0 0" }}>Ayollar salomatligi platformasi</p>
