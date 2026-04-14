@@ -982,7 +982,7 @@ function Profile({ w, user, onLogout }) {
           {!user?.isPro && (
             <div style={{ background:"linear-gradient(135deg,#fffbeb,#fef9ef)", border:"1.5px solid rgba(233,168,37,.3)", borderRadius:20, padding:"18px 20px" }}>
               <div style={{ display:"flex", gap:14, alignItems:"center" }}>
-                <div style={{ width:80, height:80, borderRadius:14, background:"rgba(233,168,37,.1)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}> <img width={156} height={156} src='/logos/logo1.svg' alt="premium" /> </div>
+                <div style={{ width:80, height:80, borderRadius:14, background:"rgba(233,168,37,.1)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}> <img width={100} height={100} src='/logos/logo1.svg' alt="premium" /> </div>
                 <div style={{ flex:1 }}>
                   <p style={{ fontFamily:sans, fontSize:15, fontWeight:800, color:"#92400e", margin:"0 0 2px" }}>Premium : 37000 so'm</p>
                   <p style={{ fontFamily:sans, fontSize:12, color:"#b45309", margin:0 }}>Barcha darslarga cheksiz kirish</p>
