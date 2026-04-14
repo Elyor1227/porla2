@@ -40,7 +40,7 @@ export default function Seo() {
   const base = siteBase()
   const canonical = `${base}${pathname === '/' ? '' : pathname}` || pathname
 
-  const ogImageAbsolute = base ? `${base}/logos/logo%20black%201.svg` : '/logos/logo%20black%201.svg'
+  const ogImageAbsolute = base ? `${base}/logos/logo%201.svg` : '/logos/logo%201.svg'
 
   const jsonLd =
     pathname === '/' && base

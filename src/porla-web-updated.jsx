@@ -7,7 +7,7 @@
 import React from 'react'
 import { useState, useEffect, useCallback } from "react";
 import api, { storage } from "./api";
-import { LOGO_BLACK, LOGO_MARK } from "./brandLogos";
+import { LOGO_DEFAULT, logoImgSvg } from "./brandLogos";
 import AdminApp from "./porla-admin";
 import PorlaCalendar from "./PorlaCalendar (2)";
 import QnaWidget from "./QnaWidget";
@@ -124,7 +124,7 @@ function Sidebar({ tab, setTab, user, unread }) {
     <aside style={{ width:240, flexShrink:0, background:T.white, borderRight:`1px solid ${T.border}`, display:"flex", flexDirection:"column", minHeight:"100vh", position:"sticky", top:0 }}>
         <div style={{ padding:"28px 20px 20px", borderBottom:`1px solid ${T.border}` }}>
         <div style={{ display:"flex", alignItems:"center", gap:10 }}>
-          <img src={LOGO_BLACK} alt="Miila" style={{ height:44, width:"auto", maxWidth:200, objectFit:"contain" }} />
+          <img src={LOGO_DEFAULT} alt="Miila" style={{ ...logoImgSvg, height:60, width:"auto", maxWidth:280 }} />
         </div>
       </div>
       <nav style={{ flex:1, padding:"16px 12px" }}>
@@ -151,7 +151,7 @@ function Sidebar({ tab, setTab, user, unread }) {
         {!user?.isPro && (
           <button onClick={openPaymentBot}
             style={{ width:"100%", marginTop:12, padding:"8px 12px", fontSize:12, fontFamily:sans, fontWeight:700, background:"linear-gradient(135deg,#e9a825,#f5bc3a)", color:"white", border:"none", borderRadius:10, cursor:"pointer" }}>
-            <img width={32} height={32} src={LOGO_MARK} alt="" style={{ objectFit:"contain" }} /> Premium xaridi
+            <img width={56} height={56} src={LOGO_DEFAULT} alt="" style={logoImgSvg} /> Premium xaridi
           </button>
         )}
       </div>
@@ -165,7 +165,7 @@ function TopBar({ tab, setTab, unread }) {
     <>
       <header style={{ background:T.white, borderBottom:`1px solid ${T.border}`, padding:"0 20px", height:60, display:"flex", alignItems:"center", justifyContent:"space-between", position:"sticky", top:0, zIndex:100, boxShadow:"0 2px 12px rgba(34,18,25,.06)" }}>
         <div style={{ display:"flex", alignItems:"center", gap:10 }}>
-          <img src={LOGO_BLACK} alt="Miila" style={{ height:40, width:"auto", maxWidth:180, objectFit:"contain" }} />
+          <img src={LOGO_DEFAULT} alt="Miila" style={{ ...logoImgSvg, height:58, width:"auto", maxWidth:280 }} />
         </div>
         <span style={{ fontFamily:sans, fontSize:14, fontWeight:700, color:T.ink }}>{NAV.find(n => n.key===tab)?.label}</span>
         <div style={{ display:"flex", gap:8, alignItems:"center" }}>
@@ -271,7 +271,7 @@ function AuthPage({ onLogin }) {
       <div style={{ width:"100%", maxWidth:420 }}>
         <div style={{ textAlign:"center", marginBottom:32 }}>
           <div style={{ display:"flex", justifyContent:"center", margin:"0 auto 16px" }}>
-            <img src={LOGO_BLACK} alt="Miila" style={{ height:88, width:"auto", maxWidth:280, objectFit:"contain" }} />
+            <img src={LOGO_DEFAULT} alt="Miila" style={{ ...logoImgSvg, height:120, width:"auto", maxWidth:380 }} />
           </div>
           <h1 style={{ fontFamily:serif, fontSize:32, fontWeight:700, color:T.dark, margin:0 }}>Miila</h1>
           <p style={{ fontFamily:sans, fontSize:14, color:T.muted, margin:"6px 0 0" }}>Ayollar salomatligi platformasi</p>
@@ -526,7 +526,7 @@ function LessonModal({ userIsPro, lesson, courseTitle, courseId, onClose, onNavi
                   : "Bu dars faqat Premium obunachilarga ochiq. Premiumga o'ting va barcha darslarga kiring."}
               </p>
               {!userIsPro && (
-                <Btn variant="gold" size="lg" onClick={openPaymentBot}> <img width={32} height={32} src={LOGO_MARK} alt="" style={{ objectFit:"contain" }} /> Premiumga o'tish</Btn>
+                <Btn variant="gold" size="lg" onClick={openPaymentBot}> <img width={52} height={52} src={LOGO_DEFAULT} alt="" style={logoImgSvg} /> Premiumga o'tish</Btn>
               )}
             </div>
           ) : (
@@ -647,7 +647,7 @@ function CourseDetail({ course, userIsPro, onBack }) {
             <div style={{ background:"linear-gradient(135deg,#fffbeb,#fef9ef)", border:"1.5px solid rgba(233,168,37,.3)", borderRadius:18, padding:"18px 20px", textAlign:"center", marginTop:8 }}>
               <p style={{ fontFamily:sans, fontSize:14, fontWeight:700, color:"#92400e", margin:"0 0 4px" }}>✦ {lessons.length - 1} ta dars Premium uchun</p>
               <p style={{ fontFamily:sans, fontSize:12, color:"#b45309", margin:"0 0 14px" }}>Premium obunaga o'ting va barcha darslarga kiring</p>
-              <Btn variant="gold" size="sm" onClick={openPaymentBot}>Premiumga o'tish <img width={32} height={32} src={LOGO_MARK} alt="" style={{ objectFit:"contain" }} /></Btn>
+              <Btn variant="gold" size="sm" onClick={openPaymentBot}>Premiumga o'tish <img width={52} height={52} src={LOGO_DEFAULT} alt="" style={logoImgSvg} /></Btn>
             </div>
           )}
         </div>
@@ -762,10 +762,10 @@ function Modules({ w, user }) {
           <div style={{ background:"linear-gradient(145deg,#1e1015,#2d1520)", borderRadius:24, padding:"24px" }}>
             <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:20, flexWrap:"wrap", gap:12 }}>
               <div>
-                <p style={{ fontFamily:serif, fontSize: isLg ? 24 : 20, fontWeight:700, color:T.white, margin:"0 0 4px" }}> <img width={40} height={40} src={LOGO_MARK} alt="premium" style={{ objectFit:"contain", verticalAlign:"middle" }} /> Premium Darslar</p>
+                <p style={{ fontFamily:serif, fontSize: isLg ? 24 : 20, fontWeight:700, color:T.white, margin:"0 0 4px", display:"flex", alignItems:"center", gap:10, flexWrap:"wrap" }}><img width={60} height={60} src={LOGO_DEFAULT} alt="premium" style={logoImgSvg} /> Premium Darslar</p>
                 <p style={{ fontFamily:sans, fontSize:13, color:"rgba(255,255,255,.55)", margin:0 }}>Premium rejimga o'ting va barchasini oching</p>
               </div>
-              <Btn variant="gold" onClick={openPaymentBot}>Premiumga o'tish <img style={{ backgroundColor: 'rgba(255, 255, 255, 0.55)', borderRadius:12, objectFit:"contain" }} width={40} height={40} src={LOGO_MARK} alt="premium" /></Btn>
+              <Btn variant="gold" onClick={openPaymentBot}>Premiumga o'tish <img style={{ ...logoImgSvg, backgroundColor: 'rgba(255, 255, 255, 0.55)', borderRadius:12 }} width={56} height={56} src={LOGO_DEFAULT} alt="premium" /></Btn>
             </div>
             <div style={{ display:"grid", gridTemplateColumns: isLg ? "repeat(3,1fr)" : isMd ? "repeat(2,1fr)" : "1fr", gap:12 }}>
               {pro.map((c, i) => (
@@ -982,7 +982,7 @@ function Profile({ w, user, onLogout }) {
           {!user?.isPro && (
             <div style={{ background:"linear-gradient(135deg,#fffbeb,#fef9ef)", border:"1.5px solid rgba(233,168,37,.3)", borderRadius:20, padding:"18px 20px" }}>
               <div style={{ display:"flex", gap:14, alignItems:"center" }}>
-                <div style={{ width:56, height:56, borderRadius:14, background:"rgba(233,168,37,.1)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}> <img width={36} height={36} src={LOGO_MARK} alt="premium" style={{ objectFit:"contain" }} /> </div>
+                <div style={{ width:80, height:80, borderRadius:14, background:"rgba(233,168,37,.1)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}> <img width={56} height={56} src={LOGO_DEFAULT} alt="premium" style={logoImgSvg} /> </div>
                 <div style={{ flex:1 }}>
                   <p style={{ fontFamily:sans, fontSize:15, fontWeight:800, color:"#92400e", margin:"0 0 2px" }}>Premium : 37000 so'm</p>
                   <p style={{ fontFamily:sans, fontSize:12, color:"#b45309", margin:0 }}>Barcha darslarga cheksiz kirish</p>
@@ -994,7 +994,7 @@ function Profile({ w, user, onLogout }) {
           {user?.isPro && (
             <div style={{ background:"linear-gradient(135deg,#f0fdf4,#fbfcf8)", border:"1.5px solid rgba(16,185,129,.3)", borderRadius:20, padding:"18px 20px" }}>
               <div style={{ display:"flex", gap:14 }}>
-                <div style={{ width:56, height:56, borderRadius:14, background:"rgba(16,185,129,.1)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}><img width={32} height={32} src={LOGO_MARK} alt="" style={{ objectFit:"contain" }} /></div>
+                <div style={{ width:80, height:80, borderRadius:14, background:"rgba(16,185,129,.1)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0 }}><img width={56} height={56} src={LOGO_DEFAULT} alt="" style={logoImgSvg} /></div>
                 <div style={{ flex:1 }}>
                   <p style={{ fontFamily:sans, fontSize:15, fontWeight:800, color:"#065f46", margin:"0 0 2px" }}>Premium faol</p>
                   <p style={{ fontFamily:sans, fontSize:12, color:"#047857", margin:0 }}>
@@ -1152,8 +1152,8 @@ export default function PorlaApp() {
   if (!authChecked) return (
     <div style={{ minHeight:"100vh", display:"flex", alignItems:"center", justifyContent:"center", background:T.cream, flexDirection:"column", gap:20 }}>
       <style>{`${FONTS} @keyframes spin{to{transform:rotate(360deg);}}`}</style>
-      <div style={{ minHeight:64, display:"flex", alignItems:"center", justifyContent:"center" }}>
-        <img src={LOGO_MARK} alt="" width={64} height={64} style={{ objectFit:"contain" }} />
+      <div style={{ minHeight:104, display:"flex", alignItems:"center", justifyContent:"center" }}>
+        <img src={LOGO_DEFAULT} alt="" width={96} height={96} style={logoImgSvg} />
       </div>
       <div style={{ width:32, height:32, border:"3px solid rgba(214,79,110,.2)", borderTopColor:T.rose, borderRadius:"50%", animation:"spin .7s linear infinite" }}/>
     </div>

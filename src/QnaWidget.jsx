@@ -2,7 +2,7 @@
 import React from 'react'
 import { useState, useEffect } from "react";
 import api from "./api";
-import { LOGO_MARK } from "./brandLogos";
+import { LOGO_DEFAULT, logoImgSvg } from "./brandLogos";
 
 export default function QnaWidget() {
   const [open, setOpen] = useState(false);
@@ -84,8 +84,8 @@ export default function QnaWidget() {
                        boxShadow: "0 16px 60px rgba(0,0,0,.2)", border: "1px solid rgba(214,79,110,.15)" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ width: 34, height: 34, borderRadius: 8, background: "#fde8ec", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <img src={LOGO_MARK} alt="" width={30} height={30} style={{ objectFit: "contain" }} />
+              <span style={{ width: 56, height: 56, borderRadius: 8, background: "#fde8ec", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <img src={LOGO_DEFAULT} alt="" width={52} height={52} style={logoImgSvg} />
               </span>
               <strong style={{ color: "#4a2535", fontSize: 14 }}>Tibbiy savollaringizni anonim yo’llang va doktordan javob oling </strong>
             </div>

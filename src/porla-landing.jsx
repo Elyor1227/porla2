@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import QnaWidget from "./QnaWidget";
-import { LOGO_BLACK, LOGO_WHITE } from "./brandLogos";
+import { LOGO_DEFAULT, logoImgSvg } from "./brandLogos";
 
 const useInView = (threshold = 0.1) => {
   const ref = useRef(null);
@@ -161,10 +161,10 @@ export default function PorlaLanding() {
         backdropFilter: scrolled ? "blur(20px)" : "none",
         boxShadow: scrolled ? "0 2px 30px rgba(0,0,0,0.06)" : "none",
         transition: "all 0.4s ease",
-        height: 70, display: "flex", alignItems: "center", justifyContent: "space-between",
+        height: 84, display: "flex", alignItems: "center", justifyContent: "space-between",
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <img src={LOGO_BLACK} alt="Miila" style={{ height: 48, width: "auto", maxWidth: 220, objectFit: "contain" }} />
+          <img src='/logos/logo1.svg' alt="Miila" style={{ ...logoImgSvg, height: 130, width: "auto", maxWidth: 300, margin: '0 auto' }} />
         </div>
         <div className="desktop-nav" style={{ display: "flex", alignItems: "center", gap: 36 }}>
           <a href="#features" className="nav-link">Imkoniyatlar</a>
@@ -184,7 +184,7 @@ export default function PorlaLanding() {
       {/* Mobile menu dropdown */}
       {menuOpen && (
         <div style={{
-          position: "fixed", top: 70, left: 0, right: 0, zIndex: 999,
+          position: "fixed", top: 84, left: 0, right: 0, zIndex: 999,
           background: "rgba(253,248,245,0.98)", backdropFilter: "blur(20px)",
           padding: "20px 5% 30px", boxShadow: "0 10px 40px rgba(0,0,0,0.1)",
           display: "flex", flexDirection: "column", gap: 20,
@@ -302,7 +302,7 @@ export default function PorlaLanding() {
                     {/* Status bar */}
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
                       <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 600, color: "#3d2b26" }}>9:41</span>
-                      <img src={LOGO_BLACK} alt="Miila" style={{ height: 26, width: "auto", maxWidth: 140, objectFit: "contain" }} />
+                      <img src='/logos/logo1.svg' alt="Miila" style={{ ...logoImgSvg, height: 52, width: "auto", maxWidth: 220, margin:'0 auto' }} />
                       <span style={{ fontSize: 11 }}>●●●</span>
                     </div>
 
@@ -533,8 +533,8 @@ export default function PorlaLanding() {
         </div>
         <div style={{ position: "relative", zIndex: 1, maxWidth: 700, margin: "0 auto" }}>
           <AnimatedSection>
-            <div style={{ marginBottom: 20, display: "flex", justifyContent: "center" }}>
-              <img src={LOGO_WHITE} alt="Miila" style={{ height: 76, width: "auto", maxWidth: 320, objectFit: "contain" }} />
+            <div style={{ marginBottom: 20, width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+              <img src='/logos/logo1.svg' alt="Miila" style={{ ...logoImgSvg, height: 160, width: "auto", maxWidth: 400, margin: "0 auto" }} />
             </div>
             <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(36px, 5vw, 60px)", fontWeight: 700, color: "white", lineHeight: 1.15, marginBottom: 20 }}>
               Bugun boshlang,<br />
@@ -577,7 +577,7 @@ export default function PorlaLanding() {
       {/* FOOTER */}
       <footer style={{ background: "#2a1d18", padding: "48px 5% 32px", textAlign: "center" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 20 }}>
-          <img src={LOGO_WHITE} alt="Miila" style={{ height: 48, width: "auto", maxWidth: 260, objectFit: "contain" }} />
+          <img src='/logos/logo1.svg' alt="Miila" style={{ ...logoImgSvg, height: 72, width: "72px", maxWidth: 340, margin:'0 auto' }} />
         </div>
         <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: "rgba(255,255,255,0.4)", marginBottom: 16, fontWeight: 300 }}>Ayollar salomatligi platformasi • O'zbekiston</p>
         <div style={{ display: "flex", justifyContent: "center", gap: 24, marginBottom: 24, flexWrap: "wrap" }}>
