@@ -534,7 +534,7 @@ export default function PorlaLanding() {
         <div style={{ position: "relative", zIndex: 1, maxWidth: 700, margin: "0 auto" }}>
           <AnimatedSection>
             <div style={{ marginBottom: 20, width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <img src='/logos/logo1.svg' alt="Miila" style={{ ...logoImgSvg, height: 160, width: "auto", maxWidth: 400, margin: "0 auto" }} />
+              <img src='/logos/logo1.svg' alt="Miila" style={{ height: 160, width: "auto", maxWidth: 400, marginLeft: "60px" }} />
             </div>
             <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(36px, 5vw, 60px)", fontWeight: 700, color: "white", lineHeight: 1.15, marginBottom: 20 }}>
               Bugun boshlang,<br />
@@ -577,7 +577,7 @@ export default function PorlaLanding() {
       {/* FOOTER */}
       <footer style={{ background: "#2a1d18", padding: "48px 5% 32px", textAlign: "center" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 20 }}>
-          <img src='/logos/logo1.svg' alt="Miila" style={{ ...logoImgSvg, height: 72, width: "72px", maxWidth: 340, margin:'0 auto' }} />
+          <img src='/logos/logo1.svg' alt="Miila" style={{  height: 162, width: "auto", maxWidth: 340, marginLeft:'70px' }} />
         </div>
         <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: "rgba(255,255,255,0.4)", marginBottom: 16, fontWeight: 300 }}>Ayollar salomatligi platformasi • O'zbekiston</p>
         <div style={{ display: "flex", justifyContent: "center", gap: 24, marginBottom: 24, flexWrap: "wrap" }}>
