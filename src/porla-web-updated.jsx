@@ -634,7 +634,7 @@ function CourseDetail({ course, userIsPro, onBack }) {
                 <div style={{ flex:1 }}>
                   <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:4, gap:8 }}>
                     <p style={{ fontFamily:sans, fontSize:14, fontWeight:700, color: l.isLocked ? T.muted : T.dark, margin:0 }}>{l.title}</p>
-                    {!userIsPro && idx === 0 && <span style={{ fontFamily:sans, fontSize:10, fontWeight:700, color:T.green, background:"#f0fdf4", padding:"2px 8px", borderRadius:20 }}>BEPUL</span>}
+                    {!userIsPro && idx === 0 && <span style={{ fontFamily:sans, fontSize:10, fontWeight:700, color:T.green, background:"#f0fdf4", padding:"2px 8px", borderRadius:20 }}></span>}
                     {!userIsPro && l.isLocked && <span style={{ fontFamily:sans, fontSize:10, fontWeight:700, color:T.gold, background:"#fffbeb", padding:"2px 8px", borderRadius:20 }}>PREMIUM</span>}
                   </div>
                   {l.duration > 0 && <p style={{ fontFamily:sans, fontSize:12, color:T.muted, margin:0 }}>⏱ {l.duration} daqiqa</p>}
@@ -645,7 +645,6 @@ function CourseDetail({ course, userIsPro, onBack }) {
           ))}
           {!userIsPro && lessons.length > 1 && (
             <div style={{ background:"linear-gradient(135deg,#fffbeb,#fef9ef)", border:"1.5px solid rgba(233,168,37,.3)", borderRadius:18, padding:"18px 20px", textAlign:"center", marginTop:8 }}>
-              <p style={{ fontFamily:sans, fontSize:14, fontWeight:700, color:"#92400e", margin:"0 0 4px" }}>✦ {lessons.length - 1} ta dars Premium uchun</p>
               <p style={{ fontFamily:sans, fontSize:12, color:"#b45309", margin:"0 0 14px" }}>Premium obunaga o'ting va barcha darslarga kiring</p>
               <Btn variant="gold" size="sm" onClick={openPaymentBot}>Premiumga o'tish <img width={40} height={40} src={LOGO_PREMIUM} alt="premium" style={logoImgSvg} /></Btn>
             </div>
@@ -698,8 +697,8 @@ function Modules({ w, user }) {
               { n: totalLessons + "", l:"Jami darslar", bg:"linear-gradient(135deg,#8657d6,#a78bfa)" },
             ]
           : [
-              { n: free.length + "", l:"Bepul darslar", bg:"linear-gradient(135deg,#0ea87a,#34d399)" },
-              { n: pro.length + "", l:"Premium darslar", bg:"linear-gradient(135deg,#e9a825,#f5bc3a)" },
+              { n: free.length + "", l:"Bepul kurslar", bg:"linear-gradient(135deg,#0ea87a,#34d399)" },
+              { n: pro.length + "", l:"Premium kurslar", bg:"linear-gradient(135deg,#e9a825,#f5bc3a)" },
               { n: totalLessons + "", l:"Jami darslar", bg:"linear-gradient(135deg,#8657d6,#a78bfa)" },
             ]
         ).map((s, i) => (
