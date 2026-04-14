@@ -164,7 +164,7 @@ export default function PorlaLanding() {
         height: 70, display: "flex", alignItems: "center", justifyContent: "space-between",
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <img src={LOGO_BLACK} alt="Miila" style={{ height: 36, width: "auto", maxWidth: 150, objectFit: "contain" }} />
+          <img src={LOGO_BLACK} alt="Miila" style={{ height: 48, width: "auto", maxWidth: 220, objectFit: "contain" }} />
         </div>
         <div className="desktop-nav" style={{ display: "flex", alignItems: "center", gap: 36 }}>
           <a href="#features" className="nav-link">Imkoniyatlar</a>
@@ -302,7 +302,7 @@ export default function PorlaLanding() {
                     {/* Status bar */}
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
                       <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 600, color: "#3d2b26" }}>9:41</span>
-                      <img src={LOGO_BLACK} alt="Miila" style={{ height: 18, width: "auto", maxWidth: 100, objectFit: "contain" }} />
+                      <img src={LOGO_BLACK} alt="Miila" style={{ height: 26, width: "auto", maxWidth: 140, objectFit: "contain" }} />
                       <span style={{ fontSize: 11 }}>●●●</span>
                     </div>
 
@@ -534,7 +534,7 @@ export default function PorlaLanding() {
         <div style={{ position: "relative", zIndex: 1, maxWidth: 700, margin: "0 auto" }}>
           <AnimatedSection>
             <div style={{ marginBottom: 20, display: "flex", justifyContent: "center" }}>
-              <img src={LOGO_WHITE} alt="Miila" style={{ height: 56, width: "auto", maxWidth: 240, objectFit: "contain" }} />
+              <img src={LOGO_WHITE} alt="Miila" style={{ height: 76, width: "auto", maxWidth: 320, objectFit: "contain" }} />
             </div>
             <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(36px, 5vw, 60px)", fontWeight: 700, color: "white", lineHeight: 1.15, marginBottom: 20 }}>
               Bugun boshlang,<br />
@@ -577,7 +577,7 @@ export default function PorlaLanding() {
       {/* FOOTER */}
       <footer style={{ background: "#2a1d18", padding: "48px 5% 32px", textAlign: "center" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 20 }}>
-          <img src={LOGO_WHITE} alt="Miila" style={{ height: 36, width: "auto", maxWidth: 200, objectFit: "contain" }} />
+          <img src={LOGO_WHITE} alt="Miila" style={{ height: 48, width: "auto", maxWidth: 260, objectFit: "contain" }} />
         </div>
         <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: "rgba(255,255,255,0.4)", marginBottom: 16, fontWeight: 300 }}>Ayollar salomatligi platformasi • O'zbekiston</p>
         <div style={{ display: "flex", justifyContent: "center", gap: 24, marginBottom: 24, flexWrap: "wrap" }}>

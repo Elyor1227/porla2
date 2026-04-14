@@ -84,8 +84,8 @@ export default function QnaWidget() {
                        boxShadow: "0 16px 60px rgba(0,0,0,.2)", border: "1px solid rgba(214,79,110,.15)" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ width: 28, height: 28, borderRadius: 8, background: "#fde8ec", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <img src={LOGO_MARK} alt="" width={22} height={22} style={{ objectFit: "contain" }} />
+              <span style={{ width: 34, height: 34, borderRadius: 8, background: "#fde8ec", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <img src={LOGO_MARK} alt="" width={30} height={30} style={{ objectFit: "contain" }} />
               </span>
               <strong style={{ color: "#4a2535", fontSize: 14 }}>Tibbiy savollaringizni anonim yo’llang va doktordan javob oling </strong>
             </div>

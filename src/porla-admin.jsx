@@ -1095,7 +1095,7 @@ function SidebarContent({ tab, setTab, setSide }) {
     <>
       <div style={{padding:"28px 20px 20px",borderBottom:`1px solid rgba(255,255,255,.08)`}}>
         <div style={{display:"flex",alignItems:"center",gap:10}}>
-          <img src={LOGO_WHITE} alt="Miila" style={{ height: 40, width: "auto", maxWidth: 160, objectFit: "contain" }} />
+          <img src={LOGO_WHITE} alt="Miila" style={{ height: 52, width: "auto", maxWidth: 220, objectFit: "contain" }} />
           <div>
             <p style={{fontFamily:sans,fontSize:10,color:"rgba(255,255,255,.45)",margin:0,fontWeight:600,textTransform:"uppercase",letterSpacing:"0.06em"}}>Admin Panel</p>
           </div>
