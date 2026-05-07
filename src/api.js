@@ -466,16 +466,44 @@ async function cachedGet(key, fn, ttl = TTL.MINUTES5) {
 
 /* ── AUTH ────────────────────────────────────────────── */
 export const auth = {
-  register: async (name, email, password) => {
-    const d = await post("/auth/register", { name, email, password }, false);
+  register: async (name, email, password, phone) => {
+    const d = await post("/auth/register", { name, email, password, phone }, false);
     storage.setToken(d.token); storage.setUser(d.user);
     cache.invalidate("auth:me"); // yangi user → eski me cache bekor
     return d;
   },
-  login: async (email, password) => {
-    const d = await post("/auth/login", { email, password }, false);
+  /**
+   * @param {{ password: string, email?: string, phone?: string, login?: string }} cred
+   * Variant A: { email, password } · B: { phone, password } · C: { login, password }
+   */
+  login: async (cred) => {
+    const password = cred?.password;
+    if (!password || !String(password).length) {
+      const e = new Error("Email yoki telefon raqam va parol talab qilinadi");
+      e.status = 400;
+      throw e;
+    }
+    const email = cred?.email != null ? String(cred.email).trim() : "";
+    const phone = cred?.phone != null ? String(cred.phone).trim() : "";
+    const login = cred?.login != null ? String(cred.login).trim() : "";
+    let body;
+    if (login) body = { login, password };
+    else if (email) body = { email, password };
+    else if (phone) body = { phone, password };
+    else {
+      const e = new Error("Email yoki telefon raqam va parol talab qilinadi");
+      e.status = 400;
+      throw e;
+    }
+    const d = await post("/auth/login", body, false);
     storage.setToken(d.token); storage.setUser(d.user);
     cache.invalidate("auth:me");
+    return d;
+  },
+  updatePhone: async (phone) => {
+    const d = await patch("/auth/update-phone", { phone });
+    cache.invalidate("auth:me");
+    if (d.user) storage.setUser(d.user);
     return d;
   },
   logout: async () => {

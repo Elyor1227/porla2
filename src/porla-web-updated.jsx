@@ -225,10 +225,37 @@ function BottomNav({ tab, setTab, unread }) {
   );
 }
 
+/* ── AUTH helpers ─────────────────────────────────────── */
+const UZ_PHONE_RE = /^\+998[1-9]\d{8}$/;
+
+function normalizeUzbekPhone(raw) {
+  let s = String(raw ?? "").trim().replace(/\s/g, "").replace(/-/g, "");
+  if (!s) return "";
+  if (s.startsWith("+998")) return s;
+  if (s.startsWith("998")) return "+" + s;
+  if (/^09\d{8}$/.test(s)) return "+998" + s.slice(1);
+  if (/^9\d{8}$/.test(s)) return "+998" + s;
+  return s;
+}
+
+function mapAuthErr(err) {
+  const m = err?.message || "";
+  switch (err?.status) {
+    case 400: return m || "Ma'lumotlar noto'g'ri yoki yetarli emas";
+    case 401: return m || "Email yoki telefon yoki parol noto'g'ri";
+    case 403: return m || "Hisob bloklangan";
+    case 409: return m || "Bu telefon raqam allaqachon ro'yxatdan o'tgan";
+    default: return m || "Xatolik yuz berdi";
+  }
+}
+
 /* ── AUTH PAGE ───────────────────────────────────────── */
 function AuthPage({ onLogin }) {
   const [mode, setMode]       = useState("login");
-  const [form, setForm]       = useState({ name:"", email:"", password:"" });
+  const [loginTab, setLoginTab] = useState("email"); // "email" | "phone"
+  const [phase, setPhase]     = useState("form"); // "form" | "phoneSetup"
+  const [form, setForm]       = useState({ name:"", email:"", password:"", phone:"" });
+  const [phoneSetup, setPhoneSetup] = useState("");
   const [errors, setErrors]   = useState({});
   const [loading, setLoading] = useState(false);
   const [apiErr, setApiErr]   = useState("");
@@ -238,10 +265,36 @@ function AuthPage({ onLogin }) {
 
   const validate = () => {
     const e = {};
-    if (mode==="register" && !form.name.trim()) e.name = "Ism kiritilmadi";
-    if (!form.email.includes("@")) e.email = "Email noto'g'ri";
-    if (form.password.length < 6) e.password = "Kamida 6 ta belgi";
+    if (mode === "register") {
+      if (!form.name.trim()) e.name = "Ism kiritilmadi";
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(form.email).trim())) e.email = "Email noto'g'ri";
+      if (form.password.trim().length < 6) e.password = "Kamida 6 ta belgi";
+      const p = normalizeUzbekPhone(form.phone);
+      if (!form.phone.trim()) e.phone = "Telefon raqam majburiy";
+      else if (!UZ_PHONE_RE.test(p)) e.phone = "Telefon +998901234567 formatida bo'lsin";
+    } else {
+      if (!form.password.trim()) e.password = "Parol kiritilmadi";
+      if (loginTab === "email") {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(form.email).trim())) e.email = "Email noto'g'ri";
+      } else {
+        const p = normalizeUzbekPhone(form.phone);
+        if (!form.phone.trim()) e.phone = "Telefon raqam kiriting";
+        else if (!UZ_PHONE_RE.test(p)) e.phone = "Telefon +998901234567 formatida bo'lsin";
+      }
+    }
     return e;
+  };
+
+  const finishAuth = (data) => {
+    if (data?.phoneSetupRequired) {
+      setPhase("phoneSetup");
+      setPhoneSetup("");
+      setApiErr("");
+      setErrors({});
+      return;
+    }
+    setSuccess(mode === "register" ? "Muvaffaqiyatli ro'yxatdan o'tdingiz!" : "Xush kelibsiz!");
+    setTimeout(() => onLogin(data.user), mode === "register" ? 900 : 700);
   };
 
   const handleSubmit = async () => {
@@ -249,21 +302,68 @@ function AuthPage({ onLogin }) {
     if (Object.keys(errs).length) { setErrors(errs); return; }
     setLoading(true); setApiErr(""); setSuccess("");
     try {
-      if (mode==="login") {
-        const data = await api.auth.login(form.email, form.password);
-        setSuccess("Xush kelibsiz!");
-        setTimeout(() => onLogin(data.user), 700);
+      if (mode === "register") {
+        const phone = normalizeUzbekPhone(form.phone);
+        const data = await api.auth.register(form.name.trim(), form.email.trim(), form.password, phone);
+        finishAuth(data);
       } else {
-        const data = await api.auth.register(form.name, form.email, form.password);
-        setSuccess("Muvaffaqiyatli ro'yxatdan o'tdingiz!");
-        setTimeout(() => onLogin(data.user), 900);
+        const password = form.password;
+        const data = loginTab === "email"
+          ? await api.auth.login({ email: form.email.trim(), password })
+          : await api.auth.login({ phone: normalizeUzbekPhone(form.phone), password });
+        finishAuth(data);
       }
     } catch (err) {
-      setApiErr(err.message || "Xatolik yuz berdi");
+      setApiErr(mapAuthErr(err));
     } finally {
       setLoading(false);
     }
   };
+
+  const handlePhoneSetup = async () => {
+    const p = normalizeUzbekPhone(phoneSetup);
+    const e = {};
+    if (!phoneSetup.trim()) e.phone = "Telefon raqam kiriting";
+    else if (!UZ_PHONE_RE.test(p)) e.phone = "Telefon +998901234567 formatida bo'lsin";
+    if (Object.keys(e).length) { setErrors(e); return; }
+    setLoading(true); setApiErr(""); setErrors({});
+    try {
+      await api.auth.updatePhone(p);
+      let u = storage.getUser();
+      try {
+        const me = await api.auth.me();
+        if (me?.user) u = me.user;
+      } catch { /* ignore */ }
+      setSuccess("Telefon saqlandi!");
+      setTimeout(() => onLogin(u), 600);
+    } catch (err) {
+      setApiErr(mapAuthErr(err));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (phase === "phoneSetup") {
+    return (
+      <div style={{ minHeight:"100vh", background:"linear-gradient(135deg,#fdf8f5 0%,#fde8ec 100%)", display:"flex", alignItems:"center", justifyContent:"center", padding:20 }}>
+        <style>{`${FONTS} *, *::before, *::after{box-sizing:border-box;} body{margin:0;}`}</style>
+        <div style={{ width:"100%", maxWidth:420 }}>
+          <div style={{ textAlign:"center", marginBottom:24 }}>
+            <h1 style={{ fontFamily:serif, fontSize:26, fontWeight:700, color:T.dark, margin:0 }}>Telefon raqamni kiriting</h1>
+            <p style={{ fontFamily:sans, fontSize:14, color:T.muted, margin:"8px 0 0" }}>Hisobingizni yakunlash uchun telefon raqamingizni qo'shing</p>
+          </div>
+          <Card style={{ padding:"32px" }}>
+            <Alert type="error" message={apiErr}/>
+            {success && <Alert type="success" message={success} iconSrc="/Untitled (11)/mdi_flower.svg"/>}
+            <Input label="Telefon" value={phoneSetup} onChange={e => setPhoneSetup(e.target.value)} type="tel" placeholder="+998901234567" error={errors.phone} icon={<span style={{ fontSize:18 }}>📱</span>}/>
+            <Btn onClick={handlePhoneSetup} loading={loading} disabled={loading} style={{ width:"100%", justifyContent:"center", marginTop:8 }} size="lg" type="button">
+              {loading ? "Kutilmoqda..." : "Saqlash va davom etish →"}
+            </Btn>
+          </Card>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ minHeight:"100vh", background:"linear-gradient(135deg,#fdf8f5 0%,#fde8ec 100%)", display:"flex", alignItems:"center", justifyContent:"center", padding:20 }}>
@@ -271,24 +371,43 @@ function AuthPage({ onLogin }) {
       <div style={{ width:"100%", maxWidth:420 }}>
         <div style={{ textAlign:"center", marginBottom:32 }}>
           <div style={{ display:"flex", justifyContent:"center", margin:"0 auto 16px" }}>
-            <img src='/logos/logo1.svg' alt="Miila" style={{ marginLeft:'60px', height:120, width:"auto", maxWidth:380 }} />
+            <img src={LOGO_DEFAULT} alt="Miila" style={{ height:120, width:"auto", maxWidth:380, ...logoImgSvg }} />
           </div>
           <h1 style={{ fontFamily:serif, fontSize:32, fontWeight:700, color:T.dark, margin:0 }}>Miila</h1>
           <p style={{ fontFamily:sans, fontSize:14, color:T.muted, margin:"6px 0 0" }}>Ayollar salomatligi platformasi</p>
         </div>
         <Card style={{ padding:"32px" }}>
-          <div style={{ display:"flex", background:T.roseLight, borderRadius:12, padding:4, marginBottom:24 }}>
+          <div style={{ display:"flex", background:T.roseLight, borderRadius:12, padding:4, marginBottom:16 }}>
             {["login","register"].map(m => (
-              <button key={m} onClick={() => { setMode(m); setErrors({}); setApiErr(""); }}
+              <button key={m} onClick={() => { setMode(m); setErrors({}); setApiErr(""); setPhase("form"); }}
                 style={{ flex:1, padding:"10px", borderRadius:10, border:"none", cursor:"pointer", fontFamily:sans, fontSize:13, fontWeight:700, transition:"all .2s", background: mode===m ? T.white : "transparent", color: mode===m ? T.rose : T.muted, boxShadow: mode===m ? "0 2px 8px rgba(34,18,25,.1)" : "none" }}>
                 {m==="login" ? "Kirish" : "Ro'yxatdan o'tish"}
               </button>
             ))}
           </div>
+          {mode === "login" && (
+            <div style={{ display:"flex", background:T.roseLight, borderRadius:12, padding:4, marginBottom:24 }}>
+              {[
+                { key:"email", label:"Email" },
+                { key:"phone", label:"Telefon" },
+              ].map(t => (
+                <button key={t.key} type="button" onClick={() => { setLoginTab(t.key); setErrors({}); setApiErr(""); }}
+                  style={{ flex:1, padding:"8px", borderRadius:10, border:"none", cursor:"pointer", fontFamily:sans, fontSize:12, fontWeight:700, transition:"all .2s", background: loginTab===t.key ? T.white : "transparent", color: loginTab===t.key ? T.rose : T.muted, boxShadow: loginTab===t.key ? "0 2px 8px rgba(34,18,25,.08)" : "none" }}>
+                  {t.label} bilan kirish
+                </button>
+              ))}
+            </div>
+          )}
           <Alert type="error" message={apiErr}/>
           {success && <Alert type="success" message={success} iconSrc="/Untitled (11)/mdi_flower.svg"/>}
           {mode==="register" && <Input label="Ism" value={form.name} onChange={e => set("name", e.target.value)} placeholder="To'liq ismingiz" error={errors.name} icon={<img width={20} src='/svg/xabarlarandprofileicons/ix_user-profile-filled.svg'/>}/>}
-          <Input label="Email" value={form.email} onChange={e => set("email", e.target.value)} type="email" placeholder="email@example.com" error={errors.email} icon={<img width={20} src='/svg/xabarlarandprofileicons/entypo_email.svg'/>}/>
+          {mode==="register" && <Input label="Telefon" value={form.phone} onChange={e => set("phone", e.target.value)} type="tel" placeholder="+998901234567" error={errors.phone} icon={<span style={{ fontSize:18 }}>📱</span>}/>}
+          {(mode==="register" || (mode==="login" && loginTab==="email")) && (
+            <Input label="Email" value={form.email} onChange={e => set("email", e.target.value)} type="email" placeholder="email@example.com" error={errors.email} icon={<img width={20} src='/svg/xabarlarandprofileicons/entypo_email.svg'/>}/>
+          )}
+          {mode==="login" && loginTab==="phone" && (
+            <Input label="Telefon" value={form.phone} onChange={e => set("phone", e.target.value)} type="tel" placeholder="+998901234567" error={errors.phone} icon={<span style={{ fontSize:18 }}>📱</span>}/>
+          )}
           <Input label="Parol" value={form.password} onChange={e => set("password", e.target.value)} type="password" placeholder={mode==="login" ? "Parolingizni kiriting" : "Kamida 6 ta belgi"} error={errors.password} icon={<img width={20} src='/svg/xabarlarandprofileicons/mingcute_lock-fill.svg'/>}/>
           <Btn onClick={handleSubmit} loading={loading} disabled={loading} style={{ width:"100%", justifyContent:"center", marginTop:8 }} size="lg" type="button">
             {loading ? "Kutilmoqda..." : (mode==="login" ? "Kirish →" : "Hisob yaratish →")}
