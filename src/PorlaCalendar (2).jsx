@@ -752,7 +752,7 @@ export default function PorlaCalendar() {
       const b = parseD(ds);
       const start = toStr(a <= b ? a : b);
       const end = toStr(a <= b ? b : a);
-      const days = Math.round((parseD(end) - parseD(start)) / 86400000) + 1;
+      const days = Math.round((parseD(end) - parseD(start)) / 86400000);
       if (days > 15) {
         showToast("⚠️ 15 kundan ko'p bo'lishi mumkin emas");
         setSelectFirst(null);
