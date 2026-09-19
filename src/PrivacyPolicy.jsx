@@ -84,8 +84,8 @@ export default function PrivacyPolicy() {
             Agar maxfiylik haqida savol yoki xavotir bo'lsa, biz bilan bog'laning:
           </p>
           <ul style={{ paddingLeft: '20px' }}>
-            <li>Email: support@miila.uz</li>
-            <li>Telegram: @miila_support</li>
+            <li>Email: admin@porla.uz</li>
+            <li>Telegram: @komiila_d</li>
           </ul>
         </section>
 
