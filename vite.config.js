@@ -48,6 +48,15 @@ Sitemap: ${siteUrl}/sitemap.xml
         },
       },
     ],
+    server: {
+      proxy: {
+        '/api': {
+          target: 'https://porla-backend-cg4r.onrender.com',
+          changeOrigin: true,
+          rewrite: (path) => path,
+        },
+      },
+    },
     build: {
       rollupOptions: {
         output: {
