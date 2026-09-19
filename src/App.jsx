@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { storage } from './api'
 import Seo from './Seo'
+import PrivacyPolicy from './PrivacyPolicy'
 
 const PorlaLanding = lazy(() => import('./porla-landing'))
 const PorlaShell = lazy(() => import('./porla-web-updated'))
@@ -36,6 +37,7 @@ export default function App() {
       <Suspense fallback={<PageLoader />}>
         <Routes>
           <Route path="/" element={<PorlaLanding />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/qna" element={<QnaPublic />} />
           <Route path="/login" element={<PorlaShell />} />
           <Route
